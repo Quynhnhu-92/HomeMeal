@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
             <Clock className="w-5 h-5 text-[#B8E4D3] shrink-0 mt-0.5" />
             <div>
               <h4 className="font-semibold text-white">Thanh toán sau</h4>
-              <p className="text-xs text-white/70 mt-1">Chỉ thanh toán khi bữa ăn đã được nấu hoặc giao xong và bạn kiểm tra hài lòng.</p>
+              <p className="text-xs text-white/70 mt-1">Chỉ thanh toán khi đầu bếp đã nấu xong, dọn mâm lên bàn và bạn kiểm tra hài lòng.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
               "Bữa cơm chân tình cho người bận rộn"
             </p>
             <p className="text-xs text-white/75 leading-relaxed max-w-sm mb-4">
-              Nền tảng kết nối dịch vụ nấu cơm gia đình và tiệc giao tận nơi theo ngân sách thực tế. Trao quyền cho khách hàng tự chọn món và kiểm tra chứng từ minh bạch.
+              Nền tảng kết nối dịch vụ đầu bếp đến tận nhà nấu cơm gia đình và tiệc tại gia theo ngân sách thực tế. Trao quyền cho khách hàng tự điền món ăn và kiểm tra chứng từ minh bạch, không phí ship, không phí ẩn.
             </p>
             <div className="space-y-1.5 text-xs text-white/70">
               <div className="flex items-center gap-2">

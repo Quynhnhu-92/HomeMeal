@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Order, Dish, Cook, UserProfile, OrderStatus, ShoppingEvidenceItem, BudgetChangeRequest, Quotation } from '../types';
 import { MOCK_ORDERS, MOCK_DISHES, MOCK_COOKS, MOCK_USERS } from '../data/mockData';
 import { calculateLaborFee } from '../utils/pricing';
@@ -6,11 +6,8 @@ import { getEarliestDeliveryDate, formatDateForInput, formatTimeForInput, valida
 
 interface AppContextType {
   currentUser: UserProfile;
-  authUser: UserProfile | null;
-  authLoading: boolean;
-  login: (email: string, password: string) => Promise<UserProfile>;
-  register: (name: string, email: string, password: string) => Promise<UserProfile>;
-  logout: () => Promise<void>;
+  setCurrentUser: (user: UserProfile) => void;
+  switchRole: (role: 'customer' | 'cook' | 'admin') => void;
   
   orders: Order[];
   cooks: Cook[];
@@ -59,10 +56,9 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEY_ORDERS = 'homemeal_orders_v1';
+const STORAGE_KEY_ROLE = 'homemeal_user_role_v1';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [authUser, setAuthUser] = useState<UserProfile | null>(null);
-  const [authLoading, setAuthLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<UserProfile>(MOCK_USERS.customer);
   const [orders, setOrders] = useState<Order[]>(() => {
     try {
@@ -71,8 +67,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const parsed: Order[] = JSON.parse(saved);
         return parsed.map((o) => ({
           ...o,
-          serviceType: (o.serviceType as string) === 'cook_at_home' ? 'cook_and_deliver' : o.serviceType,
-          deliveryFee: o.deliveryFee > 0 ? o.deliveryFee : 35000,
+          serviceType: (o.serviceType as string) === 'party_at_home' ? 'party_at_home' : 'cook_at_home',
+          deliveryFee: 0,
         }));
       }
     } catch {
@@ -81,63 +77,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return MOCK_ORDERS;
   });
 
-  const [currentPath, setCurrentPath] = useState<string>(() =>
-    window.location.pathname + window.location.search + window.location.hash || '/'
-  );
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    return window.location.pathname || '/';
+  });
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const applyAuthenticatedUser = (user: UserProfile) => {
-    setAuthUser(user);
-    setCurrentUser({ ...MOCK_USERS.customer, ...user });
-  };
-
-  useEffect(() => {
-    fetch('/api?resource=auth&action=me', { credentials: 'same-origin' })
-      .then(async (response) => {
-        if (!response.ok) throw new Error('Could not restore the sign-in session.');
-        const result: { user: UserProfile | null } = await response.json();
-        if (result.user) applyAuthenticatedUser(result.user);
-      })
-      .catch(() => undefined)
-      .finally(() => setAuthLoading(false));
-  }, []);
-
-  const submitAuth = async (action: 'login' | 'register', payload: Record<string, string>) => {
-    const response = await fetch('/api?resource=auth', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...payload, action }),
-    });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || 'Unable to sign in.');
-    applyAuthenticatedUser(result.user as UserProfile);
-    return result.user as UserProfile;
-  };
-
-  const login = (email: string, password: string) => submitAuth('login', { email, password });
-  const register = (name: string, email: string, password: string) =>
-    submitAuth('register', { name, email, password });
-
-  const logout = async () => {
-    try {
-      await fetch('/api?resource=auth', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'logout' }),
-      });
-    } finally {
-      setAuthUser(null);
-      setCurrentUser(MOCK_USERS.customer);
-    }
-  };
 
   // Sync route with browser history
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname + window.location.search + window.location.hash || '/');
+      setCurrentPath(window.location.pathname || '/');
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -145,7 +94,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const navigateTo = (path: string) => {
     window.history.pushState({}, '', path);
-    setCurrentPath(window.location.pathname + window.location.search + window.location.hash || '/');
+    setCurrentPath(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const showToast = (msg: string) => {
@@ -164,10 +114,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [orders]);
 
+  const switchRole = (role: 'customer' | 'cook' | 'admin') => {
+    setCurrentUser(MOCK_USERS[role]);
+    localStorage.setItem(STORAGE_KEY_ROLE, role);
+    showToast(`Đã chuyển vai trò: ${role === 'customer' ? 'Khách hàng' : role === 'cook' ? 'Đầu bếp' : 'Quản trị viên'}`);
+  };
+
   // Draft order initial state with 4-hour advance constraint
   const earliestDelivery = getEarliestDeliveryDate();
   const initialDraftOrder: Partial<Order> = {
-    serviceType: 'cook_and_deliver',
+    serviceType: 'cook_at_home',
     guestCount: 4,
     date: formatDateForInput(earliestDelivery),
     servingTime: formatTimeForInput(earliestDelivery),
@@ -186,42 +142,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const [draftOrder, setDraftOrder] = useState<Partial<Order>>(initialDraftOrder);
-  const draftOrderRef = useRef(draftOrder);
-
-  useEffect(() => {
-    if (!authUser) return;
-    const updatedDraftOrder = {
-      ...draftOrderRef.current,
-      customerName: authUser.name,
-      customerPhone: authUser.phone,
-      customerAddress: authUser.address,
-    };
-    draftOrderRef.current = updatedDraftOrder;
-    setDraftOrder(updatedDraftOrder);
-  }, [authUser]);
 
   const updateDraftOrder = (data: Partial<Order>) => {
-    const updatedDraftOrder = { ...draftOrderRef.current, ...data };
-    draftOrderRef.current = updatedDraftOrder;
-    setDraftOrder(updatedDraftOrder);
+    setDraftOrder((prev) => ({ ...prev, ...data }));
   };
 
   const resetDraftOrder = () => {
-    const resetDraft = {
-      ...initialDraftOrder,
-      customerName: currentUser.name,
-      customerPhone: currentUser.phone,
-      customerAddress: currentUser.address,
-    };
-    draftOrderRef.current = resetDraft;
-    setDraftOrder(resetDraft);
+    setDraftOrder(initialDraftOrder);
   };
 
   const submitDraftOrder = (): string => {
-    const submittedDraftOrder = draftOrderRef.current;
-    const dishes = (submittedDraftOrder.items || []).map((i) => i.dish);
-    const guestCount = submittedDraftOrder.guestCount || 4;
-    const serviceType = submittedDraftOrder.serviceType || 'cook_and_deliver';
+    const dishes = (draftOrder.items || []).map((i) => i.dish);
+    const guestCount = draftOrder.guestCount || 4;
+    const serviceType = draftOrder.serviceType || 'cook_at_home';
     const feeCalc = calculateLaborFee(guestCount, dishes, serviceType);
 
     const newId = 'ord_' + Date.now();
@@ -229,38 +162,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const requiresQuotation = feeCalc.requiresQuotation;
 
-    const validation = validateDeliveryDateTime(submittedDraftOrder.date, submittedDraftOrder.servingTime);
-    const finalDate = validation.isValid && submittedDraftOrder.date ? submittedDraftOrder.date : validation.earliestDateStr;
-    const finalTime = validation.isValid && submittedDraftOrder.servingTime ? submittedDraftOrder.servingTime : validation.earliestTimeStr;
+    const validation = validateDeliveryDateTime(draftOrder.date, draftOrder.servingTime);
+    const finalDate = validation.isValid && draftOrder.date ? draftOrder.date : validation.earliestDateStr;
+    const finalTime = validation.isValid && draftOrder.servingTime ? draftOrder.servingTime : validation.earliestTimeStr;
 
     const newOrder: Order = {
       id: newId,
       orderCode,
       customerId: currentUser.id,
-      customerName: submittedDraftOrder.customerName || currentUser.name,
-      customerPhone: submittedDraftOrder.customerPhone || currentUser.phone,
-      customerAddress: submittedDraftOrder.customerAddress || currentUser.address,
+      customerName: draftOrder.customerName || currentUser.name,
+      customerPhone: draftOrder.customerPhone || currentUser.phone,
+      customerAddress: draftOrder.customerAddress || currentUser.address,
       date: finalDate,
       servingTime: finalTime,
       guestCount,
-      mealOccasion: submittedDraftOrder.mealOccasion || 'Bữa cơm gia đình',
+      mealOccasion: draftOrder.mealOccasion || 'Bữa cơm gia đình',
       serviceType,
-      items: submittedDraftOrder.items || [],
-      allergies: submittedDraftOrder.allergies || [],
-      generalPreferences: submittedDraftOrder.generalPreferences || '',
-      estimatedGroceryBudget: submittedDraftOrder.estimatedGroceryBudget || 400000,
+      items: draftOrder.items || [],
+      allergies: draftOrder.allergies || [],
+      generalPreferences: draftOrder.generalPreferences || '',
+      estimatedGroceryBudget: draftOrder.estimatedGroceryBudget || 400000,
       actualGroceryTotal: 0,
       shoppingList: [],
       budgetChangeRequests: [],
-      cookId: submittedDraftOrder.cookId || MOCK_COOKS[0].id,
-      cook: MOCK_COOKS.find((c) => c.id === (submittedDraftOrder.cookId || MOCK_COOKS[0].id)) || MOCK_COOKS[0],
+      cookId: draftOrder.cookId || MOCK_COOKS[0].id,
+      cook: MOCK_COOKS.find((c) => c.id === (draftOrder.cookId || MOCK_COOKS[0].id)) || MOCK_COOKS[0],
       baseLaborFee: feeCalc.baseLaborFee,
       complexityAdjustment: feeCalc.complexityAdjustment,
       guestCountAdjustment: feeCalc.guestAdjustment,
-      deliveryFee: feeCalc.deliveryFee,
+      deliveryFee: 0,
       additionalServiceFee: feeCalc.additionalServiceFee,
       totalLaborFee: feeCalc.totalLaborFee,
-      finalPayableAmount: feeCalc.totalLaborFee + feeCalc.deliveryFee,
+      finalPayableAmount: feeCalc.totalLaborFee + feeCalc.additionalServiceFee,
       status: requiresQuotation ? 'awaiting_quotation' : 'awaiting_cook',
       statusHistory: [
         {
@@ -408,7 +341,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (ord.id !== orderId) return ord;
         const updatedList = [...ord.shoppingList, newItem];
         const actualGroceryTotal = updatedList.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + ord.deliveryFee + ord.additionalServiceFee;
+        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + (ord.deliveryFee || 0) + ord.additionalServiceFee;
 
         return {
           ...ord,
@@ -427,7 +360,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (ord.id !== orderId) return ord;
         const updatedList = ord.shoppingList.filter((item) => item.id !== itemId);
         const actualGroceryTotal = updatedList.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + ord.deliveryFee + ord.additionalServiceFee;
+        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + (ord.deliveryFee || 0) + ord.additionalServiceFee;
 
         return {
           ...ord,
@@ -446,25 +379,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prev.map((ord) => {
         if (ord.id !== orderId || !ord.quotation) return ord;
         const acceptedQuote = { ...ord.quotation, status: 'accepted' as const };
-        const totalLaborFee = acceptedQuote.laborFee;
-        const additionalServiceFee = acceptedQuote.assistantFee + acceptedQuote.equipmentFee;
-        const totalServiceFee = totalLaborFee + additionalServiceFee;
-        const finalPayableAmount =
-          ord.actualGroceryTotal + totalLaborFee + ord.deliveryFee + additionalServiceFee;
+        const totalLaborFee = acceptedQuote.laborFee + acceptedQuote.assistantFee + acceptedQuote.equipmentFee;
 
         return {
           ...ord,
           quotation: acceptedQuote,
           totalLaborFee,
-          additionalServiceFee,
-          finalPayableAmount,
           status: 'confirmed',
           statusHistory: [
             ...ord.statusHistory,
             {
               status: 'confirmed',
               timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
-              note: `Khách hàng đã đồng ý bảng báo giá (${new Intl.NumberFormat('vi-VN').format(totalServiceFee)} đ). Đơn hàng đã chính thức được chốt!`,
+              note: `Khách hàng đã đồng ý bảng báo giá (${new Intl.NumberFormat('vi-VN').format(totalLaborFee)} đ). Đơn hàng đã chính thức được chốt!`,
             },
           ],
         };
@@ -568,8 +495,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prev.map((ord) => {
         if (ord.id !== orderId || !ord.dispute) return ord;
         const adjustedActualGrocery = Math.max(0, ord.actualGroceryTotal - (ord.dispute.reportedAmount || 0));
-        const newTotal =
-          adjustedActualGrocery + ord.totalLaborFee + ord.deliveryFee + ord.additionalServiceFee;
+        const newTotal = adjustedActualGrocery + ord.totalLaborFee + ord.deliveryFee;
 
         return {
           ...ord,
@@ -644,11 +570,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider
       value={{
         currentUser,
-        authUser,
-        authLoading,
-        login,
-        register,
-        logout,
+        setCurrentUser,
+        switchRole,
         orders,
         cooks: MOCK_COOKS,
         dishes: MOCK_DISHES,

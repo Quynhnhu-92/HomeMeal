@@ -1,106 +1,142 @@
-import React, { FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { User, ChefHat, Shield, LogOut } from 'lucide-react';
-
-const roleLabel = (role: string) =>
-  role === 'admin' ? 'Quản trị viên' : role === 'cook' ? 'Đầu bếp' : 'Khách hàng';
+import { User, Phone, Mail, MapPin, Shield, ChefHat, Check, UserCheck } from 'lucide-react';
 
 export const AccountPage: React.FC = () => {
-  const { authUser, authLoading, login, register, logout, navigateTo, currentPath } = useApp();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const isRegister = currentPath.split(/[?#]/)[0] === '/register';
+  const { currentUser, switchRole, showToast } = useApp();
+  const [name, setName] = useState(currentUser.name);
+  const [phone, setPhone] = useState(currentUser.phone);
+  const [address, setAddress] = useState(currentUser.address);
 
-  const roleHome = (role: string) => role === 'admin' ? '/admin' : role === 'cook' ? '/cook/dashboard' : '/';
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    setError('');
-    setSubmitting(true);
-    try {
-      const user = isRegister
-        ? await register(name, email, password)
-        : await login(email, password);
-      const next = new URLSearchParams(window.location.search).get('next');
-      const safeNext = next && next.startsWith('/') && !next.startsWith('//') ? next : null;
-      navigateTo(safeNext || roleHome(user.role));
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : 'Đã xảy ra lỗi. Vui lòng thử lại.');
-    } finally {
-      setSubmitting(false);
-    }
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Đã lưu thông tin tài khoản thành công!');
   };
 
-  if (authLoading) {
-    return <div className="max-w-lg mx-auto px-4 py-20 text-center text-sm text-[#738078]">Đang kiểm tra phiên đăng nhập…</div>;
-  }
-
-  if (authUser) {
-    const RoleIcon = authUser.role === 'admin' ? Shield : authUser.role === 'cook' ? ChefHat : User;
-    return (
-      <section className="max-w-xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-3xl border border-[#E5ECE7] p-7 sm:p-9 shadow-sm">
-          <div className="flex items-center gap-4 mb-7">
-            <div className="w-14 h-14 rounded-full bg-[#E7F5EF] text-[#285E56] flex items-center justify-center">
-              <RoleIcon className="w-6 h-6" />
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div className="bg-white rounded-3xl border border-[#E5ECE7] p-6 sm:p-8 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E5ECE7]">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#B8E4D3] shrink-0 bg-stone-100">
+              <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#263B35]">Tài khoản HomeMeal</h1>
-              <p className="text-sm text-[#738078]">{roleLabel(authUser.role)}</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#263B35]">{currentUser.name}</h1>
+              <p className="text-xs text-[#738078] flex items-center gap-1.5 mt-0.5">
+                <span>Vai trò hiện tại:</span>
+                <span className="font-bold text-[#285E56] capitalize">
+                  {currentUser.role === 'customer' ? 'Khách hàng' : currentUser.role === 'cook' ? 'Đầu bếp gia đình' : 'Quản trị viên'}
+                </span>
+              </p>
             </div>
           </div>
-          <dl className="space-y-4 border-y border-[#E5ECE7] py-5 text-sm">
-            <div><dt className="text-[#738078]">Họ và tên</dt><dd className="font-semibold">{authUser.name}</dd></div>
-            <div><dt className="text-[#738078]">Email</dt><dd className="font-semibold">{authUser.email}</dd></div>
-          </dl>
-          <div className="flex flex-wrap gap-3 mt-6">
-            <button onClick={() => navigateTo(roleHome(authUser.role))} className="px-5 py-2.5 bg-[#285E56] text-white rounded-xl text-sm font-semibold">
-              Vào trang {authUser.role === 'admin' ? 'quản trị' : authUser.role === 'cook' ? 'đầu bếp' : 'chủ'}
+        </div>
+
+        {/* Role Switcher Sandbox */}
+        <div className="py-6 border-b border-[#E5ECE7] space-y-3">
+          <h2 className="text-sm font-bold text-[#263B35]">Chuyển đổi góc nhìn trải nghiệm:</h2>
+          <p className="text-xs text-[#738078]">
+            Chọn vai trò bên dưới để kiểm tra toàn bộ tính năng của từng đối tượng người dùng.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button
+              type="button"
+              onClick={() => switchRole('customer')}
+              className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 ${
+                currentUser.role === 'customer'
+                  ? 'border-[#285E56] bg-[#E7F5EF] font-bold text-[#285E56]'
+                  : 'border-[#E5ECE7] hover:border-[#B8E4D3]'
+              }`}
+            >
+              <User className="w-5 h-5 text-[#285E56]" />
+              <div>
+                <p className="text-xs font-semibold">Khách hàng</p>
+                <p className="text-[10px] text-[#738078]">Đặt bữa, duyệt hóa đơn</p>
+              </div>
             </button>
-            <button onClick={async () => { await logout().catch(() => undefined); navigateTo('/'); }} className="px-5 py-2.5 border border-[#E5ECE7] rounded-xl text-sm font-semibold inline-flex items-center gap-2">
-              <LogOut className="w-4 h-4" /> Đăng xuất
+
+            <button
+              type="button"
+              onClick={() => switchRole('cook')}
+              className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 ${
+                currentUser.role === 'cook'
+                  ? 'border-[#285E56] bg-[#E7F5EF] font-bold text-[#285E56]'
+                  : 'border-[#E5ECE7] hover:border-[#B8E4D3]'
+              }`}
+            >
+              <ChefHat className="w-5 h-5 text-[#F2AD72]" />
+              <div>
+                <p className="text-xs font-semibold">Đầu bếp</p>
+                <p className="text-[10px] text-[#738078]">Nhận đơn, tải ảnh chợ</p>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => switchRole('admin')}
+              className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 ${
+                currentUser.role === 'admin'
+                  ? 'border-[#285E56] bg-[#E7F5EF] font-bold text-[#285E56]'
+                  : 'border-[#E5ECE7] hover:border-[#B8E4D3]'
+              }`}
+            >
+              <Shield className="w-5 h-5 text-[#C94C4C]" />
+              <div>
+                <p className="text-xs font-semibold">Quản trị viên</p>
+                <p className="text-[10px] text-[#738078]">Xử lý tranh chấp</p>
+              </div>
             </button>
           </div>
         </div>
-      </section>
-    );
-  }
 
-  return (
-    <section className="max-w-md mx-auto px-4 py-12">
-      <div className="bg-white rounded-3xl border border-[#E5ECE7] p-7 sm:p-9 shadow-sm">
-        <h1 className="text-2xl font-bold text-[#263B35]">{isRegister ? 'Tạo tài khoản khách hàng' : 'Đăng nhập HomeMeal'}</h1>
-        <p className="mt-2 text-sm text-[#738078]">
-          {isRegister ? 'Tài khoản mới mặc định có quyền Khách hàng.' : 'Đăng nhập để tiếp tục sử dụng tài khoản của bạn.'}
-        </p>
-        <form onSubmit={handleSubmit} className="mt-7 space-y-4">
-          {isRegister && (
-            <label className="block text-sm font-medium">Họ và tên
-              <input required minLength={2} maxLength={100} value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" className="mt-1.5 w-full rounded-xl border border-[#E5ECE7] px-3.5 py-3 outline-none focus:ring-2 focus:ring-[#285E56]" />
-            </label>
-          )}
-          <label className="block text-sm font-medium">Email
-            <input required type="email" maxLength={254} value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" className="mt-1.5 w-full rounded-xl border border-[#E5ECE7] px-3.5 py-3 outline-none focus:ring-2 focus:ring-[#285E56]" />
-          </label>
-          <label className="block text-sm font-medium">Mật khẩu
-            <input required type="password" minLength={isRegister ? 12 : 1} maxLength={128} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={isRegister ? 'new-password' : 'current-password'} className="mt-1.5 w-full rounded-xl border border-[#E5ECE7] px-3.5 py-3 outline-none focus:ring-2 focus:ring-[#285E56]" />
-          </label>
-          {isRegister && <p className="-mt-2 text-xs text-[#738078]">Mật khẩu cần từ 12 đến 128 ký tự.</p>}
-          {error && <p role="alert" className="rounded-xl bg-red-50 px-3.5 py-3 text-sm text-red-700">{error}</p>}
-          <button disabled={submitting} className="w-full rounded-xl bg-[#285E56] px-4 py-3 text-sm font-bold text-white hover:bg-[#1f4b44] disabled:opacity-60">
-            {submitting ? 'Đang xử lý…' : isRegister ? 'Đăng ký khách hàng' : 'Đăng nhập'}
-          </button>
+        {/* Form Profile */}
+        <form onSubmit={handleSave} className="pt-6 space-y-4 text-xs sm:text-sm">
+          <h2 className="text-sm font-bold text-[#263B35]">Thông tin cá nhân & Địa chỉ lưu sẵn:</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-semibold text-[#263B35] mb-1">Họ và tên:</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl focus:ring-2 focus:ring-[#285E56]"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-[#263B35] mb-1">Số điện thoại:</label>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl focus:ring-2 focus:ring-[#285E56]"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block font-semibold text-[#263B35] mb-1">Địa chỉ giao nhận / Nấu ăn mặc định:</label>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl focus:ring-2 focus:ring-[#285E56]"
+            />
+          </div>
+
+          <div className="pt-2 flex justify-end">
+            <button
+              type="submit"
+              className="px-6 py-2.5 bg-[#285E56] hover:bg-[#1f4b44] text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all"
+            >
+              Lưu thay đổi
+            </button>
+          </div>
         </form>
-        <p className="mt-6 text-center text-sm text-[#738078]">
-          {isRegister ? 'Đã có tài khoản?' : 'Chưa có tài khoản?'}{' '}
-          <button onClick={() => navigateTo(isRegister ? '/login' : '/register')} className="font-semibold text-[#285E56] hover:underline">
-            {isRegister ? 'Đăng nhập' : 'Đăng ký'}
-          </button>
-        </p>
       </div>
-    </section>
+    </div>
   );
 };

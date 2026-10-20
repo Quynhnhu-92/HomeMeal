@@ -1,6 +1,7 @@
 export type ServiceType = 
-  | 'cook_and_deliver'     // Nấu tại bếp của đầu bếp và giao đến tận nhà
-  | 'party_at_home';       // Nấu tiệc / mâm cỗ quy mô lớn giao tận nơi
+  | 'cook_at_home'         // Đầu bếp đến tận nhà khách hàng để nấu
+  | 'party_at_home'        // Đầu bếp đến tận nhà nấu tiệc / mâm cỗ quy mô lớn
+  | 'cook_and_deliver';    // (Tùy chọn phụ trợ cũ)
 
 export type DishComplexity = 'simple' | 'moderate' | 'complex';
 

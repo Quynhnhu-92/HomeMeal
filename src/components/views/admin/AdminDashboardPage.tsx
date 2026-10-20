@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { formatVND } from '../../../utils/pricing';
 import { StatusBadge } from '../../common/StatusBadge';
@@ -15,64 +15,15 @@ import {
   Filter
 } from 'lucide-react';
 
-type ManagedUser = {
-  id: string;
-  email: string;
-  full_name: string;
-  role: 'customer' | 'cook' | 'admin';
-  created_at: string;
-};
-
 export const AdminDashboardPage: React.FC = () => {
-  const { orders, cooks, resolveDispute, navigateTo, authUser } = useApp();
-  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'cooks' | 'disputes' | 'users'>('overview');
+  const { orders, cooks, resolveDispute, navigateTo } = useApp();
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'cooks' | 'disputes'>('overview');
   const [resolutionText, setResolutionText] = useState('Đã đối chiếu hóa đơn, đồng ý khấu trừ khoản tiền mờ chữ không rõ ràng.');
 
   const disputedOrders = orders.filter((o) => o.status === 'disputed' && o.dispute);
 
-  const [managedUsers, setManagedUsers] = useState<ManagedUser[]>([]);
-  const [usersLoading, setUsersLoading] = useState(false);
-  const [usersError, setUsersError] = useState('');
-
-  useEffect(() => {
-    if (activeTab !== 'users') return;
-    let cancelled = false;
-    setUsersLoading(true);
-    setUsersError('');
-    fetch('/api?resource=admin/users', { credentials: 'same-origin' })
-      .then(async (response) => {
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error || 'Không tải được danh sách tài khoản.');
-        if (!cancelled) setManagedUsers(result.users as ManagedUser[]);
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) setUsersError(error instanceof Error ? error.message : 'Không tải được danh sách tài khoản.');
-      })
-      .finally(() => {
-        if (!cancelled) setUsersLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, [activeTab]);
-
   const handleResolve = (orderId: string) => {
     resolveDispute(orderId, resolutionText);
-  };
-
-  const updateUserRole = async (userId: string, role: ManagedUser['role']) => {
-    setUsersError('');
-    try {
-      const response = await fetch('/api?resource=admin/users', {
-        method: 'PATCH',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, role }),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Không cập nhật được quyền.');
-      setManagedUsers((current) => current.map((item) => item.id === userId ? { ...item, role } : item));
-    } catch (error) {
-      setUsersError(error instanceof Error ? error.message : 'Không cập nhật được quyền.');
-    }
   };
 
   return (
@@ -124,49 +75,6 @@ export const AdminDashboardPage: React.FC = () => {
           </button>
         ))}
       </div>
-
-      <div className="-mt-4 flex justify-end">
-        <button
-          onClick={() => setActiveTab('users')}
-          className={`px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'users' ? 'bg-[#285E56] text-white' : 'border border-[#E5ECE7] bg-white text-[#285E56]'}`}
-        >
-          Quản lý tài khoản
-        </button>
-      </div>
-
-      {activeTab === 'users' && (
-        <section className="bg-white rounded-2xl border border-[#E5ECE7] p-5 sm:p-6 space-y-4">
-          <div>
-            <h2 className="text-lg font-bold text-[#263B35]">Phân quyền tài khoản</h2>
-            <p className="mt-1 text-xs text-[#738078]">Đang đăng nhập: {authUser?.email}. Đăng ký công khai chỉ có quyền Khách hàng.</p>
-          </div>
-          {usersError && <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{usersError}</p>}
-          {usersLoading ? <p className="py-6 text-center text-sm text-[#738078]">Đang tải tài khoản…</p> : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[580px] text-left text-sm">
-                <thead><tr className="border-b border-[#E5ECE7] text-xs text-[#738078]"><th className="py-3 pr-3">Tên</th><th className="py-3 pr-3">Email</th><th className="py-3 pr-3">Vai trò</th><th className="py-3">Ngày tạo</th></tr></thead>
-                <tbody className="divide-y divide-[#E5ECE7]">
-                  {managedUsers.map((user) => (
-                    <tr key={user.id}>
-                      <td className="py-3 pr-3 font-medium">{user.full_name}</td>
-                      <td className="py-3 pr-3 text-[#738078]">{user.email}</td>
-                      <td className="py-3 pr-3">
-                        <select value={user.role} onChange={(event) => void updateUserRole(user.id, event.target.value as ManagedUser['role'])} className="rounded-lg border border-[#E5ECE7] bg-white px-2 py-1.5 text-xs">
-                          <option value="customer">Khách hàng</option>
-                          <option value="cook">Đầu bếp</option>
-                          <option value="admin">Quản trị viên</option>
-                        </select>
-                      </td>
-                      <td className="py-3 text-xs text-[#738078]">{new Date(user.created_at).toLocaleDateString('vi-VN')}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {managedUsers.length === 0 && <p className="py-6 text-center text-sm text-[#738078]">Chưa có tài khoản.</p>}
-            </div>
-          )}
-        </section>
-      )}
 
       {/* TAB: OVERVIEW */}
       {activeTab === 'overview' && (

@@ -67,19 +67,15 @@ export const SupportPage: React.FC = () => {
       </div>
 
       {/* Policies Grid */}
-      <div className="space-y-4" id="terms">
+      <div className="space-y-4" id="policies">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-5 h-5 text-[#285E56]" />
           <h2 className="text-xl font-bold text-[#263B35]">Quy định minh bạch & Chính sách hủy/hoàn tiền</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" id="policies">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {policies.map((p, idx) => (
-            <div
-              key={idx}
-              id={['cancellation', 'cancellation-after-shopping', 'budget-change', 'evidence', 'substitutions', 'disputes'][idx]}
-              className="bg-white rounded-2xl border border-[#E5ECE7] p-5 space-y-2 hover:border-[#B8E4D3] transition-colors"
-            >
+            <div key={idx} className="bg-white rounded-2xl border border-[#E5ECE7] p-5 space-y-2 hover:border-[#B8E4D3] transition-colors">
               <h3 className="font-bold text-sm text-[#263B35] flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-[#E7F5EF] text-[#285E56] flex items-center justify-center text-[10px] font-bold">
                   {idx + 1}
@@ -122,7 +118,7 @@ export const SupportPage: React.FC = () => {
       </div>
 
       {/* Contact Form */}
-      <div id="cook-register" className="bg-white rounded-3xl border border-[#E5ECE7] p-6 sm:p-8 space-y-6">
+      <div className="bg-white rounded-3xl border border-[#E5ECE7] p-6 sm:p-8 space-y-6">
         <div>
           <h2 className="text-xl font-bold text-[#263B35]">Liên hệ với ban quản trị HomeMeal</h2>
           <p className="text-xs text-[#738078] mt-1">Đội ngũ hỗ trợ phản hồi trong vòng 30 phút đối với các vấn đề liên quan đến đơn hàng đang diễn ra.</p>

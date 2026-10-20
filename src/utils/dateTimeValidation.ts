@@ -5,7 +5,7 @@
 
 /**
  * Utility to enforce the rule: Orders must be placed at least 4 hours in advance.
- * Quy định bắt buộc: Khách hàng phải đặt trước tối thiểu 4 tiếng so với giờ giao món.
+ * Quy định bắt buộc: Khách hàng phải đặt trước tối thiểu 4 tiếng để đầu bếp kịp đi chợ nguyên liệu tươi và di chuyển tới nhà bạn nấu trực tiếp.
  */
 
 export const MIN_ADVANCE_HOURS = 4;
@@ -15,7 +15,7 @@ export function getNow(): Date {
 }
 
 /**
- * Returns the earliest allowable delivery Date object (now + 4 hours, rounded to next 15-min mark)
+ * Returns the earliest allowable service Date object (now + 4 hours, rounded to next 15-min mark)
  */
 export function getEarliestDeliveryDate(): Date {
   const date = new Date(Date.now() + MIN_ADVANCE_HOURS * 60 * 60 * 1000);
@@ -73,7 +73,7 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
       isValid: false,
       hoursUntilDelivery: 0,
       minutesUntilDelivery: 0,
-      message: 'Vui lòng chọn ngày và giờ giao món.',
+      message: 'Vui lòng chọn ngày và giờ đầu bếp đến nhà phục vụ.',
       earliestDateStr,
       earliestTimeStr,
       suggestedFormatted,
@@ -102,7 +102,7 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
       isValid: false,
       hoursUntilDelivery: 0,
       minutesUntilDelivery: 0,
-      message: `Giờ giao đã qua hoặc thuộc quá khứ. Bạn phải chọn giờ sớm nhất từ ${suggestedFormatted} (tối thiểu 4 tiếng nữa).`,
+      message: `Thời gian đã qua hoặc thuộc quá khứ. Bạn phải chọn giờ phục vụ sớm nhất từ ${suggestedFormatted} (tối thiểu 4 tiếng nữa để đầu bếp chuẩn bị).`,
       earliestDateStr,
       earliestTimeStr,
       suggestedFormatted,
@@ -118,7 +118,7 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
       isValid: false,
       hoursUntilDelivery: diffHours,
       minutesUntilDelivery: Math.round(diffMs / 60000),
-      message: `Không được chọn giờ này (chỉ cách hiện tại ${selectedHoursAway > 0 ? `${selectedHoursAway} giờ ` : ''}${selectedMinsAway} phút). HomeMeal yêu cầu đặt trước tối thiểu 4 tiếng để đầu bếp kịp đi chợ chọn nguyên liệu tươi và chế biến. Giờ giao sớm nhất bạn có thể chọn là ${suggestedFormatted}.`,
+      message: `Không được chọn giờ này (chỉ cách hiện tại ${selectedHoursAway > 0 ? `${selectedHoursAway} giờ ` : ''}${selectedMinsAway} phút). HomeMeal yêu cầu đặt trước tối thiểu 4 tiếng để đầu bếp kịp đi chợ chọn nguyên liệu tươi, sắp xếp lịch và di chuyển đến nhà bạn nấu ăn. Giờ phục vụ sớm nhất bạn có thể chọn là ${suggestedFormatted}.`,
       earliestDateStr,
       earliestTimeStr,
       suggestedFormatted,
@@ -132,7 +132,7 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
     isValid: true,
     hoursUntilDelivery: diffHours,
     minutesUntilDelivery: Math.round(diffMs / 60000),
-    message: `Thời gian giao hợp lệ (đặt trước ${exactHours} tiếng ${exactMinutes > 0 ? `${exactMinutes} phút` : ''} - Đủ thời gian tối thiểu 4 tiếng).`,
+    message: `Thời gian phục vụ hợp lệ (đặt trước ${exactHours} tiếng ${exactMinutes > 0 ? `${exactMinutes} phút` : ''} - Đủ thời gian tối thiểu 4 tiếng để đầu bếp chuẩn bị và đến nấu).`,
     earliestDateStr,
     earliestTimeStr,
     suggestedFormatted,

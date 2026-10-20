@@ -304,7 +304,7 @@ export const MOCK_ORDERS: Order[] = [
     servingTime: '18:30',
     guestCount: 4,
     mealOccasion: 'Bữa cơm gia đình thường ngày',
-    serviceType: 'cook_and_deliver',
+    serviceType: 'cook_at_home',
     allergies: ['Không ăn cay nhiều'],
     generalPreferences: 'Bớt mặn, cơm dẻo vừa, ưu tiên rau xanh tươi non',
     items: [
@@ -408,17 +408,17 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 180000,
     complexityAdjustment: 30000, // 2 món moderate (thịt kho, canh chua)
     guestCountAdjustment: 30000, // 4 khách
-    deliveryFee: 35000, // Nấu và giao đồ ăn tận nơi
+    deliveryFee: 0, // Đầu bếp đến tận nhà nấu - Miễn phí di chuyển & không có phí ship
     additionalServiceFee: 0,
     totalLaborFee: 240000,
-    finalPayableAmount: 643000, // 368.000đ (thực chi đi chợ) + 240.000đ (tiền công) + 35.000đ (phí giao)
+    finalPayableAmount: 608000, // 368.000đ (thực chi đi chợ) + 240.000đ (tiền công tại nhà)
     status: 'service_completed', // Khách đang xem hóa đơn và xác nhận thanh toán
     statusHistory: [
       { status: 'confirmed', timestamp: '2026-10-13 09:00', note: 'Cô Bích Huệ đã nhận đơn' },
       { status: 'shopping_in_progress', timestamp: '2026-10-13 14:00', note: 'Đầu bếp bắt đầu đi chợ Thị Nghè & Co.opmart' },
       { status: 'evidence_submitted', timestamp: '2026-10-13 15:15', note: 'Đã tải lên toàn bộ hóa đơn đi chợ (368.000đ)' },
-      { status: 'preparing_meal', timestamp: '2026-10-13 16:30', note: 'Đầu bếp đang nấu tại bếp riêng đạt chuẩn VSATTP và đóng hộp giữ nhiệt' },
-      { status: 'service_completed', timestamp: '2026-10-13 18:25', note: 'Đã giao đến nhà khách nóng hổi đúng giờ, mời khách kiểm tra' },
+      { status: 'preparing_meal', timestamp: '2026-10-13 16:30', note: 'Đầu bếp đã có mặt tại nhà khách và nấu nướng trực tiếp tại gian bếp' },
+      { status: 'service_completed', timestamp: '2026-10-13 18:25', note: 'Đã nấu xong, dọn mâm cơm lên bàn ăn nóng hổi và dọn dẹp sạch sẽ gian bếp' },
     ],
     createdAt: '2026-10-13 08:30',
   },
@@ -456,7 +456,7 @@ export const MOCK_ORDERS: Order[] = [
     guestCountAdjustment: 400000,
     deliveryFee: 0,
     additionalServiceFee: 700000, // 2 phụ bếp hỗ trợ phục vụ tiệc
-    totalLaborFee: 1400000,
+    totalLaborFee: 2100000,
     quotation: {
       id: 'quote_01',
       cookId: 'cook_02',
@@ -494,9 +494,9 @@ export const MOCK_ORDERS: Order[] = [
     servingTime: '12:00',
     guestCount: 6,
     mealOccasion: 'Bữa trưa tiếp khách cuối tuần',
-    serviceType: 'cook_and_deliver',
+    serviceType: 'cook_at_home',
     allergies: ['Không'],
-    generalPreferences: 'Giao đúng 11:45 để kịp giờ khách đến',
+    generalPreferences: 'Đầu bếp đến trước 10:30 để kịp nấu nướng hoàn tất trước 12:00',
     items: [
       { dish: MOCK_DISHES[5], quantity: 2 }, // Tôm càng xanh
       { dish: MOCK_DISHES[4], quantity: 1 }, // Gà hấp lá chanh
@@ -567,10 +567,10 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 200000,
     complexityAdjustment: 50000,
     guestCountAdjustment: 40000,
-    deliveryFee: 40000, // Nấu và giao tận nơi
+    deliveryFee: 0, // Đầu bếp đến tận nhà nấu - Miễn phí di chuyển
     additionalServiceFee: 0,
     totalLaborFee: 330000,
-    finalPayableAmount: 1080000,
+    finalPayableAmount: 1040000,
     status: 'awaiting_budget_approval', // Tạm dừng đi chợ chờ khách duyệt
     statusHistory: [
       { status: 'confirmed', timestamp: '2026-10-12 20:00', note: 'Đơn đã xác nhận' },
@@ -592,9 +592,9 @@ export const MOCK_ORDERS: Order[] = [
     servingTime: '19:00',
     guestCount: 5,
     mealOccasion: 'Cơm tối gia đình',
-    serviceType: 'cook_and_deliver',
+    serviceType: 'cook_at_home',
     allergies: [],
-    generalPreferences: 'Thức ăn nóng hổi',
+    generalPreferences: 'Nấu trực tiếp tại gian bếp, nêm vừa khẩu vị miền Nam',
     items: [
       { dish: MOCK_DISHES[6], quantity: 2 }, // Bò lúc lắc
       { dish: MOCK_DISHES[2], quantity: 1 }, // Rau muống
@@ -623,10 +623,10 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 220000,
     complexityAdjustment: 30000,
     guestCountAdjustment: 30000,
-    deliveryFee: 35000,
+    deliveryFee: 0,
     additionalServiceFee: 0,
     totalLaborFee: 280000,
-    finalPayableAmount: 895000,
+    finalPayableAmount: 860000,
     status: 'disputed', // Đang tranh chấp hóa đơn, tiền chưa bị thu
     dispute: {
       id: 'disp_01',

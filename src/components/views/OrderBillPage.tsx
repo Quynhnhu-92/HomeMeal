@@ -181,35 +181,33 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
           <div className="flex items-center justify-between pb-2 border-b border-[#E5ECE7]">
             <h3 className="font-bold text-base text-[#263B35] flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-[#285E56] text-white flex items-center justify-center text-xs">B</span>
-              <span>Chi phí dịch vụ & Tiền công nấu ăn</span>
+              <span>Chi phí công đầu bếp đến nhà nấu ăn</span>
             </h3>
           </div>
 
           <div className="bg-[#FFFDF7] rounded-xl border border-[#E5ECE7] p-4 space-y-2 text-xs">
             <div className="flex justify-between py-1 border-b border-[#E5ECE7]/60">
               <span className="text-[#263B35]">
-                Tiền công nấu chính ({order.guestCount} khách · {order.items.length} món):
+                Tiền công nấu tại gia ({order.guestCount} khách · {order.items.length} món):
               </span>
               <span className="font-semibold text-[#263B35]">{formatVND(order.totalLaborFee)}</span>
             </div>
 
-            {order.deliveryFee > 0 && (
-              <div className="flex justify-between py-1 border-b border-[#E5ECE7]/60">
-                <span className="text-[#263B35]">Phí giao đồ ăn bảo quản nóng tận nơi:</span>
-                <span className="font-semibold text-[#263B35]">{formatVND(order.deliveryFee)}</span>
-              </div>
-            )}
+            <div className="flex justify-between py-1 border-b border-[#E5ECE7]/60">
+              <span className="text-[#263B35]">Phí di chuyển & giao hàng:</span>
+              <span className="font-semibold text-emerald-700">Miễn phí (Nấu trực tiếp tại bếp của bạn)</span>
+            </div>
 
             {order.additionalServiceFee > 0 && (
               <div className="flex justify-between py-1 border-b border-[#E5ECE7]/60">
-                <span className="text-[#263B35]">Phí phụ bếp & Thiết bị tiệc chuyên dụng:</span>
+                <span className="text-[#263B35]">Phí phụ bếp & Thiết bị chuyên dụng:</span>
                 <span className="font-semibold text-[#263B35]">{formatVND(order.additionalServiceFee)}</span>
               </div>
             )}
 
             <div className="flex justify-between pt-2 font-bold text-xs">
-              <span className="text-[#263B35]">CỘNG TIỀN CÔNG & DỊCH VỤ (Mục B):</span>
-              <span className="text-[#285E56]">{formatVND(order.totalLaborFee + order.deliveryFee + order.additionalServiceFee)}</span>
+              <span className="text-[#263B35]">CỘNG TIỀN CÔNG ĐẦU BẾP (Mục B):</span>
+              <span className="text-[#285E56]">{formatVND(order.totalLaborFee + order.additionalServiceFee)}</span>
             </div>
           </div>
         </div>

@@ -63,12 +63,7 @@ export const PartyBookingPage: React.FC = () => {
       estimatedGroceryBudget: targetGroceryBudget,
       cookId: selectedCookId,
       items: partyDishes.map((dish) => ({ dish, quantity: Math.ceil(guests / 6) })),
-      generalPreferences: [
-        'Hình thức: ' + servingStyle + '.',
-        needAssistants ? 'Cần ' + assistantCount + ' phụ bếp.' : 'Không cần phụ bếp.',
-        needEquipment ? 'Yêu cầu dụng cụ chuyên dụng.' : 'Không cần dụng cụ chuyên dụng.',
-        'Ghi chú: ' + specialNotes,
-      ].join(' '),
+      generalPreferences: `Hình thức: ${servingStyle}. Cần ${assistantCount} phụ bếp. Ghi chú: ${specialNotes}`,
     });
 
     const newOrderId = submitDraftOrder();
@@ -84,10 +79,10 @@ export const PartyBookingPage: React.FC = () => {
           <span>Dành cho tiệc từ 10 đến hơn 50 khách</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-          Đặt tiệc & Mâm cỗ giao tận nơi theo yêu cầu
+          Đặt đầu bếp nấu tiệc & Mâm cỗ tại gia theo yêu cầu
         </h1>
         <p className="text-xs sm:text-sm text-white/80 max-w-2xl leading-relaxed">
-          Không ép combo tiệc sẵn có. Đầu bếp sẽ khảo sát thực đơn, số lượng món và quy mô khách để gửi <strong>bảng báo giá nấu món tiệc, khay giữ nóng và giao tận nhà chi tiết</strong>. Khách hàng duyệt báo giá trước khi đầu bếp tiến hành.
+          Không ép combo tiệc sẵn có. Đầu bếp sẽ khảo sát thực đơn, số lượng món và quy mô khách để gửi <strong>bảng báo giá nấu tiệc trực tiếp tại gia, phụ bếp và dọn dẹp chi tiết</strong>. Khách hàng duyệt báo giá trước khi đầu bếp tiến hành.
         </p>
       </div>
 
@@ -133,7 +128,7 @@ export const PartyBookingPage: React.FC = () => {
               onChange={(e) => setEventType(e.target.value)}
               className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-[#285E56]"
             >
-              <option value="Tiệc sinh nhật">Tiệc sinh nhật giao tận nơi</option>
+              <option value="Tiệc sinh nhật">Tiệc sinh nhật tại gia</option>
               <option value="Đám giỗ họ / Cúng gia tiên">Đám giỗ / Mâm cỗ cúng họ</option>
               <option value="Tiệc tân gia nhà mới">Tiệc tân gia nhà mới</option>
               <option value="Tiệc thôi nôi / Đầy tháng">Tiệc thôi nôi / Đầy tháng</option>

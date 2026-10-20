@@ -25,19 +25,19 @@ export function calculateLaborFee(
 ): LaborFeeCalculation {
   const breakdown: string[] = [];
 
-  // 1. Base fee by service type
+  // 1. Base fee by service type (Đầu bếp đến tận nhà nấu)
   let baseLaborFee = 150000;
   if (serviceType === 'party_at_home') {
     baseLaborFee = 450000;
-    breakdown.push(`Phí cơ bản mâm cỗ / tiệc giao tận nơi: ${formatVND(baseLaborFee)}`);
+    breakdown.push(`Phí cơ bản đầu bếp nấu tiệc tại gia: ${formatVND(baseLaborFee)}`);
   } else {
     baseLaborFee = 150000;
-    breakdown.push(`Phí cơ bản nấu món ăn: ${formatVND(baseLaborFee)}`);
+    breakdown.push(`Phí cơ bản đầu bếp tới nhà nấu cơm: ${formatVND(baseLaborFee)}`);
   }
 
-  // 2. Delivery fee
-  const deliveryFee = 35000;
-  breakdown.push(`Phí giao đồ ăn bảo quản nóng tận nơi: ${formatVND(deliveryFee)}`);
+  // 2. Không thu phí ship - Đầu bếp tới tận nhà phục vụ
+  const deliveryFee = 0;
+  breakdown.push(`Phí di chuyển & giao hàng: Miễn phí (Nấu trực tiếp tại bếp của bạn)`);
 
   // 3. Guest count tier
   let guestAdjustment = 0;
@@ -134,9 +134,9 @@ export function getStatusMeta(status: string): { label: string; bg: string; text
     case 'ready_for_service':
       return { label: 'Món đã sẵn sàng', bg: 'bg-emerald-50', text: 'text-emerald-800', dot: 'bg-emerald-600' };
     case 'delivering_or_serving':
-      return { label: 'Đang giao / Phục vụ', bg: 'bg-blue-50', text: 'text-blue-800', dot: 'bg-blue-600' };
+      return { label: 'Đầu bếp đang tới nhà / Nấu tại gian bếp', bg: 'bg-blue-50', text: 'text-blue-800', dot: 'bg-blue-600' };
     case 'service_completed':
-      return { label: 'Đã phục vụ xong - Chờ kiểm tra & thanh toán', bg: 'bg-emerald-100', text: 'text-emerald-900', dot: 'bg-emerald-700' };
+      return { label: 'Đã nấu & dọn xong - Chờ kiểm tra & thanh toán', bg: 'bg-emerald-100', text: 'text-emerald-900', dot: 'bg-emerald-700' };
     case 'awaiting_payment':
       return { label: 'Chờ thanh toán', bg: 'bg-purple-50', text: 'text-purple-800', dot: 'bg-purple-600' };
     case 'paid':
