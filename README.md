@@ -51,3 +51,4 @@ Backend dùng PostgreSQL. Tạo database PostgreSQL được quản lý (ví d�
 - Trước khi mở đăng ký công khai, bật giới hạn tốc độ/WAF cho `/api`; bộ đếm đăng nhập trong tiến trình chỉ là lớp bổ sung, không chia sẻ giữa các function instance.
 
 **Giới hạn hiện tại:** luồng đơn hàng, báo giá, thanh toán và dữ liệu mẫu vẫn dùng `localStorage`/mock data phía trình duyệt; chúng chưa được chuyển sang PostgreSQL và chưa có phân quyền dữ liệu ở server. Không dùng dữ liệu đơn hàng hiện tại cho khách thật cho đến khi các API nghiệp vụ được migrate.
+<!-- Trigger Vercel deployment for HomeMeal -->
