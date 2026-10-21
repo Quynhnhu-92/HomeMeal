@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": { "api/index.ts": { "maxDuration": 60 } },
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/api(?:/.*)?", "status": 404 },
+    { "src": "/.*", "dest": "/index.html" }
+  ]
+}

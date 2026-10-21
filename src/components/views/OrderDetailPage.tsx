@@ -40,7 +40,6 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
     acceptQuotation,
     rejectQuotation,
     currentUser,
-    switchRole
   } = useApp();
 
   const [selectedEvidenceItem, setSelectedEvidenceItem] = useState<ShoppingEvidenceItem | null>(null);
@@ -80,15 +79,14 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
         </button>
 
         <div className="flex items-center gap-2">
-          {currentUser.role !== 'cook' && (
+          {currentUser.role === 'cook' && (
             <button
               onClick={() => {
-                switchRole('cook');
                 navigateTo(`/cook/orders/${order.id}`);
               }}
               className="text-xs font-medium text-[#285E56] hover:underline bg-[#E7F5EF] px-2.5 py-1 rounded-lg"
             >
-              Mở ở chế độ Đầu Bếp để thao tác
+              Xem đơn trong Góc Đầu Bếp
             </button>
           )}
         </div>
