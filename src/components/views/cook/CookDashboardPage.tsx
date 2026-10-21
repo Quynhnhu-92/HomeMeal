@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import type { FormEvent } from 'react';
+import type { Order, Quotation, UserProfile } from '../../../types';
 import { useApp } from '../../../context/AppContext';
 import { formatVND } from '../../../utils/pricing';
 import { StatusBadge } from '../../common/StatusBadge';
@@ -16,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export const CookDashboardPage: React.FC = () => {
-  const { orders, navigateTo, updateOrderStatus } = useApp();
+  const { currentUser, orders, navigateTo, updateOrderStatus, submitCookQuotation } = useApp();
 
   // Statistics
   const activeOrders = orders.filter((o) => o.status !== 'completed' && o.status !== 'paid' && o.status !== 'cancelled');
@@ -125,6 +127,16 @@ export const CookDashboardPage: React.FC = () => {
                 </div>
               </div>
 
+                {order.status === 'awaiting_quotation' && (
+                  <>
+                    <p className="text-xs text-[#738078] pt-2">{order.generalPreferences}</p>
+                    <CookQuotationForm
+                      order={order}
+                      currentUser={currentUser}
+                      onSubmit={submitCookQuotation}
+                    />
+                  </>
+                )}
               {/* Action Controls for Cook */}
               <div className="flex flex-wrap items-center gap-2">
                 {order.status === 'awaiting_cook' && (
@@ -185,7 +197,7 @@ export const CookDashboardPage: React.FC = () => {
                 )}
 
                 <button
-                  onClick={() => navigateTo(`/orders/${order.id}`)}
+                  onClick={() => navigateTo(`/cook/orders/${order.id}`)}
                   className="px-3 py-1.5 border border-[#E5ECE7] text-xs font-semibold text-[#263B35] rounded-lg hover:bg-stone-50"
                 >
                   Xem chi tiết
@@ -196,5 +208,89 @@ export const CookDashboardPage: React.FC = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+interface CookQuotationFormProps {
+  order: Order;
+  currentUser: UserProfile;
+  onSubmit: (
+    orderId: string,
+    quotationData: Omit<Quotation, 'id' | 'orderId' | 'status' | 'submittedAt'>
+  ) => void;
+}
+
+const CookQuotationForm: React.FC<CookQuotationFormProps> = ({ order, currentUser, onSubmit }) => {
+  const requestedAssistantCount = Number(
+    order.generalPreferences.match(/Cần\s+(\d+)\s+phụ bếp/)?.[1] || 0
+  );
+  const [laborFee, setLaborFee] = useState(
+    order.quotation?.laborFee ?? Math.max(0, order.totalLaborFee - order.additionalServiceFee)
+  );
+  const [assistantCount, setAssistantCount] = useState(
+    order.quotation?.assistantCount ?? requestedAssistantCount
+  );
+  const [assistantFee, setAssistantFee] = useState(order.quotation?.assistantFee ?? 0);
+  const [equipmentFee, setEquipmentFee] = useState(order.quotation?.equipmentFee ?? 0);
+  const [estimatedPrepTimeHours, setEstimatedPrepTimeHours] = useState(
+    order.quotation?.estimatedPrepTimeHours ?? 4
+  );
+  const [surchargeNotes, setSurchargeNotes] = useState('');
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const totalLaborAndServices = laborFee + assistantFee + equipmentFee;
+
+    onSubmit(order.id, {
+      cookId: order.cookId || currentUser.id,
+      cookName: order.cook?.name || currentUser.name,
+      laborFee,
+      assistantCount,
+      assistantFee,
+      equipmentFee,
+      estimatedPrepTimeHours,
+      surchargeNotes,
+      totalLaborAndServices,
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-4 rounded-xl border border-[#B8E4D3] bg-white p-4 space-y-3">
+      <h3 className="text-sm font-bold text-[#263B35]">Gửi báo giá cho khách</h3>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+        <label className="space-y-1">
+          <span className="block font-medium">Công nấu (VNĐ)</span>
+          <input type="number" min="0" step="50000" required value={laborFee} onChange={(event) => setLaborFee(Number(event.target.value))} className="w-full rounded-lg border border-[#E5ECE7] px-2 py-1.5" />
+        </label>
+        <label className="space-y-1">
+          <span className="block font-medium">Số phụ bếp</span>
+          <input type="number" min="0" step="1" required value={assistantCount} onChange={(event) => setAssistantCount(Number(event.target.value))} className="w-full rounded-lg border border-[#E5ECE7] px-2 py-1.5" />
+        </label>
+        <label className="space-y-1">
+          <span className="block font-medium">Phí phụ bếp (VNĐ)</span>
+          <input type="number" min="0" step="50000" required value={assistantFee} onChange={(event) => setAssistantFee(Number(event.target.value))} className="w-full rounded-lg border border-[#E5ECE7] px-2 py-1.5" />
+        </label>
+        <label className="space-y-1">
+          <span className="block font-medium">Phí thiết bị (VNĐ)</span>
+          <input type="number" min="0" step="50000" required value={equipmentFee} onChange={(event) => setEquipmentFee(Number(event.target.value))} className="w-full rounded-lg border border-[#E5ECE7] px-2 py-1.5" />
+        </label>
+        <label className="space-y-1">
+          <span className="block font-medium">Thời gian chuẩn bị (giờ)</span>
+          <input type="number" min="0.5" step="0.5" required value={estimatedPrepTimeHours} onChange={(event) => setEstimatedPrepTimeHours(Number(event.target.value))} className="w-full rounded-lg border border-[#E5ECE7] px-2 py-1.5" />
+        </label>
+        <label className="space-y-1 sm:col-span-3">
+          <span className="block font-medium">Ghi chú báo giá</span>
+          <input value={surchargeNotes} onChange={(event) => setSurchargeNotes(event.target.value)} className="w-full rounded-lg border border-[#E5ECE7] px-2 py-1.5" />
+        </label>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="text-xs font-semibold text-[#285E56]">
+          Tổng dịch vụ: {formatVND(laborFee + assistantFee + equipmentFee)}
+        </span>
+        <button type="submit" className="rounded-lg bg-[#285E56] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#1f4b44]">
+          Gửi báo giá
+        </button>
+      </div>
+    </form>
   );
 };

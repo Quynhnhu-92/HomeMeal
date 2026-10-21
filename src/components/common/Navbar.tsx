@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ChefHat, ShoppingBag, User, Shield, Menu, X, Bell, RefreshCw } from 'lucide-react';
+import { ChefHat, ShoppingBag, User, Shield, Menu, X, LogOut, RefreshCw } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const { currentUser, switchRole, currentPath, navigateTo, orders, resetToInitialDemoData } = useApp();
+  const { currentUser, authUser, logout, showToast, currentPath, navigateTo, orders, resetToInitialDemoData } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
 
@@ -26,6 +26,7 @@ export const Navbar: React.FC = () => {
     { label: 'Trang chủ', path: '/' },
     { label: 'Đặt bữa ăn', path: '/meal-planner' },
     { label: 'Thực đơn', path: '/menu' },
+    { label: 'AI Gợi Ý Thực Đơn', path: '/smart-menu' },
     { label: 'Đầu bếp', path: '/cooks' },
     { label: 'Tiệc & Mâm cỗ', path: '/party-booking' },
     { label: 'Đơn hàng', path: '/orders', badge: pendingActionsCount > 0 ? pendingActionsCount : undefined },
@@ -36,7 +37,7 @@ export const Navbar: React.FC = () => {
       {/* Scenario Demo Banner */}
       <div className="bg-[#E7F5EF] text-[#285E56] text-xs py-1.5 px-4 border-b border-[#B8E4D3]/50">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 overflow-x-auto text-[11px] sm:text-xs">
+          <div className="flex min-w-0 items-center gap-2 overflow-x-auto text-[11px] sm:text-xs">
             <span className="font-semibold whitespace-nowrap">Kịch bản thử nghiệm:</span>
             <button
               onClick={() => navigateTo('/orders/ord_01/bill')}
@@ -79,7 +80,7 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Main Top Bar - strict 3-zone contract */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Zone 1: Brand Wordmark */}
         <button
           onClick={() => navigateTo('/')}
@@ -97,7 +98,7 @@ export const Navbar: React.FC = () => {
         </button>
 
         {/* Zone 2: Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-[#263B35]">
+        <nav className="hidden 2xl:flex items-center gap-3 text-sm font-medium text-[#263B35]">
           {navLinks.map((link) => (
             <button
               key={link.path}
@@ -126,19 +127,19 @@ export const Navbar: React.FC = () => {
           </button>
         </nav>
 
-        {/* Zone 3: Primary Action & Role Switcher */}
+        {/* Zone 3: Primary Action & Account */}
         <div className="flex items-center gap-3 shrink-0">
-          {/* Quick Role Switcher */}
+          {/* Account menu */}
           <div className="relative">
             <button
               onClick={() => setRoleMenuOpen(!roleMenuOpen)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E5ECE7] bg-white text-xs font-medium text-[#263B35] hover:border-[#B8E4D3] transition-all"
             >
-              {currentUser.role === 'customer' && <User className="w-3.5 h-3.5 text-[#285E56]" />}
+              {(!authUser || currentUser.role === 'customer') && <User className="w-3.5 h-3.5 text-[#285E56]" />}
               {currentUser.role === 'cook' && <ChefHat className="w-3.5 h-3.5 text-[#F2AD72]" />}
               {currentUser.role === 'admin' && <Shield className="w-3.5 h-3.5 text-[#C94C4C]" />}
               <span className="hidden sm:inline">
-                {currentUser.role === 'customer'
+                {!authUser ? 'Đăng nhập' : currentUser.role === 'customer'
                   ? 'Khách hàng'
                   : currentUser.role === 'cook'
                   ? 'Đầu bếp'
@@ -147,64 +148,10 @@ export const Navbar: React.FC = () => {
             </button>
 
             {roleMenuOpen && (
-              <div
-                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-[#E5ECE7] py-2 z-50 animate-in fade-in zoom-in-95 duration-150"
-                onClick={() => setRoleMenuOpen(false)}
-              >
-                <div className="px-3 py-1.5 border-b border-[#E5ECE7] text-[11px] font-semibold text-[#738078] uppercase">
-                  Chuyển vai trò xem thử
-                </div>
-                <button
-                  onClick={() => switchRole('customer')}
-                  className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#E7F5EF] ${
-                    currentUser.role === 'customer' ? 'text-[#285E56] font-semibold bg-[#E7F5EF]/50' : 'text-[#263B35]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-[#285E56]" />
-                    <div>
-                      <p className="font-medium">Khách hàng</p>
-                      <p className="text-[10px] text-[#738078]">Đặt bữa, duyệt hóa đơn</p>
-                    </div>
-                  </div>
-                  {currentUser.role === 'customer' && <span className="text-[10px] text-[#285E56]">Đang chọn</span>}
-                </button>
-                <button
-                  onClick={() => {
-                    switchRole('cook');
-                    navigateTo('/cook/dashboard');
-                  }}
-                  className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#E7F5EF] ${
-                    currentUser.role === 'cook' ? 'text-[#285E56] font-semibold bg-[#E7F5EF]/50' : 'text-[#263B35]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <ChefHat className="w-4 h-4 text-[#F2AD72]" />
-                    <div>
-                      <p className="font-medium">Đầu bếp</p>
-                      <p className="text-[10px] text-[#738078]">Nhận đơn, tải hóa đơn chợ</p>
-                    </div>
-                  </div>
-                  {currentUser.role === 'cook' && <span className="text-[10px] text-[#285E56]">Đang chọn</span>}
-                </button>
-                <button
-                  onClick={() => {
-                    switchRole('admin');
-                    navigateTo('/admin');
-                  }}
-                  className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#E7F5EF] ${
-                    currentUser.role === 'admin' ? 'text-[#285E56] font-semibold bg-[#E7F5EF]/50' : 'text-[#263B35]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-[#C94C4C]" />
-                    <div>
-                      <p className="font-medium">Quản trị viên</p>
-                      <p className="text-[10px] text-[#738078]">Giám sát hóa đơn & khiếu nại</p>
-                    </div>
-                  </div>
-                  {currentUser.role === 'admin' && <span className="text-[10px] text-[#285E56]">Đang chọn</span>}
-                </button>
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-[#E5ECE7] py-2 z-50">
+                <p className="px-3 py-2 text-xs text-[#738078]">{authUser ? `Đã đăng nhập: ${authUser.email}` : 'Bạn chưa đăng nhập'}</p>
+                <button onClick={() => { navigateTo(authUser ? '/account' : '/login'); setRoleMenuOpen(false); }} className="w-full px-3 py-2 text-left text-sm hover:bg-[#E7F5EF]">{authUser ? 'Tài khoản cá nhân' : 'Đăng nhập / Đăng ký'}</button>
+                {authUser && <button onClick={() => { void logout().then(() => { setRoleMenuOpen(false); navigateTo('/'); }).catch((error) => showToast(error.message || 'Không thể đăng xuất.')); }} className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-[#E7F5EF]"><LogOut size={15} />Đăng xuất</button>}
               </div>
             )}
           </div>
@@ -213,21 +160,21 @@ export const Navbar: React.FC = () => {
           {currentUser.role === 'cook' ? (
             <button
               onClick={() => navigateTo('/cook/dashboard')}
-              className="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#285E56] rounded-lg hover:bg-[#1f4b44] transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#285E56] rounded-lg hover:bg-[#1f4b44] transition-colors whitespace-nowrap shrink-0 shadow-sm"
             >
               Góc Đầu Bếp
             </button>
           ) : currentUser.role === 'admin' ? (
             <button
               onClick={() => navigateTo('/admin')}
-              className="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#285E56] rounded-lg hover:bg-[#1f4b44] transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#285E56] rounded-lg hover:bg-[#1f4b44] transition-colors whitespace-nowrap shrink-0 shadow-sm"
             >
               Trang Quản Trị
             </button>
           ) : (
             <button
               onClick={() => navigateTo('/meal-planner')}
-              className="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#285E56] rounded-lg hover:bg-[#1f4b44] transition-colors whitespace-nowrap shrink-0 shadow-sm flex items-center gap-1.5"
+              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#285E56] rounded-lg hover:bg-[#1f4b44] transition-colors whitespace-nowrap shrink-0 shadow-sm items-center gap-1.5"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Đặt bữa ăn ngay</span>
@@ -246,7 +193,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-[#263B35] hover:bg-[#E7F5EF]"
+            className="2xl:hidden p-2 rounded-lg text-[#263B35] hover:bg-[#E7F5EF]"
             aria-label="Mở menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -256,7 +203,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#E5ECE7] bg-[#FFFDF7] px-4 pt-3 pb-5 space-y-2">
+        <div className="2xl:hidden border-t border-[#E5ECE7] bg-[#FFFDF7] px-4 pt-3 pb-5 space-y-2">
           {navLinks.map((link) => (
             <button
               key={link.path}
@@ -288,50 +235,8 @@ export const Navbar: React.FC = () => {
             Hỗ trợ & Chính sách
           </button>
           <div className="pt-2 border-t border-[#E5ECE7]">
-            <p className="px-3 text-xs text-[#738078] mb-1 font-semibold">Chế độ trải nghiệm:</p>
-            <div className="grid grid-cols-3 gap-2 px-1">
-              <button
-                onClick={() => {
-                  switchRole('customer');
-                  setMobileMenuOpen(false);
-                }}
-                className={`py-1.5 text-xs rounded border text-center ${
-                  currentUser.role === 'customer'
-                    ? 'border-[#285E56] bg-[#E7F5EF] font-bold text-[#285E56]'
-                    : 'border-stone-200'
-                }`}
-              >
-                Khách
-              </button>
-              <button
-                onClick={() => {
-                  switchRole('cook');
-                  navigateTo('/cook/dashboard');
-                  setMobileMenuOpen(false);
-                }}
-                className={`py-1.5 text-xs rounded border text-center ${
-                  currentUser.role === 'cook'
-                    ? 'border-[#285E56] bg-[#E7F5EF] font-bold text-[#285E56]'
-                    : 'border-stone-200'
-                }`}
-              >
-                Đầu bếp
-              </button>
-              <button
-                onClick={() => {
-                  switchRole('admin');
-                  navigateTo('/admin');
-                  setMobileMenuOpen(false);
-                }}
-                className={`py-1.5 text-xs rounded border text-center ${
-                  currentUser.role === 'admin'
-                    ? 'border-[#285E56] bg-[#E7F5EF] font-bold text-[#285E56]'
-                    : 'border-stone-200'
-                }`}
-              >
-                Admin
-              </button>
-            </div>
+            <button onClick={() => { navigateTo(authUser?.role === 'admin' ? '/admin' : authUser?.role === 'cook' ? '/cook/dashboard' : '/account'); setMobileMenuOpen(false); }} className="w-full px-3 py-2 text-left text-sm font-semibold text-[#285E56]">{authUser?.role === 'admin' ? 'Trang Quản Trị' : authUser?.role === 'cook' ? 'Góc Đầu Bếp' : authUser ? 'Tài khoản cá nhân' : 'Đăng nhập / Đăng ký'}</button>
+            {authUser && <button onClick={() => { void logout().then(() => { setMobileMenuOpen(false); navigateTo('/'); }).catch((error) => showToast(error.message || 'Không thể đăng xuất.')); }} className="w-full px-3 py-2 text-left text-sm text-[#738078]">Đăng xuất</button>}
           </div>
         </div>
       )}

@@ -48,7 +48,7 @@ const STEPS = [
 ];
 
 export const MealPlannerPage: React.FC = () => {
-  const { dishes, cooks, draftOrder, updateDraftOrder, submitDraftOrder, navigateTo } = useApp();
+  const { dishes, cooks, draftOrder, updateDraftOrder, submitDraftOrder, navigateTo, authUser, showToast } = useApp();
   const [currentStep, setCurrentStep] = useState(1);
   const [newExcludedIngredient, setNewExcludedIngredient] = useState('');
   const [newAllergy, setNewAllergy] = useState('');
@@ -276,6 +276,8 @@ export const MealPlannerPage: React.FC = () => {
   };
 
   const handleSubmit = () => {
+    if (!authUser) { navigateTo('/login?next=%2Fmeal-planner'); return; }
+    if (authUser.role !== 'customer') { showToast('Vui lòng dùng tài khoản Khách hàng để đặt dịch vụ.'); return; }
     if (!timeValidation.isValid) {
       alert(`Quy định đặt món: ${timeValidation.message}`);
       setCurrentStep(1);
@@ -285,6 +287,8 @@ export const MealPlannerPage: React.FC = () => {
     navigateTo(`/orders/${newOrderId}`);
   };
 
+  // The latest dish editor also edits imported Smart Menu items via selectedItems.
+
   const budget = draftOrder.estimatedGroceryBudget || 400000;
   const budgetDifference = budget - estimatedIngredientTotal;
 
@@ -292,6 +296,11 @@ export const MealPlannerPage: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {selectedDishes.some((dish) => dish.id.startsWith('smart-')) && (
+        <div role="status" className="rounded-2xl border border-[#B8E4D3] bg-[#E7F5EF] p-4 text-sm leading-6 text-[#285E56]">
+          Đã nhận thực đơn Smart Menu cho {guestCount} người. Mỗi món x1 đã gồm khẩu phần cho cả nhóm; giá nguyên liệu là ước tính. Bạn vẫn cần chọn lịch, địa chỉ, đầu bếp và tự xác nhận đơn ở bước cuối.
+        </div>
+      )}
       {/* Header & Stepper */}
       <div className="bg-white rounded-2xl p-6 border border-[#E5ECE7] shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -1091,7 +1100,7 @@ export const MealPlannerPage: React.FC = () => {
             {/* Left Column: Details */}
             <div className="space-y-4">
               <div className="bg-stone-50 p-4 rounded-xl border border-[#E5ECE7] space-y-2">
-                <h3 className="font-bold text-[#263B35]">Thông tin nhận món:</h3>
+                <h3 className="font-bold text-[#263B35]">Thông tin phục vụ:</h3>
                 <div className="flex justify-between">
                   <span className="text-[#738078]">Ngày giờ giao:</span>
                   <span className="font-semibold text-[#285E56]">{draftOrder.date} lúc {draftOrder.servingTime}</span>
@@ -1103,11 +1112,11 @@ export const MealPlannerPage: React.FC = () => {
                 <div className="flex justify-between">
                   <span className="text-[#738078]">Hình thức dịch vụ:</span>
                   <span className="font-semibold text-[#285E56]">
-                    Nấu tại bếp đạt chuẩn & Giao hộp giữ nhiệt nóng sốt tận nơi
+                    Đầu bếp đến nhà đi chợ, nấu ăn và dọn dẹp
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#738078]">Địa chỉ giao món:</span>
+                  <span className="text-[#738078]">Địa chỉ nấu tại nhà:</span>
                   <span className="font-semibold text-[#263B35] text-right line-clamp-1">{draftOrder.customerAddress}</span>
                 </div>
                 {draftOrder.mealOccasion && (

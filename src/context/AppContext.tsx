@@ -1,13 +1,19 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { Order, Dish, Cook, UserProfile, OrderStatus, ShoppingEvidenceItem, BudgetChangeRequest, Quotation } from '../types';
-import { MOCK_ORDERS, MOCK_DISHES, MOCK_COOKS, MOCK_USERS } from '../data/mockData';
+import { MOCK_ORDERS, MOCK_DISHES, MOCK_COOKS } from '../data/mockData';
 import { calculateLaborFee } from '../utils/pricing';
 import { getEarliestDeliveryDate, formatDateForInput, formatTimeForInput, validateDeliveryDateTime } from '../utils/dateTimeValidation';
 
 interface AppContextType {
   currentUser: UserProfile;
-  setCurrentUser: (user: UserProfile) => void;
-  switchRole: (role: 'customer' | 'cook' | 'admin') => void;
+  authUser: UserProfile | null;
+  authLoading: boolean;
+  authError: string;
+  login: (email: string, password: string) => Promise<UserProfile>;
+  register: (name: string, email: string, password: string) => Promise<UserProfile>;
+  logout: () => Promise<void>;
+  updateProfile: (profile: Pick<UserProfile, 'name' | 'phone' | 'address'>) => Promise<void>;
+
   
   orders: Order[];
   cooks: Cook[];
@@ -56,10 +62,14 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEY_ORDERS = 'homemeal_orders_v1';
-const STORAGE_KEY_ROLE = 'homemeal_user_role_v1';
+const GUEST: UserProfile = { id: '', name: '', email: '', phone: '', address: '', avatar: '', role: 'customer' };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<UserProfile>(MOCK_USERS.customer);
+  const [authUser, setAuthUser] = useState<UserProfile | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState('');
+  const sessionVersion = useRef(0);
+  const currentUser = authUser || GUEST;
   const [orders, setOrders] = useState<Order[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_ORDERS);
@@ -78,15 +88,80 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [currentPath, setCurrentPath] = useState<string>(() => {
-    return window.location.pathname || '/';
+    return window.location.pathname + window.location.search + window.location.hash || '/';
   });
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  const applyAuthenticatedUser = (user: UserProfile) => {
+    setAuthUser({ ...user, avatar: user.avatar || '' });
+    setAuthError('');
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    const restore = () => {
+      const version = sessionVersion.current;
+      return fetch('/api?resource=auth&action=me', { credentials: 'same-origin' })
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Could not restore the sign-in session.');
+        const result: { user: UserProfile | null } = await response.json();
+        if (cancelled || version !== sessionVersion.current) return;
+        if (result.user) applyAuthenticatedUser(result.user);
+        else setAuthUser(null);
+      })
+      .catch(() => { if (!cancelled && version === sessionVersion.current) { setAuthUser(null); setAuthError('Không thể kết nối dịch vụ tài khoản. Vui lòng thử lại.'); } })
+      .finally(() => { if (!cancelled) setAuthLoading(false); });
+    };
+    void restore();
+    const refresh = () => { if (!document.hidden) void restore(); };
+    window.addEventListener('focus', refresh);
+    const timer = window.setInterval(refresh, 60000);
+    return () => { cancelled = true; clearInterval(timer); window.removeEventListener('focus', refresh); };
+  }, []);
+
+  const submitAuth = async (action: 'login' | 'register', payload: Record<string, string>) => {
+    sessionVersion.current++;
+    const response = await fetch('/api?resource=auth', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...payload, action }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'Unable to sign in.');
+    applyAuthenticatedUser(result.user as UserProfile);
+    return result.user as UserProfile;
+  };
+
+  const login = (email: string, password: string) => submitAuth('login', { email, password });
+  const register = (name: string, email: string, password: string) =>
+    submitAuth('register', { name, email, password });
+
+  const logout = async () => {
+      sessionVersion.current++;
+      const response = await fetch('/api?resource=auth', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'logout' }),
+      });
+      if (!response.ok) throw new Error('Không thể đăng xuất. Vui lòng thử lại.');
+      setAuthUser(null);
+  };
+
+  const updateProfile = async (profile: Pick<UserProfile, 'name' | 'phone' | 'address'>) => {
+    const response = await fetch('/api?resource=auth&action=profile', { method: 'PATCH', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(profile) });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'Không lưu được hồ sơ.');
+    sessionVersion.current++;
+    applyAuthenticatedUser(result.user);
+  };
+
   // Sync route with browser history
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      setCurrentPath(window.location.pathname + window.location.search + window.location.hash || '/');
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -114,10 +189,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [orders]);
 
-  const switchRole = (role: 'customer' | 'cook' | 'admin') => {
-    setCurrentUser(MOCK_USERS[role]);
-    localStorage.setItem(STORAGE_KEY_ROLE, role);
-    showToast(`Đã chuyển vai trò: ${role === 'customer' ? 'Khách hàng' : role === 'cook' ? 'Đầu bếp' : 'Quản trị viên'}`);
+  const allowRole = (...roles: UserProfile['role'][]) => {
+    if (authUser && roles.includes(authUser.role)) return true;
+    showToast('Bạn không có quyền thực hiện thao tác này.');
+    return false;
   };
 
   // Draft order initial state with 4-hour advance constraint
@@ -142,19 +217,43 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const [draftOrder, setDraftOrder] = useState<Partial<Order>>(initialDraftOrder);
+  const draftOrderRef = useRef(draftOrder);
+
+  useEffect(() => {
+    if (!authUser) return;
+    const updatedDraftOrder = {
+      ...draftOrderRef.current,
+      customerName: authUser.name,
+      customerPhone: draftOrderRef.current.customerPhone || authUser.phone,
+      customerAddress: draftOrderRef.current.customerAddress || authUser.address,
+    };
+    draftOrderRef.current = updatedDraftOrder;
+    setDraftOrder(updatedDraftOrder);
+  }, [authUser]);
 
   const updateDraftOrder = (data: Partial<Order>) => {
-    setDraftOrder((prev) => ({ ...prev, ...data }));
+    const updatedDraftOrder = { ...draftOrderRef.current, ...data };
+    draftOrderRef.current = updatedDraftOrder;
+    setDraftOrder(updatedDraftOrder);
   };
 
   const resetDraftOrder = () => {
-    setDraftOrder(initialDraftOrder);
+    const resetDraft = {
+      ...initialDraftOrder,
+      customerName: currentUser.name,
+      customerPhone: currentUser.phone,
+      customerAddress: currentUser.address,
+    };
+    draftOrderRef.current = resetDraft;
+    setDraftOrder(resetDraft);
   };
 
   const submitDraftOrder = (): string => {
-    const dishes = (draftOrder.items || []).map((i) => i.dish);
-    const guestCount = draftOrder.guestCount || 4;
-    const serviceType = draftOrder.serviceType || 'cook_at_home';
+    if (!authUser || authUser.role !== 'customer') throw new Error('Vui lòng đăng nhập bằng tài khoản Khách hàng để đặt dịch vụ.');
+    const submittedDraft = draftOrderRef.current;
+    const dishes = (submittedDraft.items || []).map((i) => i.dish);
+    const guestCount = submittedDraft.guestCount || 4;
+    const serviceType = submittedDraft.serviceType || 'cook_at_home';
     const feeCalc = calculateLaborFee(guestCount, dishes, serviceType);
 
     const newId = 'ord_' + Date.now();
@@ -162,31 +261,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const requiresQuotation = feeCalc.requiresQuotation;
 
-    const validation = validateDeliveryDateTime(draftOrder.date, draftOrder.servingTime);
-    const finalDate = validation.isValid && draftOrder.date ? draftOrder.date : validation.earliestDateStr;
-    const finalTime = validation.isValid && draftOrder.servingTime ? draftOrder.servingTime : validation.earliestTimeStr;
+    const validation = validateDeliveryDateTime(submittedDraft.date, submittedDraft.servingTime);
+    const finalDate = validation.isValid && submittedDraft.date ? submittedDraft.date : validation.earliestDateStr;
+    const finalTime = validation.isValid && submittedDraft.servingTime ? submittedDraft.servingTime : validation.earliestTimeStr;
 
     const newOrder: Order = {
       id: newId,
       orderCode,
       customerId: currentUser.id,
-      customerName: draftOrder.customerName || currentUser.name,
-      customerPhone: draftOrder.customerPhone || currentUser.phone,
-      customerAddress: draftOrder.customerAddress || currentUser.address,
+      customerName: submittedDraft.customerName || currentUser.name,
+      customerPhone: submittedDraft.customerPhone || currentUser.phone,
+      customerAddress: submittedDraft.customerAddress || currentUser.address,
       date: finalDate,
       servingTime: finalTime,
       guestCount,
-      mealOccasion: draftOrder.mealOccasion || 'Bữa cơm gia đình',
+      mealOccasion: submittedDraft.mealOccasion || 'Bữa cơm gia đình',
       serviceType,
-      items: draftOrder.items || [],
-      allergies: draftOrder.allergies || [],
-      generalPreferences: draftOrder.generalPreferences || '',
-      estimatedGroceryBudget: draftOrder.estimatedGroceryBudget || 400000,
+      items: submittedDraft.items || [],
+      allergies: submittedDraft.allergies || [],
+      generalPreferences: submittedDraft.generalPreferences || '',
+      estimatedGroceryBudget: submittedDraft.estimatedGroceryBudget || 400000,
       actualGroceryTotal: 0,
       shoppingList: [],
       budgetChangeRequests: [],
-      cookId: draftOrder.cookId || MOCK_COOKS[0].id,
-      cook: MOCK_COOKS.find((c) => c.id === (draftOrder.cookId || MOCK_COOKS[0].id)) || MOCK_COOKS[0],
+      cookId: submittedDraft.cookId || MOCK_COOKS[0].id,
+      cook: MOCK_COOKS.find((c) => c.id === (submittedDraft.cookId || MOCK_COOKS[0].id)) || MOCK_COOKS[0],
       baseLaborFee: feeCalc.baseLaborFee,
       complexityAdjustment: feeCalc.complexityAdjustment,
       guestCountAdjustment: feeCalc.guestAdjustment,
@@ -218,6 +317,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateOrderStatus = (orderId: string, status: OrderStatus, note?: string) => {
+    if (!allowRole('cook', 'admin')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -240,6 +340,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Grocery budget change approvals
   const approveBudgetChange = (orderId: string, requestId: string) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -272,6 +373,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const rejectBudgetChange = (orderId: string, requestId: string, responseNote?: string) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -302,6 +404,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     orderId: string,
     requestData: Omit<BudgetChangeRequest, 'id' | 'status' | 'requestedAt'>
   ) => {
+    if (!allowRole('cook')) return;
     const newReq: BudgetChangeRequest = {
       ...requestData,
       id: 'bcr_' + Date.now(),
@@ -331,6 +434,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const addShoppingEvidenceItem = (orderId: string, itemData: Omit<ShoppingEvidenceItem, 'id'>) => {
+    if (!allowRole('cook')) return;
     const newItem: ShoppingEvidenceItem = {
       ...itemData,
       id: 'shop_' + Date.now(),
@@ -355,6 +459,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const deleteShoppingEvidenceItem = (orderId: string, itemId: string) => {
+    if (!allowRole('cook')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -375,23 +480,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Quotation workflows
   const acceptQuotation = (orderId: string) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId || !ord.quotation) return ord;
         const acceptedQuote = { ...ord.quotation, status: 'accepted' as const };
-        const totalLaborFee = acceptedQuote.laborFee + acceptedQuote.assistantFee + acceptedQuote.equipmentFee;
+        const totalLaborFee = acceptedQuote.laborFee;
+        const additionalServiceFee = acceptedQuote.assistantFee + acceptedQuote.equipmentFee;
+        const totalServiceFee = totalLaborFee + additionalServiceFee;
+        const finalPayableAmount =
+          ord.actualGroceryTotal + totalLaborFee + ord.deliveryFee + additionalServiceFee;
 
         return {
           ...ord,
           quotation: acceptedQuote,
           totalLaborFee,
+          additionalServiceFee,
+          finalPayableAmount,
           status: 'confirmed',
           statusHistory: [
             ...ord.statusHistory,
             {
               status: 'confirmed',
               timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
-              note: `Khách hàng đã đồng ý bảng báo giá (${new Intl.NumberFormat('vi-VN').format(totalLaborFee)} đ). Đơn hàng đã chính thức được chốt!`,
+              note: `Khách hàng đã đồng ý bảng báo giá (${new Intl.NumberFormat('vi-VN').format(totalServiceFee)} đ). Đơn hàng đã chính thức được chốt!`,
             },
           ],
         };
@@ -401,6 +513,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const rejectQuotation = (orderId: string) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId || !ord.quotation) return ord;
@@ -426,6 +539,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     orderId: string,
     quotationData: Omit<Quotation, 'id' | 'orderId' | 'status' | 'submittedAt'>
   ) => {
+    if (!allowRole('cook')) return;
     const newQuote: Quotation = {
       ...quotationData,
       id: 'quote_' + Date.now(),
@@ -462,6 +576,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     description: string,
     reportedAmount: number
   ) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -491,11 +606,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const resolveDispute = (orderId: string, adminResolution: string) => {
+    if (!allowRole('admin')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId || !ord.dispute) return ord;
         const adjustedActualGrocery = Math.max(0, ord.actualGroceryTotal - (ord.dispute.reportedAmount || 0));
-        const newTotal = adjustedActualGrocery + ord.totalLaborFee + ord.deliveryFee;
+        const newTotal = adjustedActualGrocery + ord.totalLaborFee + ord.deliveryFee + ord.additionalServiceFee;
 
         return {
           ...ord,
@@ -521,6 +637,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const processPayment = (orderId: string, paymentMethod: string) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -545,6 +662,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     orderId: string,
     review: { rating: number; foodQuality: number; transparency: number; professionalism: number; punctuality: number; comment: string }
   ) => {
+    if (!allowRole('customer')) return;
     setOrders((prev) =>
       prev.map((ord) => {
         if (ord.id !== orderId) return ord;
@@ -570,8 +688,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider
       value={{
         currentUser,
-        setCurrentUser,
-        switchRole,
+        authUser, authLoading, authError, login, register, logout, updateProfile,
         orders,
         cooks: MOCK_COOKS,
         dishes: MOCK_DISHES,
