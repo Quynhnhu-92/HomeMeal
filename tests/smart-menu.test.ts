@@ -147,7 +147,18 @@ test('Gemini adapter handles upstream quota errors and malformed JSON without le
       new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: 'broken json' }] } }] })),
     ]) {
       globalThis.fetch = async () => response;
-      await assert.rejects(() => generateWithGemini(p), (e: SmartMenuError) => e.status === 502 && !e.message.includes('private'));
+      await assert.rejects(() => generateWithGemini(p), (e: SmartMenuError) => e.status === (response.status === 429 ? 503 : 502) && !e.message.includes('private'));
+    }
+  } finally { globalThis.fetch = originalFetch; if (originalKey === undefined) delete process.env.GEMINI_API_KEY; else process.env.GEMINI_API_KEY = originalKey; }
+});
+
+test('Gemini failures expose actionable codes without upstream secrets', async () => {
+  const originalFetch = globalThis.fetch; const originalKey = process.env.GEMINI_API_KEY;
+  process.env.GEMINI_API_KEY = 'unit-test-only-not-a-real-key';
+  try {
+    for (const [status, code] of [[404, 'AI_MODEL_UNAVAILABLE'], [401, 'AI_ACCESS_DENIED'], [403, 'AI_ACCESS_DENIED'], [429, 'AI_QUOTA_EXCEEDED'], [503, 'AI_BUSY']] as const) {
+      globalThis.fetch = async () => new Response(JSON.stringify({ error: { code: status, message: 'private upstream detail unit-test-only-not-a-real-key' } }), { status });
+      await assert.rejects(() => generateWithGemini(p), (e: SmartMenuError) => e.status === 503 && e.code === code && !e.message.includes('private') && !e.message.includes('unit-test-only'));
     }
   } finally { globalThis.fetch = originalFetch; if (originalKey === undefined) delete process.env.GEMINI_API_KEY; else process.env.GEMINI_API_KEY = originalKey; }
 });

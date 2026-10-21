@@ -49,8 +49,13 @@ export async function generateWithGemini(p: Preferences, replacement?: Replaceme
     });
     if (!response.text || response.text.length > 500000) throw new Error('Invalid response');
     return JSON.parse(response.text);
-  } catch {
+  } catch (error) {
     // Do not log provider errors/prompts: they may contain API keys or health information.
+    const status = error && typeof error === 'object' && 'status' in error ? error.status : undefined;
+    if (status === 404) throw new SmartMenuError(503, 'AI_MODEL_UNAVAILABLE', 'Model AI hiện không khả dụng cho tài khoản này. Quản trị viên cần cập nhật GEMINI_MODEL phía server rồi khởi động lại backend hoặc triển khai lại.');
+    if (status === 401 || status === 403) throw new SmartMenuError(503, 'AI_ACCESS_DENIED', 'Không thể truy cập Gemini. Quản trị viên cần kiểm tra khóa API và quyền truy cập phía server.');
+    if (status === 429) throw new SmartMenuError(503, 'AI_QUOTA_EXCEEDED', 'Gemini đã đạt giới hạn yêu cầu hoặc hạn mức sử dụng. Vui lòng thử lại sau; quản trị viên có thể kiểm tra quota trong Google AI Studio.');
+    if (status === 503) throw new SmartMenuError(503, 'AI_BUSY', 'Gemini đang quá tải. Vui lòng chờ rồi thử lại hoặc xem gợi ý mẫu.');
     throw new SmartMenuError(502, 'AI_UNAVAILABLE', 'Dịch vụ AI chưa phản hồi được hoặc phản hồi không hợp lệ. Vui lòng thử lại sau hoặc xem gợi ý mẫu.');
   }
 }
