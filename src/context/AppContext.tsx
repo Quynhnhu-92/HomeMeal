@@ -249,7 +249,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!authUser || authUser.role !== 'customer') throw new Error('Vui lòng đăng nhập bằng tài khoản Khách hàng để đặt dịch vụ.');
     const submittedDraft = draftOrderRef.current;
     const dishes = (submittedDraft.items || []).map((i) => i.dish);
-    const guestCount = submittedDraft.guestCount || 4;
+    const guestCount = submittedDraft.guestCount ?? 4;
+    if (!Number.isInteger(guestCount) || guestCount < 3) throw new Error('HomeMeal phục vụ từ 3 người ăn trở lên.');
     const serviceType = submittedDraft.serviceType || 'cook_at_home';
     const feeCalc = calculateLaborFee(guestCount, dishes, serviceType);
 

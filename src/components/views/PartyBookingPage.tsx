@@ -76,7 +76,7 @@ export const PartyBookingPage: React.FC = () => {
       <div className="bg-gradient-to-r from-[#285E56] to-[#1f4b44] rounded-3xl p-6 sm:p-10 text-white shadow-lg space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold backdrop-blur-xs text-[#B8E4D3]">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Dành cho tiệc từ 10 đến hơn 50 khách</span>
+          <span>Phục vụ tiệc từ 3 khách trở lên</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
           Đặt đầu bếp nấu tiệc & Mâm cỗ tại gia theo yêu cầu
@@ -143,10 +143,10 @@ export const PartyBookingPage: React.FC = () => {
             </label>
             <input
               type="number"
-              min={10}
+              min={3}
               max={150}
               value={guests}
-              onChange={(e) => setGuests(Number(e.target.value))}
+              onChange={(e) => setGuests(Math.max(3, parseInt(e.target.value) || 3))}
               className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm font-bold text-[#285E56] focus:ring-2 focus:ring-[#285E56]"
             />
           </div>

@@ -449,10 +449,10 @@ export const MealPlannerPage: React.FC = () => {
               <div className="relative">
                 <input
                   type="number"
-                  min={1}
+                  min={3}
                   max={100}
                   value={draftOrder.guestCount || 4}
-                  onChange={(e) => updateDraftOrder({ guestCount: Math.max(1, parseInt(e.target.value) || 1) })}
+                  onChange={(e) => updateDraftOrder({ guestCount: Math.max(3, parseInt(e.target.value) || 3) })}
                   placeholder="Nhập số người ăn..."
                   className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-[#285E56] font-bold text-[#263B35]"
                 />
@@ -461,7 +461,7 @@ export const MealPlannerPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-[11px] text-[#738078] mt-1">
-                Tùy ý nhập số lượng người ăn cho bữa cơm của bạn
+                Phục vụ từ 3 người ăn trở lên
               </p>
               {guestCount > 20 && (
                 <p className="text-[11px] text-amber-700 mt-1 font-medium">

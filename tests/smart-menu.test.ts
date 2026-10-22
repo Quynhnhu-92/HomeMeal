@@ -26,7 +26,7 @@ test('older orders retain their data when normalized to at-home service', () => 
   assert.deepEqual(normalizeOrder(result), result);
 });
 
-const p: Preferences = { goal: 'healthy', activity: 'moderate', guests: 2, mealsPerDay: 1, days: 1, planCount: 1, budget: 200000, budgetPeriod: 'meal', allergies: [], dislikes: [], diet: 'balanced', cuisine: 'vietnamese', maxMinutes: 45, specialNeeds: 'none' };
+const p: Preferences = { goal: 'healthy', activity: 'moderate', guests: 3, mealsPerDay: 1, days: 1, planCount: 1, budget: 200000, budgetPeriod: 'meal', allergies: [], dislikes: [], diet: 'balanced', cuisine: 'vietnamese', maxMinutes: 45, specialNeeds: 'none' };
 const fixture = (preferences = p) => ({ plans: createSampleMenus(preferences).plans });
 async function endpoint(generate: Parameters<typeof createSmartMenuHandler>[0], run: (url: string) => Promise<void>) {
   const app = express(); app.use(express.json()); app.all('/api', createSmartMenuHandler(generate));
@@ -39,10 +39,10 @@ const post = (url: string, body: unknown) => fetch(url, { method: 'POST', header
 test('accepts a menu without optional personal measurements', () => {
   const parsed = parseRequest({ action: 'generate', preferences: p });
   assert.equal(parsed.preferences.height, undefined);
-  assert.equal(parsed.preferences.guests, 2);
+  assert.equal(parsed.preferences.guests, 3);
 });
 test('rejects invalid input instead of coercing values or ignoring limits', () => {
-  for (const value of [null, {}, { ...p, guests: '2' }, { ...p, guests: 0 }, { ...p, guests: 13 }, { ...p, budget: -1 }, { ...p, days: 2 }, { ...p, maxMinutes: Infinity }, { ...p, allergies: Array(16).fill('tôm') }]) {
+  for (const value of [null, {}, { ...p, guests: '2' }, { ...p, guests: 0 }, { ...p, guests: 1 }, { ...p, guests: 2 }, { ...p, guests: 2.5 }, { ...p, guests: 13 }, { ...p, budget: -1 }, { ...p, days: 2 }, { ...p, maxMinutes: Infinity }, { ...p, allergies: Array(16).fill('tôm') }]) {
     assert.throws(() => parseRequest({ action: 'generate', preferences: value }), SmartMenuError);
   }
 });
@@ -85,14 +85,14 @@ test('three-meal plans cannot market an extremely low-energy day', () => {
 });
 test('booking transfer preserves portions, cost and existing pricing without placing an order', () => {
   const meal = fixture().plans[0].days[0].meals[0];
-  const draft = smartMealToDraft(meal, 2, ['tôm'], 'sample');
-  assert.equal(draft.guestCount, 2); assert.deepEqual(draft.allergies, ['tôm']);
+  const draft = smartMealToDraft(meal, 3, ['tôm'], 'sample');
+  assert.equal(draft.guestCount, 3); assert.deepEqual(draft.allergies, ['tôm']);
   assert.equal(draft.status, undefined); assert.equal(draft.id, undefined);
   assert.equal(draft.items![0].quantity, 1);
-  assert.equal(draft.items![0].dish.suggestedPortion, '2 người');
+  assert.equal(draft.items![0].dish.suggestedPortion, '3 người');
   assert.equal(draft.items!.reduce((sum, i) => sum + i.dish.estimatedCost * i.quantity, 0), mealCost(meal));
   assert.equal(draft.estimatedGroceryBudget, mealCost(meal));
-  assert.ok(calculateLaborFee(2, draft.items!.map((i) => i.dish), 'cook_at_home').totalLaborFee > 0);
+  assert.ok(calculateLaborFee(3, draft.items!.map((i) => i.dish), 'cook_at_home').totalLaborFee > 0);
 });
 test('HTTP API success is generated through its provider dependency (mocked AI, no database)', async () => {
   await endpoint(async () => fixture(), async (url) => {
@@ -146,7 +146,7 @@ test('Gemini SDK request/response adapter works with mocked HTTPS transport; mea
     const payload = await request.json();
     const sent = JSON.parse(payload.contents[0].parts[0].text);
     assert.equal(sent.preferences.age, undefined); assert.equal(sent.preferences.height, undefined); assert.equal(sent.preferences.weight, undefined);
-    assert.equal(sent.preferences.guests, 2);
+    assert.equal(sent.preferences.guests, 3);
     return new Response(JSON.stringify({ candidates: [{ content: { role: 'model', parts: [{ text: JSON.stringify(fixture()) }] }, finishReason: 'STOP' }] }), { headers: { 'Content-Type': 'application/json' } });
   };
   try { assert.equal(parsePlans(await generateWithGemini({ ...p, age: 35, height: 165, weight: 60 }), p).length, 1); }
@@ -223,5 +223,12 @@ test('real application mounts Smart Menu before database checks, preserves origi
     for (const [key, value] of [['DATABASE_URL', originalDb], ['APP_ORIGIN', originalOrigin], ['GEMINI_API_KEY', originalKey]] as const) {
       if (value === undefined) delete process.env[key]; else process.env[key] = value;
     }
+  }
+});
+
+test('minimum three diners applies to samples and booking transfer', () => {
+  for (const guests of [0, 1, 2, 2.5]) {
+    assert.throws(() => createSampleMenus({ ...p, guests }));
+    assert.throws(() => smartMealToDraft(fixture().plans[0].days[0].meals[0], guests, [], 'sample'));
   }
 });

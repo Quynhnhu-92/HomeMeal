@@ -6,7 +6,7 @@ import { createSampleMenus } from '../../utils/smartMenuSamples';
 import { NUTRITION_GOALS, ESTIMATE_NOTICE, EXPERT_NOTICE, needsExpert, mealCost, mealNutrition, mealBudget, conflictsWithPreferences, smartDishToOrderDish, smartMealToDraft } from '../../../shared/smartMenu';
 import type { Preferences, SmartResult, SmartPlan, SmartMeal, SmartDish } from '../../../shared/smartMenu';
 
-const INITIAL: Preferences = { goal: 'healthy', activity: 'moderate', guests: 2, mealsPerDay: 1, days: 1, planCount: 1, budget: 200000, budgetPeriod: 'meal', allergies: [], dislikes: [], diet: 'balanced', cuisine: 'vietnamese', maxMinutes: 45, specialNeeds: 'none' };
+const INITIAL: Preferences = { goal: 'healthy', activity: 'moderate', guests: 3, mealsPerDay: 1, days: 1, planCount: 1, budget: 200000, budgetPeriod: 'meal', allergies: [], dislikes: [], diet: 'balanced', cuisine: 'vietnamese', maxMinutes: 45, specialNeeds: 'none' };
 const ICONS = [Scale, Dumbbell, TrendingUp, Heart, Leaf, ShieldCheck, Users];
 const inputClass = 'mt-2 w-full min-w-0 rounded-xl border border-[#DCE8E0] bg-[#FFFDF7] px-3 py-2.5 text-sm text-[#263B35] outline-none focus:ring-2 focus:ring-[#285E56] disabled:opacity-60';
 const buttonClass = 'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60';
@@ -128,6 +128,7 @@ export const SmartMenuPage: React.FC = () => {
   }
   function bookMeal(meal: SmartMeal) {
     if (!result || !submitted || !confirmedMeals.has(meal) || busy || authLoading) return;
+    if (result.guests < 3) { setError('HomeMeal phục vụ từ 3 người ăn trở lên. Vui lòng tạo lại thực đơn cho ít nhất 3 người.'); return; }
     const p = currentPreferences();
     if (needsExpert(p)) { setError(EXPERT_NOTICE); return; }
     if (meal.dishes.some((dish) => conflictsWithPreferences(dish, p))) { setError('Món đang chọn xung đột với nguyên liệu/chế độ ăn hiện tại. Vui lòng tạo lại hoặc đổi món.'); return; }
@@ -169,7 +170,7 @@ export const SmartMenuPage: React.FC = () => {
           <label className="text-sm font-semibold">Chiều cao (cm, tùy chọn)<input className={inputClass} type="number" min="80" max="250" step="0.1" value={preferences.height ?? ''} onChange={(e) => update('height', e.target.value ? Number(e.target.value) : undefined)} /></label>
           <label className="text-sm font-semibold">Cân nặng (kg, tùy chọn)<input className={inputClass} type="number" min="15" max="350" step="0.1" value={preferences.weight ?? ''} onChange={(e) => update('weight', e.target.value ? Number(e.target.value) : undefined)} /></label>
           <label className="text-sm font-semibold">Mức độ vận động<select className={inputClass} value={preferences.activity} onChange={(e) => update('activity', e.target.value as Preferences['activity'])}><option value="light">Ít vận động</option><option value="moderate">Vận động vừa phải</option><option value="active">Vận động thường xuyên</option></select></label>
-          <label className="text-sm font-semibold">Số người ăn<input className={inputClass} required type="number" min="1" max="12" step="1" value={preferences.guests} onChange={(e) => update('guests', Number(e.target.value))} /></label>
+          <label className="text-sm font-semibold">Số người ăn (tối thiểu 3)<input className={inputClass} required type="number" min="3" max="12" step="1" value={preferences.guests} onChange={(e) => update('guests', Number(e.target.value))} /></label>
           <label className="text-sm font-semibold">Số bữa mỗi ngày<select className={inputClass} value={preferences.mealsPerDay} onChange={(e) => update('mealsPerDay', Number(e.target.value))}>{[1, 2, 3].map((n) => <option key={n} value={n}>{n} bữa</option>)}</select></label>
           <label className="text-sm font-semibold">Lập thực đơn trong<select className={inputClass} value={preferences.days} onChange={(e) => update('days', Number(e.target.value) as Preferences['days'])}>{[1, 3, 7].map((n) => <option key={n} value={n}>{n} ngày</option>)}</select></label>
           <label className="text-sm font-semibold">Số phương án khác nhau<select className={inputClass} value={preferences.planCount} onChange={(e) => update('planCount', Number(e.target.value) as Preferences['planCount'])}><option value="1">1 thực đơn</option><option value="3">3 thực đơn để so sánh</option></select></label>

@@ -243,10 +243,10 @@ export const HomePage: React.FC = () => {
               <div className="relative">
                 <input
                   type="number"
-                  min={1}
+                  min={3}
                   max={100}
                   value={quickGuests}
-                  onChange={(e) => setQuickGuests(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e) => setQuickGuests(Math.max(3, parseInt(e.target.value) || 3))}
                   placeholder="Nhập số..."
                   className="w-full px-3 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm font-bold text-[#263B35] focus:ring-2 focus:ring-[#285E56]"
                 />

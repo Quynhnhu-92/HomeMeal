@@ -34,7 +34,7 @@ export function parseRequest(value: unknown) {
   const p: Preferences = {
     goal: choice(raw.goal, NUTRITION_GOALS.map((g) => g.id)),
     activity: choice(raw.activity, ['light', 'moderate', 'active']),
-    guests: number(raw.guests, 1, 12, true), mealsPerDay: number(raw.mealsPerDay, 1, 3, true),
+    guests: number(raw.guests, 3, 12, true), mealsPerDay: number(raw.mealsPerDay, 1, 3, true),
     days: choice(raw.days, [1, 3, 7]), planCount: choice(raw.planCount, [1, 3]),
     budget: number(raw.budget, 30000, 5000000, true), budgetPeriod: choice(raw.budgetPeriod, ['meal', 'day']),
     allergies: words(raw.allergies), dislikes: words(raw.dislikes),
