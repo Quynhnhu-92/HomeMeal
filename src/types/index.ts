@@ -71,7 +71,7 @@ export type OrderStatus =
   | 'awaiting_budget_approval'
   | 'preparing_meal'
   | 'ready_for_service'
-  | 'delivering_or_serving'
+  | 'serving_at_home'
   | 'service_completed'
   | 'awaiting_payment'
   | 'paid'
@@ -161,7 +161,6 @@ export interface Order {
   baseLaborFee: number;
   complexityAdjustment: number;
   guestCountAdjustment: number;
-  deliveryFee: number;
   additionalServiceFee: number; // Phụ bếp, dọn dẹp thêm
   totalLaborFee: number;
   
@@ -169,7 +168,7 @@ export interface Order {
   quotation?: Quotation;
   
   // Total calculation
-  finalPayableAmount: number; // = actualGroceryTotal + totalLaborFee + deliveryFee + additionalServiceFee
+  finalPayableAmount: number; // = actualGroceryTotal + totalLaborFee + additionalServiceFee
   
   status: OrderStatus;
   statusHistory: { status: OrderStatus; timestamp: string; note: string }[];

@@ -193,11 +193,6 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
               <span className="font-semibold text-[#263B35]">{formatVND(order.totalLaborFee)}</span>
             </div>
 
-            <div className="flex justify-between py-1 border-b border-[#E5ECE7]/60">
-              <span className="text-[#263B35]">Phí di chuyển & giao hàng:</span>
-              <span className="font-semibold text-emerald-700">Miễn phí (Nấu trực tiếp tại bếp của bạn)</span>
-            </div>
-
             {order.additionalServiceFee > 0 && (
               <div className="flex justify-between py-1 border-b border-[#E5ECE7]/60">
                 <span className="text-[#263B35]">Phí phụ bếp & Thiết bị chuyên dụng:</span>

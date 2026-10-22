@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
               "Bữa cơm chân tình cho người bận rộn"
             </p>
             <p className="text-xs text-white/75 leading-relaxed max-w-sm mb-4">
-              Nền tảng kết nối dịch vụ đầu bếp đến tận nhà nấu cơm gia đình và tiệc tại gia theo ngân sách thực tế. Trao quyền cho khách hàng tự điền món ăn và kiểm tra chứng từ minh bạch, không phí ship, không phí ẩn.
+              Nền tảng kết nối dịch vụ đầu bếp đến tận nhà nấu cơm gia đình và tiệc tại gia theo ngân sách thực tế. Trao quyền cho khách hàng tự điền món ăn và kiểm tra chứng từ minh bạch, không phí ẩn.
             </p>
             <div className="space-y-1.5 text-xs text-white/70">
               <div className="flex items-center gap-2">
@@ -81,7 +81,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button onClick={() => navigateTo('/party-booking')} className="hover:text-white transition-colors">
-                  Đặt tiệc & cỗ giao tận nơi
+                  Đặt tiệc & cỗ tại gia
                 </button>
               </li>
               <li>

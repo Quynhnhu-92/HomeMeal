@@ -34,7 +34,7 @@ export const OrdersPage: React.FC = () => {
         order.status === 'shopping_in_progress' ||
         order.status === 'evidence_submitted' ||
         order.status === 'preparing_meal' ||
-        order.status === 'delivering_or_serving'
+        order.status === 'serving_at_home'
       );
     }
     if (activeTab === 'completed') {

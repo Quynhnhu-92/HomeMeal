@@ -17,8 +17,8 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { 
-  validateDeliveryDateTime, 
-  getEarliestDeliveryDate, 
+  validateServiceDateTime,
+  getEarliestServiceDate,
   formatDateForInput, 
   formatTimeForInput, 
   getNow 
@@ -40,7 +40,7 @@ export const PartyBookingPage: React.FC = () => {
   const [selectedCookId, setSelectedCookId] = useState(cooks[1]?.id || cooks[0]?.id);
   const [specialNotes, setSpecialNotes] = useState('Tiệc có trẻ em và người già, cần 1 bàn nướng BBQ và chuẩn bị chén đĩa tươm tất.');
 
-  const timeValidation = validateDeliveryDateTime(date, time);
+  const timeValidation = validateServiceDateTime(date, time);
 
   const handleSubmitQuotationRequest = (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,7 +115,7 @@ export const PartyBookingPage: React.FC = () => {
           <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>
-              Thời gian hợp lệ: Khai tiệc lúc <strong>{time} ngày {date}</strong> (cách hiện tại {Math.floor(timeValidation.hoursUntilDelivery)} giờ - Đạt chuẩn tối thiểu 4 tiếng chuẩn bị).
+              Thời gian hợp lệ: Khai tiệc lúc <strong>{time} ngày {date}</strong> (cách hiện tại {Math.floor(timeValidation.hoursUntilService)} giờ - Đạt chuẩn tối thiểu 4 tiếng chuẩn bị).
             </span>
           </div>
         )}

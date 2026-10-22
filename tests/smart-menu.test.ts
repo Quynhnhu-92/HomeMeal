@@ -10,6 +10,21 @@ import { smartMealToDraft, mealCost, conflictsWithPreferences } from '../shared/
 import type { Preferences } from '../shared/smartMenu.js';
 import { calculateLaborFee } from '../src/utils/pricing.js';
 import app from '../server/app.js';
+import { normalizeOrder } from '../src/utils/normalizeOrder.js';
+import { MOCK_ORDERS } from '../src/data/mockData.js';
+
+test('older orders retain their data when normalized to at-home service', () => {
+  const original = { ...MOCK_ORDERS[0], deliveryFee: 30000, status: 'delivering_or_serving', statusHistory: [{ status: 'delivering_or_serving', timestamp: '2026-10-22', note: 'Existing history' }] };
+  const result = normalizeOrder(original as unknown as typeof MOCK_ORDERS[number]);
+  assert.equal(result.id, original.id);
+  assert.deepEqual(result.items, original.items);
+  assert.equal(result.status, 'serving_at_home');
+  assert.equal(result.statusHistory[0].status, 'serving_at_home');
+  assert.equal(result.statusHistory[0].note, 'Existing history');
+  assert.equal('deliveryFee' in result, false);
+  assert.equal(result.finalPayableAmount, original.actualGroceryTotal + original.totalLaborFee + original.additionalServiceFee);
+  assert.deepEqual(normalizeOrder(result), result);
+});
 
 const p: Preferences = { goal: 'healthy', activity: 'moderate', guests: 2, mealsPerDay: 1, days: 1, planCount: 1, budget: 200000, budgetPeriod: 'meal', allergies: [], dislikes: [], diet: 'balanced', cuisine: 'vietnamese', maxMinutes: 45, specialNeeds: 'none' };
 const fixture = (preferences = p) => ({ plans: createSampleMenus(preferences).plans });

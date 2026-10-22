@@ -180,14 +180,14 @@ export const CookDashboardPage: React.FC = () => {
 
                 {order.status === 'preparing_meal' && (
                   <button
-                    onClick={() => updateOrderStatus(order.id, 'delivering_or_serving', 'Đầu bếp đang tới nhà khách hàng & bắt đầu nấu tại gian bếp')}
+                    onClick={() => updateOrderStatus(order.id, 'serving_at_home', 'Đầu bếp đang tới nhà khách hàng & bắt đầu nấu tại gian bếp')}
                     className="px-3.5 py-1.5 bg-blue-700 text-white text-xs font-semibold rounded-lg hover:bg-blue-800"
                   >
                     Đến nhà khách nấu
                   </button>
                 )}
 
-                {order.status === 'delivering_or_serving' && (
+                {order.status === 'serving_at_home' && (
                   <button
                     onClick={() => updateOrderStatus(order.id, 'service_completed', 'Đã nấu xong, dọn mâm cơm lên bàn ăn nóng hổi và dọn dẹp sạch sẽ gian bếp')}
                     className="px-3.5 py-1.5 bg-emerald-700 text-white text-xs font-semibold rounded-lg hover:bg-emerald-800"

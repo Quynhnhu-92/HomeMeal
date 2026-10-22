@@ -47,7 +47,7 @@ export const SupportPage: React.FC = () => {
       content: 'Nếu một loại nguyên liệu bị hết hàng tại chợ, đầu bếp phải liên hệ xin ý kiến khách hàng để thay thế loại tương đương với mức giá hợp lý, không được tự ý đổi món mà không thông báo.'
     },
     {
-      title: 'Giao trễ giờ hoặc dịch vụ chưa đạt yêu cầu',
+      title: 'Phục vụ trễ giờ hoặc dịch vụ chưa đạt yêu cầu',
       content: 'Nếu đầu bếp phục vụ trễ giờ quá 30 phút mà không có lý do bất khả kháng, tiền công phục vụ sẽ được giảm trừ theo thang quy chuẩn của HomeMeal. Khách hàng có quyền khiếu nại trực tiếp trước khi xác nhận hóa đơn.'
     }
   ];

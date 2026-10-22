@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState, useEffect, useRef } from 'r
 import { Order, Dish, Cook, UserProfile, OrderStatus, ShoppingEvidenceItem, BudgetChangeRequest, Quotation } from '../types';
 import { MOCK_ORDERS, MOCK_DISHES, MOCK_COOKS } from '../data/mockData';
 import { calculateLaborFee } from '../utils/pricing';
-import { getEarliestDeliveryDate, formatDateForInput, formatTimeForInput, validateDeliveryDateTime } from '../utils/dateTimeValidation';
+import { normalizeOrder } from '../utils/normalizeOrder';
+import { getEarliestServiceDate, formatDateForInput, formatTimeForInput, validateServiceDateTime } from '../utils/dateTimeValidation';
 
 interface AppContextType {
   currentUser: UserProfile;
@@ -75,11 +76,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const saved = localStorage.getItem(STORAGE_KEY_ORDERS);
       if (saved) {
         const parsed: Order[] = JSON.parse(saved);
-        return parsed.map((o) => ({
-          ...o,
-          serviceType: (o.serviceType as string) === 'party_at_home' ? 'party_at_home' : 'cook_at_home',
-          deliveryFee: 0,
-        }));
+        return parsed.map(normalizeOrder);
       }
     } catch {
       // ignore
@@ -196,12 +193,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Draft order initial state with 4-hour advance constraint
-  const earliestDelivery = getEarliestDeliveryDate();
+  const earliestService = getEarliestServiceDate();
   const initialDraftOrder: Partial<Order> = {
     serviceType: 'cook_at_home',
     guestCount: 4,
-    date: formatDateForInput(earliestDelivery),
-    servingTime: formatTimeForInput(earliestDelivery),
+    date: formatDateForInput(earliestService),
+    servingTime: formatTimeForInput(earliestService),
     mealOccasion: 'Bữa cơm gia đình',
     items: [
       { dish: MOCK_DISHES[0], quantity: 1 },
@@ -261,7 +258,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const requiresQuotation = feeCalc.requiresQuotation;
 
-    const validation = validateDeliveryDateTime(submittedDraft.date, submittedDraft.servingTime);
+    const validation = validateServiceDateTime(submittedDraft.date, submittedDraft.servingTime);
     const finalDate = validation.isValid && submittedDraft.date ? submittedDraft.date : validation.earliestDateStr;
     const finalTime = validation.isValid && submittedDraft.servingTime ? submittedDraft.servingTime : validation.earliestTimeStr;
 
@@ -289,7 +286,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       baseLaborFee: feeCalc.baseLaborFee,
       complexityAdjustment: feeCalc.complexityAdjustment,
       guestCountAdjustment: feeCalc.guestAdjustment,
-      deliveryFee: 0,
       additionalServiceFee: feeCalc.additionalServiceFee,
       totalLaborFee: feeCalc.totalLaborFee,
       finalPayableAmount: feeCalc.totalLaborFee + feeCalc.additionalServiceFee,
@@ -445,7 +441,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (ord.id !== orderId) return ord;
         const updatedList = [...ord.shoppingList, newItem];
         const actualGroceryTotal = updatedList.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + (ord.deliveryFee || 0) + ord.additionalServiceFee;
+        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + ord.additionalServiceFee;
 
         return {
           ...ord,
@@ -465,7 +461,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (ord.id !== orderId) return ord;
         const updatedList = ord.shoppingList.filter((item) => item.id !== itemId);
         const actualGroceryTotal = updatedList.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + (ord.deliveryFee || 0) + ord.additionalServiceFee;
+        const finalPayableAmount = actualGroceryTotal + ord.totalLaborFee + ord.additionalServiceFee;
 
         return {
           ...ord,
@@ -489,7 +485,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const additionalServiceFee = acceptedQuote.assistantFee + acceptedQuote.equipmentFee;
         const totalServiceFee = totalLaborFee + additionalServiceFee;
         const finalPayableAmount =
-          ord.actualGroceryTotal + totalLaborFee + ord.deliveryFee + additionalServiceFee;
+          ord.actualGroceryTotal + totalLaborFee + additionalServiceFee;
 
         return {
           ...ord,
@@ -611,7 +607,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prev.map((ord) => {
         if (ord.id !== orderId || !ord.dispute) return ord;
         const adjustedActualGrocery = Math.max(0, ord.actualGroceryTotal - (ord.dispute.reportedAmount || 0));
-        const newTotal = adjustedActualGrocery + ord.totalLaborFee + ord.deliveryFee + ord.additionalServiceFee;
+        const newTotal = adjustedActualGrocery + ord.totalLaborFee + ord.additionalServiceFee;
 
         return {
           ...ord,

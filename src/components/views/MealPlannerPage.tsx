@@ -3,8 +3,8 @@ import { useApp } from '../../context/AppContext';
 import { Dish, DishCategory } from '../../types';
 import { calculateLaborFee, formatVND } from '../../utils/pricing';
 import { 
-  validateDeliveryDateTime, 
-  getEarliestDeliveryDate, 
+  validateServiceDateTime,
+  getEarliestServiceDate,
   formatDateForInput, 
   formatTimeForInput, 
   getNow 
@@ -30,7 +30,6 @@ import {
   CheckCircle2,
   AlertTriangle,
   Zap,
-  Truck,
   Sparkles,
   PenTool,
   ListPlus
@@ -63,12 +62,12 @@ export const MealPlannerPage: React.FC = () => {
   const [showBulkInput, setShowBulkInput] = useState(false);
 
   // Validate date & time with 4-hour advance constraint
-  const timeValidation = validateDeliveryDateTime(draftOrder.date, draftOrder.servingTime);
+  const timeValidation = validateServiceDateTime(draftOrder.date, draftOrder.servingTime);
 
   // Auto-set earliest valid date & time if currently empty or invalid on first mount
   useEffect(() => {
     if (!draftOrder.date || !draftOrder.servingTime) {
-      const earliest = getEarliestDeliveryDate();
+      const earliest = getEarliestServiceDate();
       updateDraftOrder({
         date: formatDateForInput(earliest),
         servingTime: formatTimeForInput(earliest),
@@ -78,7 +77,7 @@ export const MealPlannerPage: React.FC = () => {
   }, []);
 
   const handleApplyEarliestTime = () => {
-    const earliest = getEarliestDeliveryDate();
+    const earliest = getEarliestServiceDate();
     updateDraftOrder({
       date: formatDateForInput(earliest),
       servingTime: formatTimeForInput(earliest),
@@ -251,7 +250,7 @@ export const MealPlannerPage: React.FC = () => {
         return;
       }
       if (!draftOrder.customerAddress?.trim()) {
-        alert('Vui lòng nhập địa chỉ nhận món ăn để đầu bếp giao đến.');
+        alert('Vui lòng nhập địa chỉ nhà để đầu bếp đến nấu.');
         return;
       }
     }
@@ -310,8 +309,8 @@ export const MealPlannerPage: React.FC = () => {
                 Quy trình đặt nấu bữa ăn
               </span>
               <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                <Truck className="w-3 h-3 text-emerald-600" />
-                Giao món nóng sốt tận nơi
+                <ChefHat className="w-3 h-3 text-emerald-600" />
+                Đầu bếp nấu trực tiếp tại nhà
               </span>
             </div>
             <h1 className="text-2xl font-bold text-[#263B35]">
@@ -401,7 +400,7 @@ export const MealPlannerPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>
-                  <strong>Thời gian hợp lệ:</strong> Phục vụ lúc <strong>{draftOrder.servingTime} ngày {draftOrder.date}</strong> (cách hiện tại {Math.floor(timeValidation.hoursUntilDelivery)} giờ {Math.round((timeValidation.hoursUntilDelivery - Math.floor(timeValidation.hoursUntilDelivery)) * 60)} phút - Đầu bếp có đủ thời gian chuẩn bị & di chuyển tới nhà bạn).
+                  <strong>Thời gian hợp lệ:</strong> Phục vụ lúc <strong>{draftOrder.servingTime} ngày {draftOrder.date}</strong> (cách hiện tại {Math.floor(timeValidation.hoursUntilService)} giờ {Math.round((timeValidation.hoursUntilService - Math.floor(timeValidation.hoursUntilService)) * 60)} phút - Đầu bếp có đủ thời gian chuẩn bị & di chuyển tới nhà bạn).
                 </span>
               </div>
             </div>
@@ -499,7 +498,7 @@ export const MealPlannerPage: React.FC = () => {
           <div className="p-4 bg-[#FFFDF7] rounded-xl border border-[#E5ECE7] text-xs text-[#738078] flex items-start gap-2">
             <Info className="w-4 h-4 text-[#285E56] shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-[#263B35]">Cam kết chất lượng giao nhận:</span> Món ăn sau khi nấu xong tại bếp riêng của đầu bếp sẽ được đóng hộp sinh học giữ nhiệt, niêm phong cẩn thận và giao nhanh qua thùng giữ nhiệt để đảm bảo giữ nguyên độ nóng, mùi thơm và hương vị khi đến tay gia đình bạn.
+              <span className="font-semibold text-[#263B35]">Cam kết phục vụ tại nhà:</span> Đầu bếp chuẩn bị nguyên liệu tươi, nấu trực tiếp tại gian bếp của bạn, dọn món nóng lên bàn và vệ sinh khu vực bếp sau khi hoàn tất.
             </div>
           </div>
         </div>
@@ -979,7 +978,7 @@ export const MealPlannerPage: React.FC = () => {
                 Bảng tính tiền công đầu bếp nấu tại gia
               </h2>
               <p className="text-xs sm:text-sm text-[#738078]">
-                Đầu bếp đến tận nhà nấu nướng trực tiếp tại gian bếp của bạn, dọn dẹp sạch sẽ sau bữa ăn. Hoàn toàn không tốn phí ship.
+                Đầu bếp đến tận nhà nấu nướng trực tiếp tại gian bếp của bạn, dọn dẹp sạch sẽ sau bữa ăn.
               </p>
             </div>
             <div className="text-right">
@@ -1102,7 +1101,7 @@ export const MealPlannerPage: React.FC = () => {
               <div className="bg-stone-50 p-4 rounded-xl border border-[#E5ECE7] space-y-2">
                 <h3 className="font-bold text-[#263B35]">Thông tin phục vụ:</h3>
                 <div className="flex justify-between">
-                  <span className="text-[#738078]">Ngày giờ giao:</span>
+                  <span className="text-[#738078]">Ngày giờ phục vụ:</span>
                   <span className="font-semibold text-[#285E56]">{draftOrder.date} lúc {draftOrder.servingTime}</span>
                 </div>
                 <div className="flex justify-between">
@@ -1154,10 +1153,6 @@ export const MealPlannerPage: React.FC = () => {
                   <div className="flex justify-between py-1 border-b border-[#B8E4D3]/40">
                     <span className="text-[#263B35]">2. Tiền công đầu bếp đến tận nhà nấu:</span>
                     <span className="font-bold text-[#285E56]">{formatVND(feeCalc.totalLaborFee)}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-[#B8E4D3]/40">
-                    <span className="text-[#263B35]">3. Phí giao hàng & di chuyển:</span>
-                    <span className="font-bold text-emerald-700">Miễn phí (Nấu tại nhà bạn)</span>
                   </div>
                   <div className="flex justify-between pt-2 text-sm font-extrabold text-[#263B35]">
                     <span>Tổng dự kiến tối đa:</span>

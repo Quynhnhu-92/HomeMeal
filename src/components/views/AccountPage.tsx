@@ -92,7 +92,7 @@ export const AccountPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#263B35] mb-1">Địa chỉ giao nhận / Nấu ăn mặc định:</label>
+            <label className="block font-semibold text-[#263B35] mb-1">Địa chỉ nấu ăn mặc định:</label>
             <input
               type="text"
               value={address}

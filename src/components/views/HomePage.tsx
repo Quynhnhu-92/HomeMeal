@@ -20,8 +20,8 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from '../common/ImageWithFallback';
 import { 
-  validateDeliveryDateTime, 
-  getEarliestDeliveryDate, 
+  validateServiceDateTime,
+  getEarliestServiceDate,
   formatDateForInput, 
   formatTimeForInput, 
   getNow 
@@ -31,14 +31,14 @@ export const HomePage: React.FC = () => {
   const { navigateTo, cooks, dishes, updateDraftOrder } = useApp();
 
   // Quick planner form state with 4-hour advance constraint
-  const earliestDelivery = getEarliestDeliveryDate();
+  const earliestService = getEarliestServiceDate();
   const [quickGuests, setQuickGuests] = useState(4);
-  const [quickDate, setQuickDate] = useState(() => formatDateForInput(earliestDelivery));
-  const [quickTime, setQuickTime] = useState(() => formatTimeForInput(earliestDelivery));
+  const [quickDate, setQuickDate] = useState(() => formatDateForInput(earliestService));
+  const [quickTime, setQuickTime] = useState(() => formatTimeForInput(earliestService));
   const [quickMealType, setQuickMealType] = useState('Bữa cơm gia đình');
   const [quickBudget, setQuickBudget] = useState(400000);
 
-  const quickValidation = validateDeliveryDateTime(quickDate, quickTime);
+  const quickValidation = validateServiceDateTime(quickDate, quickTime);
 
   const handleQuickPlan = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +59,7 @@ export const HomePage: React.FC = () => {
 
   const handleSelectSuggestedMenu = (menu: typeof SUGGESTED_MENUS[0]) => {
     const matchedDishes = dishes.filter((d) => menu.dishIds.includes(d.id));
-    const earliest = getEarliestDeliveryDate();
+    const earliest = getEarliestServiceDate();
     updateDraftOrder({
       guestCount: menu.id.includes('4') ? 4 : menu.id.includes('6') ? 6 : menu.id.includes('15') ? 12 : 25,
       items: matchedDishes.map((dish) => ({ dish, quantity: 1 })),
@@ -92,7 +92,7 @@ export const HomePage: React.FC = () => {
               </h1>
 
               <p className="text-sm sm:text-base text-[#738078] leading-relaxed max-w-xl">
-                Bạn tự điền món yêu thích, đặt ngân sách đi chợ tùy ý. Đầu bếp HomeMeal đến tận gian bếp nhà bạn nấu nướng nóng hổi, đi chợ mua nguyên liệu tươi sống trong ngày, dọn mâm lên bàn và dọn dẹp sạch sẽ sau khi dùng bữa. Không phí giao hàng, gửi ảnh biên lai hóa đơn thật tại chợ và <strong>chỉ thanh toán sau khi bạn đã dùng bữa trọn vẹn</strong>.
+                Bạn tự điền món yêu thích, đặt ngân sách đi chợ tùy ý. Đầu bếp HomeMeal đến tận gian bếp nhà bạn nấu nướng nóng hổi, đi chợ mua nguyên liệu tươi sống trong ngày, dọn mâm lên bàn và dọn dẹp sạch sẽ sau khi dùng bữa. Gửi ảnh biên lai hóa đơn thật tại chợ và <strong>chỉ thanh toán sau khi bạn đã dùng bữa trọn vẹn</strong>.
               </p>
 
               {/* CTAs */}
@@ -124,7 +124,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="text-left">
                   <p className="text-lg font-bold text-[#285E56]">0 đ</p>
-                  <p className="text-xs text-[#738078]">Phí ship / Phí ẩn</p>
+                  <p className="text-xs text-[#738078]">Phí ẩn</p>
                 </div>
                 <div className="text-left">
                   <p className="text-lg font-bold text-[#285E56]">Sau bữa</p>
@@ -294,7 +294,7 @@ export const HomePage: React.FC = () => {
               >
                 <option value="Bữa cơm gia đình">Cơm gia đình hàng ngày</option>
                 <option value="Mâm cơm cuối tuần">Mâm cơm cuối tuần</option>
-                <option value="Tiệc sinh nhật">Tiệc sinh nhật giao tận nơi</option>
+                <option value="Tiệc sinh nhật">Tiệc sinh nhật tại nhà</option>
                 <option value="Đám giỗ / Cúng gia tiên">Đám giỗ / Mâm cúng</option>
                 <option value="Tiệc họp mặt bạn bè">Họp mặt bạn bè</option>
               </select>
@@ -491,7 +491,7 @@ export const HomePage: React.FC = () => {
               5 Nguyên tắc cốt lõi bảo vệ khách hàng
             </h2>
             <p className="text-xs sm:text-sm text-[#738078] mt-2">
-              Khác biệt hoàn toàn với các app giao đồ ăn đóng gói sẵn hay các dịch vụ nấu tiệc báo giá mập mờ
+              Đầu bếp nấu trực tiếp tại nhà, chi phí nguyên liệu và tiền công được trình bày rõ ràng
             </p>
           </div>
 

@@ -9,7 +9,6 @@ export interface LaborFeeCalculation {
   baseLaborFee: number;
   guestAdjustment: number;
   complexityAdjustment: number;
-  deliveryFee: number;
   additionalServiceFee: number;
   totalLaborFee: number;
   requiresQuotation: boolean;
@@ -35,9 +34,6 @@ export function calculateLaborFee(
     breakdown.push(`Phí cơ bản đầu bếp tới nhà nấu cơm: ${formatVND(baseLaborFee)}`);
   }
 
-  // 2. Không thu phí ship - Đầu bếp tới tận nhà phục vụ
-  const deliveryFee = 0;
-  breakdown.push(`Phí di chuyển & giao hàng: Miễn phí (Nấu trực tiếp tại bếp của bạn)`);
 
   // 3. Guest count tier
   let guestAdjustment = 0;
@@ -103,7 +99,6 @@ export function calculateLaborFee(
     baseLaborFee,
     guestAdjustment,
     complexityAdjustment,
-    deliveryFee,
     additionalServiceFee,
     totalLaborFee,
     requiresQuotation,
@@ -133,7 +128,7 @@ export function getStatusMeta(status: string): { label: string; bg: string; text
       return { label: 'Đang nấu nướng', bg: 'bg-orange-50', text: 'text-orange-900', dot: 'bg-orange-600' };
     case 'ready_for_service':
       return { label: 'Món đã sẵn sàng', bg: 'bg-emerald-50', text: 'text-emerald-800', dot: 'bg-emerald-600' };
-    case 'delivering_or_serving':
+    case 'serving_at_home':
       return { label: 'Đầu bếp đang tới nhà / Nấu tại gian bếp', bg: 'bg-blue-50', text: 'text-blue-800', dot: 'bg-blue-600' };
     case 'service_completed':
       return { label: 'Đã nấu & dọn xong - Chờ kiểm tra & thanh toán', bg: 'bg-emerald-100', text: 'text-emerald-900', dot: 'bg-emerald-700' };

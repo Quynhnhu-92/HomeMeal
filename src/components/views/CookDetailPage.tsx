@@ -154,7 +154,7 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
             onClick={handleBook}
             className="flex-1 sm:flex-none px-6 py-3 bg-[#285E56] text-white font-bold text-xs sm:text-sm rounded-xl hover:bg-[#1f4b44] shadow-md transition-all text-center"
           >
-            Đặt bữa cơm giao tận nơi
+            Đặt đầu bếp nấu tại nhà
           </button>
           <button
             onClick={handlePartyBook}

@@ -17,7 +17,7 @@ export function getNow(): Date {
 /**
  * Returns the earliest allowable service Date object (now + 4 hours, rounded to next 15-min mark)
  */
-export function getEarliestDeliveryDate(): Date {
+export function getEarliestServiceDate(): Date {
   const date = new Date(Date.now() + MIN_ADVANCE_HOURS * 60 * 60 * 1000);
   const minutes = date.getMinutes();
   const remainder = minutes % 15;
@@ -41,7 +41,7 @@ export function formatTimeForInput(date: Date): string {
   return `${hours}:${minutes}`;
 }
 
-export function parseDeliveryDateTime(dateStr?: string, timeStr?: string): Date | null {
+export function parseServiceDateTime(dateStr?: string, timeStr?: string): Date | null {
   if (!dateStr || !timeStr) return null;
   const [y, m, d] = dateStr.split('-').map(Number);
   const [h, min] = timeStr.split(':').map(Number);
@@ -49,18 +49,18 @@ export function parseDeliveryDateTime(dateStr?: string, timeStr?: string): Date 
   return new Date(y, m - 1, d, h, min, 0, 0);
 }
 
-export interface DeliveryValidationResult {
+export interface ServiceValidationResult {
   isValid: boolean;
-  hoursUntilDelivery: number;
-  minutesUntilDelivery: number;
+  hoursUntilService: number;
+  minutesUntilService: number;
   message: string;
   earliestDateStr: string;
   earliestTimeStr: string;
   suggestedFormatted: string;
 }
 
-export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): DeliveryValidationResult {
-  const earliest = getEarliestDeliveryDate();
+export function validateServiceDateTime(dateStr?: string, timeStr?: string): ServiceValidationResult {
+  const earliest = getEarliestServiceDate();
   const earliestDateStr = formatDateForInput(earliest);
   const earliestTimeStr = formatTimeForInput(earliest);
   
@@ -71,8 +71,8 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
   if (!dateStr || !timeStr) {
     return {
       isValid: false,
-      hoursUntilDelivery: 0,
-      minutesUntilDelivery: 0,
+      hoursUntilService: 0,
+      minutesUntilService: 0,
       message: 'Vui lòng chọn ngày và giờ đầu bếp đến nhà phục vụ.',
       earliestDateStr,
       earliestTimeStr,
@@ -80,12 +80,12 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
     };
   }
 
-  const selected = parseDeliveryDateTime(dateStr, timeStr);
+  const selected = parseServiceDateTime(dateStr, timeStr);
   if (!selected) {
     return {
       isValid: false,
-      hoursUntilDelivery: 0,
-      minutesUntilDelivery: 0,
+      hoursUntilService: 0,
+      minutesUntilService: 0,
       message: 'Định dạng ngày hoặc giờ không hợp lệ.',
       earliestDateStr,
       earliestTimeStr,
@@ -100,8 +100,8 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
   if (diffMs <= 0) {
     return {
       isValid: false,
-      hoursUntilDelivery: 0,
-      minutesUntilDelivery: 0,
+      hoursUntilService: 0,
+      minutesUntilService: 0,
       message: `Thời gian đã qua hoặc thuộc quá khứ. Bạn phải chọn giờ phục vụ sớm nhất từ ${suggestedFormatted} (tối thiểu 4 tiếng nữa để đầu bếp chuẩn bị).`,
       earliestDateStr,
       earliestTimeStr,
@@ -116,8 +116,8 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
 
     return {
       isValid: false,
-      hoursUntilDelivery: diffHours,
-      minutesUntilDelivery: Math.round(diffMs / 60000),
+      hoursUntilService: diffHours,
+      minutesUntilService: Math.round(diffMs / 60000),
       message: `Không được chọn giờ này (chỉ cách hiện tại ${selectedHoursAway > 0 ? `${selectedHoursAway} giờ ` : ''}${selectedMinsAway} phút). HomeMeal yêu cầu đặt trước tối thiểu 4 tiếng để đầu bếp kịp đi chợ chọn nguyên liệu tươi, sắp xếp lịch và di chuyển đến nhà bạn nấu ăn. Giờ phục vụ sớm nhất bạn có thể chọn là ${suggestedFormatted}.`,
       earliestDateStr,
       earliestTimeStr,
@@ -130,8 +130,8 @@ export function validateDeliveryDateTime(dateStr?: string, timeStr?: string): De
 
   return {
     isValid: true,
-    hoursUntilDelivery: diffHours,
-    minutesUntilDelivery: Math.round(diffMs / 60000),
+    hoursUntilService: diffHours,
+    minutesUntilService: Math.round(diffMs / 60000),
     message: `Thời gian phục vụ hợp lệ (đặt trước ${exactHours} tiếng ${exactMinutes > 0 ? `${exactMinutes} phút` : ''} - Đủ thời gian tối thiểu 4 tiếng để đầu bếp chuẩn bị và đến nấu).`,
     earliestDateStr,
     earliestTimeStr,

@@ -408,7 +408,6 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 180000,
     complexityAdjustment: 30000, // 2 món moderate (thịt kho, canh chua)
     guestCountAdjustment: 30000, // 4 khách
-    deliveryFee: 0, // Đầu bếp đến tận nhà nấu - Miễn phí di chuyển & không có phí ship
     additionalServiceFee: 0,
     totalLaborFee: 240000,
     finalPayableAmount: 608000, // 368.000đ (thực chi đi chợ) + 240.000đ (tiền công tại nhà)
@@ -454,7 +453,6 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 650000,
     complexityAdjustment: 350000,
     guestCountAdjustment: 400000,
-    deliveryFee: 0,
     additionalServiceFee: 700000, // 2 phụ bếp hỗ trợ phục vụ tiệc
     totalLaborFee: 2100000,
     quotation: {
@@ -567,7 +565,6 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 200000,
     complexityAdjustment: 50000,
     guestCountAdjustment: 40000,
-    deliveryFee: 0, // Đầu bếp đến tận nhà nấu - Miễn phí di chuyển
     additionalServiceFee: 0,
     totalLaborFee: 330000,
     finalPayableAmount: 1040000,
@@ -623,7 +620,6 @@ export const MOCK_ORDERS: Order[] = [
     baseLaborFee: 220000,
     complexityAdjustment: 30000,
     guestCountAdjustment: 30000,
-    deliveryFee: 0,
     additionalServiceFee: 0,
     totalLaborFee: 280000,
     finalPayableAmount: 860000,
@@ -637,7 +633,7 @@ export const MOCK_ORDERS: Order[] = [
       createdAt: '2026-10-11 20:30',
     },
     statusHistory: [
-      { status: 'service_completed', timestamp: '2026-10-11 19:45', note: 'Đầu bếp hoàn tất nấu món và giao tận nơi' },
+      { status: 'service_completed', timestamp: '2026-10-11 19:45', note: 'Đầu bếp hoàn tất nấu và dọn món tại nhà khách' },
       { status: 'disputed', timestamp: '2026-10-11 20:30', note: 'Khách hàng gửi khiếu nại về chứng từ tiền thịt bò' },
     ],
     createdAt: '2026-10-11 14:00',
@@ -710,7 +706,7 @@ export const FAQS = [
   },
   {
     q: 'Khi nào tôi mới phải thanh toán tiền?',
-    a: 'Bạn chỉ thanh toán SAU KHI bữa ăn đã được nấu xong (hoặc giao đến nhà) và bạn đã kiểm tra đầy đủ hóa đơn chứng từ. Bạn có quyền từ chối thanh toán các khoản tiền không có chứng từ hợp lệ.'
+    a: 'Bạn chỉ thanh toán SAU KHI bữa ăn đã được nấu xong và bạn đã kiểm tra đầy đủ hóa đơn chứng từ. Bạn có quyền từ chối thanh toán các khoản tiền không có chứng từ hợp lệ.'
   },
   {
     q: 'Tiệc từ 20 đến 50 người có người phụ bếp không?',
