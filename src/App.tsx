@@ -38,7 +38,7 @@ const AppContent: React.FC = () => {
       ? 'cook'
       : pathname === '/orders' || pathname.startsWith('/orders/')
         ? 'order-reader'
-        : pathname === '/quotations' || pathname === '/party-booking'
+        : pathname === '/quotations' || pathname === '/party-booking' || pathname === '/meal-planner'
         ? 'customer'
         : null;
   const hasRequiredRole = authUser && (requiredRole === 'order-reader' || authUser.role === requiredRole);
