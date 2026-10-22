@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
             <ShieldCheck className="w-5 h-5 text-[#B8E4D3] shrink-0 mt-0.5" />
             <div>
               <h4 className="font-semibold text-white">Tách bạch tiền công</h4>
-              <p className="text-xs text-white/70 mt-1">Công nấu tính theo độ khó và số lượng người, không kèm chênh lệch nguyên liệu.</p>
+              <p className="text-xs text-white/70 mt-1">Công nấu theo gói dịch vụ hoặc báo giá được xác nhận, tách riêng tiền nguyên liệu.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">

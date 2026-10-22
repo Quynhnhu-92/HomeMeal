@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Dish, DishCategory } from '../../types';
-import { calculateLaborFee, formatVND } from '../../utils/pricing';
+import { calculateLaborFee, formatVND, HOME_COOK_RATES } from '../../utils/pricing';
 import { 
   validateServiceDateTime,
   getEarliestServiceDate,
@@ -982,10 +982,20 @@ export const MealPlannerPage: React.FC = () => {
               </p>
             </div>
             <div className="text-right">
-              <span className="text-xs text-[#738078]">Tổng tiền công đầu bếp tại gia:</span>
+              <span className="text-xs text-[#738078]">Tiền công dự kiến cho bữa này:</span>
               <p className="text-2xl font-extrabold text-[#285E56]">{formatVND(feeCalc.totalLaborFee)}</p>
             </div>
           </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {HOME_COOK_RATES.map((rate) => (
+              <div key={rate.guests} className="rounded-2xl border border-[#B8E4D3] bg-[#E7F5EF]/40 p-5">
+                <h3 className="font-bold text-[#263B35]">{rate.guests}</h3>
+                <p className="mt-2 text-xl font-bold text-[#285E56]">{formatVND(rate.single)}/bữa</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs sm:text-sm text-[#607369]">Giá chưa bao gồm nguyên liệu, thanh toán riêng theo hóa đơn thực tế.</p>
 
           {/* Breakdown items */}
           <div className="space-y-3 bg-[#FFFDF7] p-5 rounded-2xl border border-[#E5ECE7] text-xs sm:text-sm">
@@ -1000,8 +1010,8 @@ export const MealPlannerPage: React.FC = () => {
 
           {feeCalc.requiresQuotation && (
             <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-200 text-indigo-900 text-xs">
-              <p className="font-semibold mb-1">Quy mô lớn cần xác nhận báo giá:</p>
-              Vì số lượng khách lớn ({guestCount} người) hoặc thực đơn nhiều món, sau khi bạn gửi yêu cầu, đầu bếp sẽ xem xét và gửi một bảng báo giá chính xác (bao gồm nhân sự phụ bếp nếu cần) trước khi bạn xác nhận đặt.
+              <p className="font-semibold mb-1">Cần xác nhận báo giá riêng:</p>
+              Với quy mô ngoài 3–8 người, sau khi bạn gửi yêu cầu, đầu bếp sẽ xem xét và gửi một bảng báo giá chính xác (bao gồm nhân sự phụ bếp nếu cần) trước khi bạn xác nhận đặt.
             </div>
           )}
         </div>

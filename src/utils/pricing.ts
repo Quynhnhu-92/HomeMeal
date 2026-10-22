@@ -5,6 +5,12 @@ export function formatVND(amount: number): string {
   return new Intl.NumberFormat('vi-VN').format(Math.round(amount)) + ' đ';
 }
 
+// Prices from PITCH DESK COPY, pages 26–28. Ingredients are billed separately.
+export const HOME_COOK_RATES = [
+  { guests: '3–4 người', single: 200000 },
+  { guests: '5–8 người', single: 340000 },
+] as const;
+
 export interface LaborFeeCalculation {
   baseLaborFee: number;
   guestAdjustment: number;
@@ -22,6 +28,25 @@ export function calculateLaborFee(
   hasSpecialEquipment: boolean = false,
   extraAssistants: number = 0
 ): LaborFeeCalculation {
+  if (serviceType === 'cook_at_home') {
+    const plan = HOME_COOK_RATES[guestCount <= 4 ? 0 : 1];
+    // Outside the published range, this is only a reference until a quote is accepted.
+    const outsideRange = guestCount < 3 || guestCount > 8;
+    return {
+      baseLaborFee: plan.single,
+      guestAdjustment: 0,
+      complexityAdjustment: 0,
+      additionalServiceFee: 0,
+      totalLaborFee: plan.single,
+      requiresQuotation: outsideRange || hasSpecialEquipment || extraAssistants > 0,
+      breakdownSummary: [
+        `Tiền công ${plan.guests}${outsideRange ? ' (tham khảo, cần báo giá riêng)' : ''}: ${formatVND(plan.single)}/bữa`,
+        `Nguyên liệu: Thanh toán riêng theo hóa đơn thực tế`,
+        ...(hasSpecialEquipment || extraAssistants > 0 ? ['Phụ bếp/dụng cụ bổ sung: Chờ đầu bếp báo giá và khách xác nhận'] : []),
+      ],
+    };
+  }
+
   const breakdown: string[] = [];
 
   // 1. Base fee by service type (Đầu bếp đến tận nhà nấu)
