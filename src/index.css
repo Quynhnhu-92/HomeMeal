@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  --color-page-background: #65DCB4;
+  --color-action: #5e4338;
+  --color-action-hover: #49342c;
   --color-primary-mint: #B8E4D3;
   --color-deep-teal: #285E56;
   --color-light-mint: #E7F5EF;
@@ -15,8 +18,19 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #FFFDF7;
+  background-color: var(--color-page-background);
   color: #263B35;
+}
+
+/* Shared action colors for the existing HomeMeal button variants. */
+button:is([class~="bg-[#285E56]"], [class~="bg-[#B8E4D3]"], [class~="bg-[#E7F5EF]"]) {
+  background-color: var(--color-action);
+  color: #fff;
+}
+
+button:is([class~="bg-[#285E56]"], [class~="bg-[#B8E4D3]"], [class~="bg-[#E7F5EF]"]):hover:not(:disabled) {
+  background-color: var(--color-action-hover);
+  color: #fff;
 }
 
 /* Custom scrollbar */

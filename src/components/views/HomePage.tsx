@@ -74,7 +74,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-16 pb-16">
       {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#E7F5EF]/70 via-[#FFFDF7] to-[#FFFDF7] pt-10 sm:pt-16 pb-12 sm:pb-20 border-b border-[#E5ECE7]">
+      <section className="relative overflow-hidden bg-page-background pt-10 sm:pt-16 pb-12 sm:pb-20 border-b border-[#E5ECE7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Column */}
@@ -110,7 +110,7 @@ export const HomePage: React.FC = () => {
                     const el = document.getElementById('how-it-works');
                     el?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="px-6 py-3.5 bg-white border border-[#E5ECE7] text-[#263B35] font-semibold text-sm sm:text-base rounded-xl hover:bg-[#E7F5EF] hover:border-[#B8E4D3] transition-all"
+                  className="px-6 py-3.5 bg-action border border-action text-white font-semibold text-sm sm:text-base rounded-xl hover:bg-action-hover transition-all"
                 >
                   Khám phá cách hoạt động
                 </button>

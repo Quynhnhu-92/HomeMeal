@@ -136,7 +136,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFDF7] text-[#263B35]">
+    <div className="min-h-screen flex flex-col bg-page-background text-[#263B35]">
       <Navbar />
       <main className="flex-1">{renderCurrentView()}</main>
       <Footer />
