@@ -163,6 +163,31 @@ test('Gemini failures expose actionable codes without upstream secrets', async (
   } finally { globalThis.fetch = originalFetch; if (originalKey === undefined) delete process.env.GEMINI_API_KEY; else process.env.GEMINI_API_KEY = originalKey; }
 });
 
+test('origin guard permits only same-port loopback aliases locally and stays strict on deployments', async () => {
+  const saved = Object.fromEntries(['APP_ORIGIN', 'NODE_ENV', 'VERCEL'].map((key) => [key, process.env[key]]));
+  process.env.APP_ORIGIN = 'http://localhost:3000'; process.env.NODE_ENV = 'development'; delete process.env.VERCEL;
+  const server = await new Promise<Server>((resolve) => { const s = app.listen(0, '127.0.0.1', () => resolve(s)); });
+  const url = `http://127.0.0.1:${(server.address() as { port: number }).port}/api?resource=smart-menu`;
+  const request = (origin?: string) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(origin ? { Origin: origin } : {}) }, body: '{}' });
+  try {
+    for (const origin of ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://[::1]:3000']) {
+      const response = await request(origin);
+      assert.equal(response.status, 400); assert.equal((await response.json()).code, 'INVALID_INPUT');
+    }
+    for (const origin of [undefined, 'null', 'http://127.0.0.1:3002', 'https://127.0.0.1:3000', 'http://localhost.evil.test:3000', 'https://example.invalid']) assert.equal((await request(origin)).status, 403);
+    process.env.NODE_ENV = 'production';
+    assert.equal((await request('http://127.0.0.1:3000')).status, 403);
+    assert.equal((await request('http://localhost:3000')).status, 400);
+    process.env.NODE_ENV = 'development'; process.env.VERCEL = '1';
+    assert.equal((await request('http://127.0.0.1:3000')).status, 403);
+    delete process.env.VERCEL; process.env.APP_ORIGIN = 'https://homemeal.example';
+    assert.equal((await request('http://localhost:3000')).status, 403);
+  } finally {
+    server.closeAllConnections(); await new Promise<void>((resolve) => server.close(() => resolve()));
+    for (const [key, value] of Object.entries(saved)) { if (value === undefined) delete process.env[key]; else process.env[key] = value; }
+  }
+});
+
 test('real application mounts Smart Menu before database checks, preserves origin guard and handles JSON errors', async () => {
   const originalDb = process.env.DATABASE_URL; const originalOrigin = process.env.APP_ORIGIN; const originalKey = process.env.GEMINI_API_KEY;
   delete process.env.DATABASE_URL; delete process.env.GEMINI_API_KEY; process.env.APP_ORIGIN = 'http://localhost:3000';

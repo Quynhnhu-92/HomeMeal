@@ -81,7 +81,14 @@ function assertSameOrigin(req: Request, res: Response, next: NextFunction) {
       res.status(503).json({ error: 'APP_ORIGIN must be configured in production.' });
       return;
     }
-    if (new URL(originHeader).origin !== expectedOrigin) {
+    const actual = new URL(originHeader);
+    const expected = new URL(expectedOrigin);
+    const loopbackHosts = ['localhost', '127.0.0.1', '[::1]'];
+    const localDevelopmentAlias = process.env.NODE_ENV !== 'production' &&
+      !process.env.VERCEL && Boolean(process.env.APP_ORIGIN) &&
+      loopbackHosts.includes(actual.hostname) && loopbackHosts.includes(expected.hostname) &&
+      actual.protocol === expected.protocol && actual.port === expected.port;
+    if (actual.origin !== expectedOrigin && !localDevelopmentAlias) {
       res.status(403).json({ error: 'Cross-origin request rejected.' });
       return;
     }
