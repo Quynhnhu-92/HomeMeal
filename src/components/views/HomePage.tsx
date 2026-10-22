@@ -85,9 +85,9 @@ export const HomePage: React.FC = () => {
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#263B35] tracking-tight leading-[1.2] text-balance">
-                Hôm nay ăn gì? <br />
+                Bữa cơm chân tình <br />
                 <span className="text-[#285E56] underline decoration-[#B8E4D3] decoration-wavy decoration-2">
-                  Để đầu bếp tới nhà lo.
+                  cho người bận rộn
                 </span>
               </h1>
 
