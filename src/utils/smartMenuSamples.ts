@@ -12,7 +12,7 @@ const SAMPLES: Omit<SmartDish, 'id'>[] = [
 ];
 
 export function createSampleMenus(p: Preferences): SmartResult {
-  if (!Number.isInteger(p.guests) || p.guests < 3) throw new Error('HomeMeal phục vụ từ 3 người ăn trở lên.');
+  if (!Number.isInteger(p.guests) || p.guests < 3 || p.guests > 9) throw new Error('Thực đơn gia đình phục vụ 3–9 người; từ 10 người vui lòng đặt mâm tiệc.');
   if (needsExpert(p)) throw new Error(EXPERT_NOTICE);
   const available = SAMPLES.filter((dish) => !conflictsWithPreferences(dish, p) && dish.minutes <= p.maxMinutes && dish.ingredientCost * p.guests <= mealBudget(p));
   if (available.length < p.planCount) throw new Error('Chưa có đủ món mẫu đáp ứng ngân sách, thời gian và nguyên liệu cần tránh. Hãy điều chỉnh lựa chọn; hệ thống sẽ không bỏ qua các nguyên liệu bạn đã loại trừ.');

@@ -54,7 +54,7 @@ export const HomePage: React.FC = () => {
       estimatedGroceryBudget: quickBudget,
       serviceType: 'cook_at_home',
     });
-    navigateTo('/meal-planner');
+    navigateTo(quickGuests >= 10 ? '/party-booking' : '/meal-planner');
   };
 
   const handleSelectSuggestedMenu = (menu: typeof SUGGESTED_MENUS[0]) => {
@@ -246,7 +246,7 @@ export const HomePage: React.FC = () => {
                   min={3}
                   max={100}
                   value={quickGuests}
-                  onChange={(e) => setQuickGuests(Math.max(3, parseInt(e.target.value) || 3))}
+                  onChange={(e) => { const count = Math.max(3, parseInt(e.target.value) || 3); setQuickGuests(count); if (count >= 10) { updateDraftOrder({ guestCount: count, date: quickDate, servingTime: quickTime, estimatedGroceryBudget: quickBudget, mealOccasion: quickMealType }); navigateTo('/party-booking'); } }}
                   placeholder="Nhập số..."
                   className="w-full px-3 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm font-bold text-[#263B35] focus:ring-2 focus:ring-[#285E56]"
                 />

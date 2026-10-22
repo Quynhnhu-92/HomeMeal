@@ -27,24 +27,25 @@ import {
 export const PartyBookingPage: React.FC = () => {
   const { draftOrder, updateDraftOrder, cooks, dishes, submitDraftOrder, navigateTo } = useApp();
 
-  const [eventType, setEventType] = useState('Tiệc sinh nhật');
-  const [guests, setGuests] = useState(25);
-  const [date, setDate] = useState(() => new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0]);
-  const [time, setTime] = useState('17:30');
-  const [address, setAddress] = useState('Biệt thự Palm Residence, P. An Phú, TP. Thủ Đức');
+  const [eventType, setEventType] = useState(draftOrder.mealOccasion || 'Tiệc gia đình');
+  const [guests, setGuests] = useState(Math.max(10, draftOrder.guestCount || 10));
+  const [date, setDate] = useState(() => draftOrder.date || new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0]);
+  const [time, setTime] = useState(draftOrder.servingTime || '17:30');
+  const [address, setAddress] = useState(draftOrder.customerAddress || '');
   const [servingStyle, setServingStyle] = useState('Dọn mâm tròn truyền thống');
   const [needAssistants, setNeedAssistants] = useState(true);
   const [assistantCount, setAssistantCount] = useState(2);
   const [needEquipment, setNeedEquipment] = useState(true);
-  const [targetGroceryBudget, setTargetGroceryBudget] = useState(4000000);
+  const [targetGroceryBudget, setTargetGroceryBudget] = useState(draftOrder.estimatedGroceryBudget || 4000000);
   const [selectedCookId, setSelectedCookId] = useState(cooks[1]?.id || cooks[0]?.id);
-  const [specialNotes, setSpecialNotes] = useState('Tiệc có trẻ em và người già, cần 1 bàn nướng BBQ và chuẩn bị chén đĩa tươm tất.');
+  const [specialNotes, setSpecialNotes] = useState(draftOrder.generalPreferences || '');
 
   const timeValidation = validateServiceDateTime(date, time);
 
   const handleSubmitQuotationRequest = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!Number.isInteger(guests) || guests < 10) { alert('Mâm tiệc phục vụ từ 10 người.'); return; }
     if (!timeValidation.isValid) {
       alert(`Quy định đặt món: ${timeValidation.message}`);
       return;
@@ -62,7 +63,7 @@ export const PartyBookingPage: React.FC = () => {
       customerAddress: address,
       estimatedGroceryBudget: targetGroceryBudget,
       cookId: selectedCookId,
-      items: partyDishes.map((dish) => ({ dish, quantity: Math.ceil(guests / 6) })),
+      items: draftOrder.items?.length ? draftOrder.items : partyDishes.map((dish) => ({ dish, quantity: Math.ceil(guests / 10) })),
       generalPreferences: `Hình thức: ${servingStyle}. Cần ${assistantCount} phụ bếp. Ghi chú: ${specialNotes}`,
     });
 
@@ -76,7 +77,7 @@ export const PartyBookingPage: React.FC = () => {
       <div className="bg-gradient-to-r from-[#285E56] to-[#1f4b44] rounded-3xl p-6 sm:p-10 text-white shadow-lg space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold backdrop-blur-xs text-[#B8E4D3]">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Phục vụ tiệc từ 3 khách trở lên</span>
+          <span>Phục vụ mâm tiệc từ 10 khách trở lên</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
           Đặt đầu bếp nấu tiệc & Mâm cỗ tại gia theo yêu cầu
@@ -143,10 +144,10 @@ export const PartyBookingPage: React.FC = () => {
             </label>
             <input
               type="number"
-              min={3}
+              min={10}
               max={150}
               value={guests}
-              onChange={(e) => setGuests(Math.max(3, parseInt(e.target.value) || 3))}
+              onChange={(e) => setGuests(Math.max(10, parseInt(e.target.value) || 10))}
               className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm font-bold text-[#285E56] focus:ring-2 focus:ring-[#285E56]"
             />
           </div>

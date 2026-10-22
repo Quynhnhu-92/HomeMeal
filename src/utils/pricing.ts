@@ -8,7 +8,7 @@ export function formatVND(amount: number): string {
 // Prices from PITCH DESK COPY, pages 26–28. Ingredients are billed separately.
 export const HOME_COOK_RATES = [
   { guests: '3–4 người', single: 200000 },
-  { guests: '5–8 người', single: 340000 },
+  { guests: '5–9 người', single: 340000 },
 ] as const;
 
 export interface LaborFeeCalculation {
@@ -28,10 +28,12 @@ export function calculateLaborFee(
   hasSpecialEquipment: boolean = false,
   extraAssistants: number = 0
 ): LaborFeeCalculation {
+  if (!Number.isInteger(guestCount) || guestCount < 3) throw new Error('HomeMeal phục vụ từ 3 người ăn trở lên.');
+  if (guestCount >= 10) serviceType = 'party_at_home';
   if (serviceType === 'cook_at_home') {
     const plan = HOME_COOK_RATES[guestCount <= 4 ? 0 : 1];
     // Outside the published range, this is only a reference until a quote is accepted.
-    const outsideRange = guestCount < 3 || guestCount > 8;
+    const outsideRange = guestCount < 3 || guestCount > 9;
     return {
       baseLaborFee: plan.single,
       guestAdjustment: 0,

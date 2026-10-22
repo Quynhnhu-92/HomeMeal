@@ -135,7 +135,8 @@ export const SmartMenuPage: React.FC = () => {
     if (authUser && authUser.role !== 'customer') { setError('Quy trình đặt dịch vụ hiện dành cho tài khoản Khách hàng. Vui lòng dùng tài khoản Khách hàng để tiếp tục.'); return; }
     updateDraftOrder(smartMealToDraft(meal, result.guests, p.allergies, result.source));
     showToast('Đã điền thực đơn vào bản nháp. Bạn sẽ chọn thời gian, địa chỉ và đầu bếp trước khi xác nhận.');
-    navigateTo(authUser ? '/meal-planner' : '/login?next=%2Fmeal-planner');
+    const destination = result.guests >= 10 ? '/party-booking' : '/meal-planner';
+    navigateTo(authUser ? destination : `/login?next=${encodeURIComponent(destination)}`);
   }
 
   const plan = result?.plans[activePlan];
@@ -170,7 +171,7 @@ export const SmartMenuPage: React.FC = () => {
           <label className="text-sm font-semibold">Chiều cao (cm, tùy chọn)<input className={inputClass} type="number" min="80" max="250" step="0.1" value={preferences.height ?? ''} onChange={(e) => update('height', e.target.value ? Number(e.target.value) : undefined)} /></label>
           <label className="text-sm font-semibold">Cân nặng (kg, tùy chọn)<input className={inputClass} type="number" min="15" max="350" step="0.1" value={preferences.weight ?? ''} onChange={(e) => update('weight', e.target.value ? Number(e.target.value) : undefined)} /></label>
           <label className="text-sm font-semibold">Mức độ vận động<select className={inputClass} value={preferences.activity} onChange={(e) => update('activity', e.target.value as Preferences['activity'])}><option value="light">Ít vận động</option><option value="moderate">Vận động vừa phải</option><option value="active">Vận động thường xuyên</option></select></label>
-          <label className="text-sm font-semibold">Số người ăn (tối thiểu 3)<input className={inputClass} required type="number" min="3" max="12" step="1" value={preferences.guests} onChange={(e) => update('guests', Number(e.target.value))} /></label>
+          <label className="text-sm font-semibold">Số người ăn (3–9; từ 10 chuyển sang mâm tiệc)<input className={inputClass} required type="number" min="3" max="150" step="1" value={preferences.guests} onChange={(e) => { const guests = Number(e.target.value); update('guests', guests); if (Number.isInteger(guests) && guests >= 10) { updateDraftOrder({ guestCount: guests, allergies: currentPreferences().allergies }); navigateTo('/party-booking'); } }} /></label>
           <label className="text-sm font-semibold">Số bữa mỗi ngày<select className={inputClass} value={preferences.mealsPerDay} onChange={(e) => update('mealsPerDay', Number(e.target.value))}>{[1, 2, 3].map((n) => <option key={n} value={n}>{n} bữa</option>)}</select></label>
           <label className="text-sm font-semibold">Lập thực đơn trong<select className={inputClass} value={preferences.days} onChange={(e) => update('days', Number(e.target.value) as Preferences['days'])}>{[1, 3, 7].map((n) => <option key={n} value={n}>{n} ngày</option>)}</select></label>
           <label className="text-sm font-semibold">Số phương án khác nhau<select className={inputClass} value={preferences.planCount} onChange={(e) => update('planCount', Number(e.target.value) as Preferences['planCount'])}><option value="1">1 thực đơn</option><option value="3">3 thực đơn để so sánh</option></select></label>

@@ -88,6 +88,11 @@ export const MealPlannerPage: React.FC = () => {
   const selectedItems = draftOrder.items || [];
   const selectedDishes = selectedItems.map((i) => i.dish);
 
+  useEffect(() => {
+    if ((draftOrder.guestCount ?? 4) >= 10) navigateTo('/party-booking');
+    else if ((draftOrder.guestCount ?? 4) < 3) updateDraftOrder({ guestCount: 3 });
+  }, [draftOrder.guestCount]);
+
   // Calculate estimated ingredient cost
   const estimatedIngredientTotal = selectedItems.reduce(
     (sum, item) => sum + (item.dish.estimatedCost || 0) * item.quantity,
@@ -1011,7 +1016,7 @@ export const MealPlannerPage: React.FC = () => {
           {feeCalc.requiresQuotation && (
             <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-200 text-indigo-900 text-xs">
               <p className="font-semibold mb-1">Cần xác nhận báo giá riêng:</p>
-              Với quy mô ngoài 3–8 người, sau khi bạn gửi yêu cầu, đầu bếp sẽ xem xét và gửi một bảng báo giá chính xác (bao gồm nhân sự phụ bếp nếu cần) trước khi bạn xác nhận đặt.
+              Với yêu cầu cần phụ bếp hoặc dụng cụ bổ sung, sau khi bạn gửi yêu cầu, đầu bếp sẽ xem xét và gửi một bảng báo giá chính xác (bao gồm nhân sự phụ bếp nếu cần) trước khi bạn xác nhận đặt.
             </div>
           )}
         </div>

@@ -230,6 +230,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateDraftOrder = (data: Partial<Order>) => {
     const updatedDraftOrder = { ...draftOrderRef.current, ...data };
+    updatedDraftOrder.serviceType = (updatedDraftOrder.guestCount ?? 4) >= 10 ? 'party_at_home' : 'cook_at_home';
     draftOrderRef.current = updatedDraftOrder;
     setDraftOrder(updatedDraftOrder);
   };
@@ -251,7 +252,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const dishes = (submittedDraft.items || []).map((i) => i.dish);
     const guestCount = submittedDraft.guestCount ?? 4;
     if (!Number.isInteger(guestCount) || guestCount < 3) throw new Error('HomeMeal phục vụ từ 3 người ăn trở lên.');
-    const serviceType = submittedDraft.serviceType || 'cook_at_home';
+    const serviceType = guestCount >= 10 ? 'party_at_home' : 'cook_at_home';
     const feeCalc = calculateLaborFee(guestCount, dishes, serviceType);
 
     const newId = 'ord_' + Date.now();

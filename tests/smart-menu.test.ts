@@ -232,3 +232,16 @@ test('minimum three diners applies to samples and booking transfer', () => {
     assert.throws(() => smartMealToDraft(fixture().plans[0].days[0].meals[0], guests, [], 'sample'));
   }
 });
+
+
+test('Family AI accepts 3–9 guests, rejects party sizes, and old AI meals transfer to party intact', () => {
+  for (const guests of [3, 9]) assert.doesNotThrow(() => parseRequest({ action: 'generate', preferences: { ...p, guests } }));
+  for (const guests of [2, 10, 12]) assert.throws(() => parseRequest({ action: 'generate', preferences: { ...p, guests } }));
+  const meal = createSampleMenus(p).plans[0].days[0].meals[0];
+  const draft = smartMealToDraft(meal, 10, ['đậu phộng'], 'sample');
+  assert.equal(draft.serviceType, 'party_at_home');
+  assert.equal(draft.guestCount, 10);
+  assert.equal(draft.items?.length, meal.dishes.length);
+  assert.deepEqual(draft.allergies, ['đậu phộng']);
+  assert.equal(smartMealToDraft(meal, 9, [], 'sample').serviceType, 'cook_at_home');
+});

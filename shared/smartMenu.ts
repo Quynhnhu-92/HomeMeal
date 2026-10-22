@@ -116,7 +116,7 @@ export function smartDishToOrderDish(dish: SmartDish, guests: number): Dish {
 export function smartMealToDraft(meal: SmartMeal, guests: number, allergies: string[], source: SmartResult['source']): Partial<Order> {
   if (!Number.isInteger(guests) || guests < 3) throw new Error('HomeMeal phục vụ từ 3 người ăn trở lên.');
   return {
-    serviceType: 'cook_at_home', guestCount: guests,
+    serviceType: guests >= 10 ? 'party_at_home' : 'cook_at_home', guestCount: guests,
     items: meal.dishes.map((dish) => ({ dish: smartDishToOrderDish(dish, guests), quantity: 1 })),
     estimatedGroceryBudget: mealCost(meal), allergies,
     mealOccasion: `${meal.name} • ${source === 'ai' ? 'AI Smart Menu' : 'Gợi ý mẫu Smart Menu'}`,
