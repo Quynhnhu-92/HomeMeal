@@ -41,7 +41,7 @@ export const SmartMenuPage: React.FC = () => {
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const [confirmedIngredients, setConfirmedIngredients] = useState(false);
+  const [confirmedMeals, setConfirmedMeals] = useState<Set<SmartMeal>>(() => new Set());
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const requestRef = useRef<AbortController | null>(null);
   const resultRef = useRef<HTMLElement | null>(null);
@@ -54,14 +54,14 @@ export const SmartMenuPage: React.FC = () => {
 
   function update<K extends keyof Preferences>(key: K, value: Preferences[K]) {
     setPreferences((p) => ({ ...p, [key]: value }));
-    setConfirmedIngredients(false);
+    setConfirmedMeals(new Set());
   }
   function currentPreferences(): Preferences {
     const split = (s: string) => s.split(/[,;\n]/).map((x) => x.trim()).filter(Boolean);
     return { ...preferences, allergies: split(allergyText), dislikes: split(dislikeText) };
   }
   function displayResult(data: SmartResult, p: Preferences) {
-    setResult(data); setSubmitted(p); setActivePlan(0); setActiveDay(0); setConfirmedIngredients(false);
+    setResult(data); setSubmitted(p); setActivePlan(0); setActiveDay(0); setConfirmedMeals(new Set());
     setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
   async function requestAI(payload: Record<string, unknown>) {
@@ -78,7 +78,7 @@ export const SmartMenuPage: React.FC = () => {
   async function generate(event: React.FormEvent) {
     event.preventDefault();
     const p = currentPreferences();
-    setError(''); setNotice('');
+    setError(''); setNotice(''); setConfirmedMeals(new Set());
     if (needsExpert(p)) { setError(EXPERT_NOTICE); return; }
     setBusy('generate');
     try {
@@ -96,7 +96,7 @@ export const SmartMenuPage: React.FC = () => {
     if (!submitted || !result) return;
     const p = { ...submitted, allergies: currentPreferences().allergies, dislikes: currentPreferences().dislikes, diet: preferences.diet, goal: preferences.goal, age: preferences.age, specialNeeds: preferences.specialNeeds };
     const remaining = Math.floor(mealBudget(p) - mealCost(meal) + dish.ingredientCost);
-    setError(''); setNotice(''); setConfirmedIngredients(false);
+    setError(''); setNotice(''); setConfirmedMeals(new Set());
     if (needsExpert(p)) { setError(EXPERT_NOTICE); return; }
     if (remaining < 1000) { setError('Ngân sách còn lại chưa đủ để đổi món. Vui lòng tạo lại thực đơn theo ngân sách mới.'); return; }
     setBusy(dish.id);
@@ -109,7 +109,7 @@ export const SmartMenuPage: React.FC = () => {
       if (containingDay?.meals.length === 3 && containingDay.meals.reduce((sum, m) => sum + (m === meal ? n.kcal : mealNutrition(m).kcal), 0) < 1500) throw new Error('Món thay thế làm giảm năng lượng cả ngày quá mức. Vui lòng thử lại; món cũ vẫn được giữ.');
       // A sample plan remains labelled sample even if one dish is replaced with AI.
       setResult({ ...result, plans: result.plans.map((plan) => plan.days.some((day) => day.meals.includes(meal)) ? { ...plan, id: `plan-${crypto.randomUUID()}`, days: plan.days.map((day) => ({ ...day, meals: day.meals.map((m) => m === meal ? { ...m, dishes: nextDishes } : m) })) } : plan) });
-      setConfirmedIngredients(false);
+      setConfirmedMeals(new Set());
       setNotice('Đã đổi món. Hãy kiểm tra lại nguyên liệu trước khi đặt.');
     } catch (e) { setError(e instanceof Error && e.name !== 'AbortError' ? e.message : 'Đổi món quá thời gian chờ. Món cũ vẫn được giữ.'); }
     finally { setBusy(null); }
@@ -127,7 +127,7 @@ export const SmartMenuPage: React.FC = () => {
     persistFavorites([{ plan, guests: result.guests, source: result.source }, ...favorites].slice(0, 12));
   }
   function bookMeal(meal: SmartMeal) {
-    if (!result || !submitted || !confirmedIngredients) return;
+    if (!result || !submitted || !confirmedMeals.has(meal) || busy || authLoading) return;
     const p = currentPreferences();
     if (needsExpert(p)) { setError(EXPERT_NOTICE); return; }
     if (meal.dishes.some((dish) => conflictsWithPreferences(dish, p))) { setError('Món đang chọn xung đột với nguyên liệu/chế độ ăn hiện tại. Vui lòng tạo lại hoặc đổi món.'); return; }
@@ -177,8 +177,8 @@ export const SmartMenuPage: React.FC = () => {
           <label className="text-sm font-semibold">Ngân sách nguyên liệu (VNĐ)<input className={inputClass} required type="number" min="30000" max="5000000" step="1000" value={preferences.budget} onChange={(e) => update('budget', Number(e.target.value))} /><span className="mt-1 block text-xs font-normal text-[#738078]">Tổng cho tất cả người ăn, chưa gồm công nấu.</span></label>
           <label className="text-sm font-semibold">Ngân sách tính theo<select className={inputClass} value={preferences.budgetPeriod} onChange={(e) => update('budgetPeriod', e.target.value as Preferences['budgetPeriod'])}><option value="meal">Mỗi bữa</option><option value="day">Mỗi ngày (chia đều số bữa)</option></select></label>
           <label className="text-sm font-semibold">Loại món yêu thích<select className={inputClass} value={preferences.cuisine} onChange={(e) => update('cuisine', e.target.value as Preferences['cuisine'])}><option value="vietnamese">Món Việt</option><option value="western">Món Âu</option><option value="asian">Món Á</option><option value="mixed">Kết hợp</option></select></label>
-          <label className="text-sm font-semibold">Dị ứng thực phẩm<input className={inputClass} maxLength={700} placeholder="Ví dụ: đậu phộng, tôm, sữa" value={allergyText} onChange={(e) => { setAllergyText(e.target.value); setConfirmedIngredients(false); }} /><span className="mt-1 block text-xs font-normal text-[#738078]">Ngăn cách từng nguyên liệu bằng dấu phẩy.</span></label>
-          <label className="text-sm font-semibold">Nguyên liệu không thích<input className={inputClass} maxLength={700} placeholder="Ví dụ: khổ qua, hành" value={dislikeText} onChange={(e) => { setDislikeText(e.target.value); setConfirmedIngredients(false); }} /></label>
+          <label className="text-sm font-semibold">Dị ứng thực phẩm<input className={inputClass} maxLength={700} placeholder="Ví dụ: đậu phộng, tôm, sữa" value={allergyText} onChange={(e) => { setAllergyText(e.target.value); setConfirmedMeals(new Set()); }} /><span className="mt-1 block text-xs font-normal text-[#738078]">Ngăn cách từng nguyên liệu bằng dấu phẩy.</span></label>
+          <label className="text-sm font-semibold">Nguyên liệu không thích<input className={inputClass} maxLength={700} placeholder="Ví dụ: khổ qua, hành" value={dislikeText} onChange={(e) => { setDislikeText(e.target.value); setConfirmedMeals(new Set()); }} /></label>
           <label className="text-sm font-semibold">Chế độ ăn đặc biệt<select className={inputClass} value={preferences.diet} onChange={(e) => update('diet', e.target.value as Preferences['diet'])}><option value="balanced">Cân bằng, không hạn chế</option><option value="vegetarian">Chay có trứng/sữa</option><option value="vegan">Thuần chay</option><option value="gluten-free">Không gluten</option><option value="dairy-free">Không sữa</option></select></label>
           <label className="text-sm font-semibold sm:col-span-2 lg:col-span-3">Bạn có cần tư vấn chuyên biệt?<select className={inputClass} value={preferences.specialNeeds} onChange={(e) => update('specialNeeds', e.target.value as Preferences['specialNeeds'])}><option value="none">Không có nhu cầu chuyên biệt</option><option value="pregnant">Đang mang thai</option><option value="medical">Có bệnh lý cần chế độ ăn riêng</option></select></label>
         </div>
@@ -203,17 +203,30 @@ export const SmartMenuPage: React.FC = () => {
       <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-bold uppercase tracking-wider text-[#738078]">Bữa ăn gợi ý cho bạn</p><h2 className="mt-1 text-2xl font-bold">Khám phá thực đơn của bạn</h2></div><button onClick={savePlan} disabled={Boolean(busy) || authLoading} className={`${buttonClass} border border-[#B8E4D3] bg-white text-[#285E56]`}><Bookmark size={16} />{favorites.some((f) => f.plan.id === plan.id) ? 'Đã lưu yêu thích' : 'Lưu thực đơn yêu thích'}</button></div>
       <div className={`rounded-2xl border p-4 text-sm leading-6 ${result.source === 'sample' ? 'border-amber-200 bg-amber-50 text-amber-900' : 'border-[#B8E4D3] bg-[#E7F5EF] text-[#285E56]'}`}><strong>{result.source === 'sample' ? 'Gợi ý mẫu — không phải phản hồi AI.' : 'Gợi ý được tạo bởi AI — cần kiểm tra lại.'}</strong><p>{result.source === 'sample' ? 'Các món minh họa được luân phiên theo ngày; không cá nhân hóa đầy đủ theo mục tiêu hay phong cách ẩm thực. Đã lọc theo nguyên liệu cần tránh, thời gian và ngân sách.' : 'Gợi ý có thể sai hoặc bỏ sót thành phần. Vui lòng xác nhận nguyên liệu và khẩu phần với đầu bếp.'}</p><p>{ESTIMATE_NOTICE}</p></div>
       {resultsStale && <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">Bạn đã thay đổi lựa chọn. Kết quả này vẫn dùng số người/ngân sách lúc tạo; bấm “Tạo lại thực đơn” để áp dụng toàn bộ thay đổi.</p>}
-      <div className="flex flex-wrap gap-2" aria-label="Các phương án thực đơn">{result.plans.map((p, i) => <button key={p.id} disabled={Boolean(busy)} aria-pressed={activePlan === i} onClick={() => { setActivePlan(i); setActiveDay(0); setConfirmedIngredients(false); }} className={`${buttonClass} ${i === activePlan ? 'bg-[#285E56] text-white' : 'border border-[#E5ECE7] bg-white'}`}>{p.title}</button>)}</div>
-      <div className="flex flex-wrap gap-2" aria-label="Chọn ngày">{plan.days.map((d, i) => <button key={i} aria-pressed={activeDay === i} onClick={() => { setActiveDay(i); setConfirmedIngredients(false); }} className={`rounded-full px-4 py-2 text-sm ${i === activeDay ? 'bg-[#B8E4D3] font-bold text-[#285E56]' : 'border border-[#E5ECE7] bg-white'}`}>Ngày {d.day}</button>)}</div>
+      <div className="flex flex-wrap gap-2" aria-label="Các phương án thực đơn">{result.plans.map((p, i) => <button key={p.id} disabled={Boolean(busy)} aria-pressed={activePlan === i} onClick={() => { setActivePlan(i); setActiveDay(0); setConfirmedMeals(new Set()); }} className={`${buttonClass} ${i === activePlan ? 'bg-[#285E56] text-white' : 'border border-[#E5ECE7] bg-white'}`}>{p.title}</button>)}</div>
+      <div className="flex flex-wrap gap-2" aria-label="Chọn ngày">{plan.days.map((d, i) => <button key={i} aria-pressed={activeDay === i} onClick={() => { setActiveDay(i); setConfirmedMeals(new Set()); }} className={`rounded-full px-4 py-2 text-sm ${i === activeDay ? 'bg-[#B8E4D3] font-bold text-[#285E56]' : 'border border-[#E5ECE7] bg-white'}`}>Ngày {d.day}</button>)}</div>
       <p className="text-sm text-[#738078]">{result.guests} người · {plan.days.length} ngày · Ước tính nguyên liệu toàn kế hoạch: <strong className="text-[#285E56]">{formatVND(plan.days.reduce((sum, d) => sum + d.meals.reduce((cost, m) => cost + mealCost(m), 0), 0))}</strong>. Đặt từng bữa để chọn lịch riêng.</p>
-      <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#B8E4D3] bg-white p-4 text-sm leading-6"><input type="checkbox" disabled={Boolean(busy)} checked={confirmedIngredients} onChange={(e) => setConfirmedIngredients(e.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-[#285E56]" /><span>Tôi đã xem danh sách nguyên liệu và sẽ xác nhận lại dị ứng, thành phần nước sốt và nguy cơ nhiễm chéo với đầu bếp trước khi chốt dịch vụ.</span></label>
       {day.meals.map((meal) => {
+        const confirmedIngredients = confirmedMeals.has(meal);
         const cost = mealCost(meal);
         const fees = calculateLaborFee(result.guests, meal.dishes.map((dish) => smartDishToOrderDish(dish, result.guests)), 'cook_at_home');
         return <article key={meal.id} className="overflow-hidden rounded-3xl border border-[#DCE8E0] bg-white">
-          <div className="border-b border-[#E5ECE7] bg-[#FFFDF7] p-5 sm:p-6"><h3 className="mb-4 text-xl font-bold">{meal.name} · Ngày {day.day}</h3><Nutrition meal={meal} /></div>
+          <div className="border-b border-[#E5ECE7] bg-[#FFFDF7] p-5 sm:p-6"><h3 className="text-xl font-bold">{meal.name} · Ngày {day.day}</h3></div>
           <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-2">{meal.dishes.map((dish) => <div key={dish.id} className="min-w-0 rounded-2xl border border-[#E5ECE7] p-4 sm:p-5"><div className="mb-3 flex items-start justify-between gap-3"><span className="rounded-xl bg-[#E7F5EF] p-2 text-[#285E56]"><Leaf size={22} /></span><button disabled={Boolean(busy)} onClick={() => replaceDish(meal, dish)} className="inline-flex items-center gap-1 rounded-lg p-2 text-xs font-semibold text-[#285E56] hover:bg-[#E7F5EF] disabled:opacity-50"><RefreshCw size={14} className={busy === dish.id ? 'animate-spin' : ''} />Đổi món</button></div><h4 className="text-lg font-bold">{dish.name}</h4><p className="mt-2 text-sm leading-6 text-[#738078]">{dish.description}</p><p className="mt-3 text-xs font-semibold text-[#285E56]">Khẩu phần cho {result.guests} người · ≈ {Math.round(dish.kcal)} kcal/người</p><p className="mt-1 text-xs text-[#738078]">Protein ≈ {dish.protein} g · Carb ≈ {dish.carbs} g · Chất béo ≈ {dish.fat} g / người</p><p className="mt-3 text-xs font-bold">Nguyên liệu chính và gia vị</p><ul className="mt-1 list-inside list-disc space-y-1 text-sm leading-6 text-[#607369]">{dish.ingredients.map((ingredient, i) => <li key={i}>{ingredient}</li>)}</ul><p className="mt-4 rounded-xl bg-[#E7F5EF]/60 p-3 text-sm leading-6 text-[#285E56]">{dish.reason}</p><div className="mt-4 flex flex-wrap justify-between gap-2 text-xs font-semibold"><span className="inline-flex items-center gap-1"><Clock size={14} />≈ {dish.minutes} phút</span><span>Nguyên liệu ≈ {formatVND(dish.ingredientCost)}</span></div></div>)}</div>
-          <div className="border-t border-[#E5ECE7] bg-[#E7F5EF]/50 p-5 sm:p-6"><dl className="grid gap-3 text-sm sm:grid-cols-3"><div><dt className="text-[#607369]">Nguyên liệu ước tính ({result.guests} người)</dt><dd className="mt-1 font-bold">{formatVND(cost)}</dd></div><div><dt className="text-[#607369]">Công nấu dự kiến</dt><dd className="mt-1 font-bold">{formatVND(fees.totalLaborFee)}</dd></div><div><dt className="text-[#607369]">Phí giao hàng (không áp dụng)</dt><dd className="mt-1 font-bold">{formatVND(fees.deliveryFee)}</dd></div></dl><p className="mt-4 text-lg font-bold text-[#285E56]">Tổng dự kiến: {formatVND(cost + fees.totalLaborFee + fees.deliveryFee)}</p><p className="mb-4 mt-1 text-xs leading-5 text-[#607369]">Chưa phát sinh khoản thu. {fees.requiresQuotation ? 'Quy mô này cần đầu bếp báo giá lại theo quy tắc hiện có.' : 'Phụ phí dịch vụ khác hiện là 0 đ; mọi điều chỉnh cần được xác nhận trong quy trình đặt.'} Đầu bếp đến nhà bạn nấu ăn, không tính phí giao hàng; bạn chọn thời gian, địa chỉ và đầu bếp ở bước tiếp theo.</p><button disabled={!confirmedIngredients || Boolean(busy) || authLoading || expertRequired} onClick={() => bookMeal(meal)} className={`${buttonClass} w-full bg-[#285E56] text-white hover:bg-[#1f4b44] sm:w-auto`}><ChefHat size={18} />Đặt Home Cook nấu thực đơn này<ArrowRight size={17} /></button>{!confirmedIngredients && <p className="mt-2 text-xs text-[#607369]">Vui lòng đánh dấu xác nhận đã xem nguyên liệu ở phía trên.</p>}</div>
+          <div className="px-5 pb-5 sm:px-6 sm:pb-6"><Nutrition meal={meal} /></div>
+          <div className="border-t border-[#E5ECE7] bg-[#E7F5EF]/50 p-5 sm:p-6"><dl className="grid gap-3 text-sm sm:grid-cols-3"><div><dt className="text-[#607369]">Nguyên liệu ước tính ({result.guests} người)</dt><dd className="mt-1 font-bold">{formatVND(cost)}</dd></div><div><dt className="text-[#607369]">Công nấu dự kiến</dt><dd className="mt-1 font-bold">{formatVND(fees.totalLaborFee)}</dd></div><div><dt className="text-[#607369]">Phí giao hàng (không áp dụng)</dt><dd className="mt-1 font-bold">{formatVND(fees.deliveryFee)}</dd></div></dl><p className="mt-4 text-lg font-bold text-[#285E56]">Tổng dự kiến: {formatVND(cost + fees.totalLaborFee + fees.deliveryFee)}</p><p className="mb-4 mt-1 text-xs leading-5 text-[#607369]">Chưa phát sinh khoản thu. {fees.requiresQuotation ? 'Quy mô này cần đầu bếp báo giá lại theo quy tắc hiện có.' : 'Phụ phí dịch vụ khác hiện là 0 đ; mọi điều chỉnh cần được xác nhận trong quy trình đặt.'} Đầu bếp đến nhà bạn nấu ăn, không tính phí giao hàng; bạn chọn thời gian, địa chỉ và đầu bếp ở bước tiếp theo.</p>
+            <label className="mb-4 flex cursor-pointer items-start gap-3 rounded-2xl border border-[#B8E4D3] bg-white p-4 text-sm leading-6">
+              <input type="checkbox" disabled={Boolean(busy)} checked={confirmedIngredients} onChange={(e) => {
+                const checked = e.target.checked;
+                setConfirmedMeals((previous) => {
+                  const next = new Set(previous);
+                  if (checked) next.add(meal); else next.delete(meal);
+                  return next;
+                });
+              }} className="mt-1 h-4 w-4 shrink-0 accent-[#285E56]" />
+              <span>Tôi đã xem danh sách nguyên liệu, ngân sách dự kiến và sẽ xác nhận lại dị ứng, thành phần nước sốt trước khi chốt dịch vụ.</span>
+            </label>
+            <button disabled={!confirmedIngredients || Boolean(busy) || authLoading || expertRequired} onClick={() => bookMeal(meal)} className={`${buttonClass} w-full bg-[#285E56] text-white hover:bg-[#1f4b44] sm:w-auto`}><ChefHat size={18} />Đặt Home Cook nấu thực đơn này<ArrowRight size={17} /></button>{!confirmedIngredients && <p className="mt-2 text-xs text-[#607369]">Vui lòng xác nhận nguyên liệu, ngân sách và dị ứng của bữa ăn này trước khi đặt.</p>}</div>
         </article>;
       })}
     </section>}

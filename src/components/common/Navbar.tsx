@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ChefHat, ShoppingBag, User, Shield, Menu, X, LogOut, RefreshCw } from 'lucide-react';
+import { ChefHat, ShoppingBag, User, Shield, Menu, X, LogOut } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const { currentUser, authUser, logout, showToast, currentPath, navigateTo, orders, resetToInitialDemoData } = useApp();
+  const { currentUser, authUser, logout, showToast, currentPath, navigateTo, orders } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
 
@@ -34,51 +34,6 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-40 bg-[#FFFDF7]/95 backdrop-blur-md border-b border-[#E5ECE7]">
-      {/* Scenario Demo Banner */}
-      <div className="bg-[#E7F5EF] text-[#285E56] text-xs py-1.5 px-4 border-b border-[#B8E4D3]/50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex min-w-0 items-center gap-2 overflow-x-auto text-[11px] sm:text-xs">
-            <span className="font-semibold whitespace-nowrap">Kịch bản thử nghiệm:</span>
-            <button
-              onClick={() => navigateTo('/orders/ord_01/bill')}
-              className="text-[#285E56] hover:underline whitespace-nowrap bg-white/70 px-2 py-0.5 rounded"
-            >
-              Kịch bản A: Bữa cơm gia đình (Thanh toán sau)
-            </button>
-            <span className="text-[#285E56]/40">|</span>
-            <button
-              onClick={() => navigateTo('/orders/ord_02')}
-              className="text-[#285E56] hover:underline whitespace-nowrap bg-white/70 px-2 py-0.5 rounded"
-            >
-              Kịch bản B: Tiệc 25 người (Duyệt báo giá)
-            </button>
-            <span className="text-[#285E56]/40">|</span>
-            <button
-              onClick={() => navigateTo('/orders/ord_03')}
-              className="text-[#285E56] hover:underline whitespace-nowrap bg-white/70 px-2 py-0.5 rounded"
-            >
-              Kịch bản C: Duyệt tăng ngân sách
-            </button>
-            <span className="text-[#285E56]/40">|</span>
-            <button
-              onClick={() => navigateTo('/orders/ord_04')}
-              className="text-[#285E56] hover:underline whitespace-nowrap bg-white/70 px-2 py-0.5 rounded"
-            >
-              Kịch bản D: Khiếu nại hóa đơn
-            </button>
-          </div>
-
-          <button
-            onClick={resetToInitialDemoData}
-            title="Khôi phục trạng thái mẫu ban đầu"
-            className="flex items-center gap-1 text-[11px] text-[#285E56] hover:text-[#263B35] whitespace-nowrap shrink-0 font-medium"
-          >
-            <RefreshCw className="w-3 h-3" />
-            <span className="hidden sm:inline">Khôi phục mẫu</span>
-          </button>
-        </div>
-      </div>
-
       {/* Main Top Bar - strict 3-zone contract */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Zone 1: Brand Wordmark */}
