@@ -333,16 +333,16 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 3. Suggested Menus */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="home-readable-cards max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-accent">Thực đơn gợi ý hoàn chỉnh</h2>
-            <p className="text-xs sm:text-sm text-muted">Dành cho người bận rộn chưa biết chọn món gì. Giá nguyên liệu và tiền công được ghi rõ ràng dưới dạng minh họa.</p>
+            <p className="text-sm text-ink">Dành cho người bận rộn chưa biết chọn món gì. Giá nguyên liệu và tiền công được ghi rõ ràng dưới dạng minh họa.</p>
           </div>
-          <span className="text-xs text-muted italic">* Toàn bộ giá hiển thị là ước tính mẫu</span>
+          <span className="text-sm text-ink italic">* Toàn bộ giá hiển thị là ước tính mẫu</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {SUGGESTED_MENUS.map((menu) => (
             <div
               key={menu.id}
@@ -356,17 +356,17 @@ export const HomePage: React.FC = () => {
                   <span className="text-muted">{menu.dishCount} món</span>
                 </div>
 
-                <h3 className="font-bold text-base text-accent line-clamp-2">{menu.title}</h3>
+                <h3 className="font-bold text-base text-accent">{menu.title}</h3>
 
-                <p className="text-xs text-muted line-clamp-2">{menu.description}</p>
+                <p className="text-sm text-ink">{menu.description}</p>
 
                 <div className="pt-2 border-t border-border-soft space-y-1.5">
-                  <p className="text-xs font-semibold text-ink">Món ăn trong mâm:</p>
-                  <ul className="text-xs text-muted space-y-1">
+                  <p className="text-sm font-semibold text-ink">Món ăn trong mâm:</p>
+                  <ul className="text-sm text-ink space-y-1">
                     {menu.dishes.map((d, i) => (
                       <li key={i} className="flex items-center gap-1.5">
                         <Check className="w-3 h-3 text-detail shrink-0" />
-                        <span className="line-clamp-1">{d}</span>
+                        <span className="min-w-0 break-words">{d}</span>
                       </li>
                     ))}
                   </ul>
@@ -374,20 +374,20 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="mt-5 pt-3 border-t border-border-soft space-y-2">
-                <div className="text-[11px] space-y-1 text-muted">
-                  <div className="flex justify-between">
+                <div className="text-sm space-y-3 text-ink">
+                  <div className="flex flex-col gap-0.5">
                     <span>Tiền chợ ước tính:</span>
-                    <span className="font-medium text-ink">{menu.estimatedGrocery}</span>
+                    <span className="font-semibold text-ink">{menu.estimatedGrocery}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-0.5">
                     <span>Công nấu ước tính:</span>
-                    <span className="font-medium text-accent">{menu.estimatedLabor}</span>
+                    <span className="font-semibold text-accent">{menu.estimatedLabor}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleSelectSuggestedMenu(menu)}
-                  className="w-full mt-2 py-2 bg-surface-alt hover:bg-brand text-on-brand hover:text-on-brand text-xs font-semibold rounded-xl transition-all text-center flex items-center justify-center gap-1"
+                  className="w-full mt-2 py-2 bg-surface-alt hover:bg-brand text-on-brand hover:text-on-brand text-sm font-semibold rounded-xl transition-all text-center flex items-center justify-center gap-1"
                 >
                   <span>Chọn mâm cơm này</span>
                   <ArrowRight className="w-3 h-3" />
@@ -399,11 +399,11 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 5. Featured Cooks */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6">
+      <section className="home-readable-cards max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-accent">Đầu bếp tiêu biểu</h2>
-            <p className="text-xs sm:text-sm text-muted">Được thẩm định tay nghề, vệ sinh an toàn thực phẩm và cam kết minh bạch chứng từ mua sắm</p>
+            <p className="text-sm text-ink">Được thẩm định tay nghề, vệ sinh an toàn thực phẩm và cam kết minh bạch chứng từ mua sắm</p>
           </div>
           <button
             onClick={() => navigateTo('/cooks')}
@@ -413,7 +413,7 @@ export const HomePage: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {cooks.map((cook) => (
             <div
               key={cook.id}
@@ -429,7 +429,7 @@ export const HomePage: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-1">
                       <h3 className="font-bold text-accent text-sm sm:text-base">{cook.name}</h3>
                       {cook.verified && (
@@ -438,21 +438,21 @@ export const HomePage: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-muted line-clamp-1">{cook.title}</p>
-                    <div className="flex items-center gap-1 text-xs text-accent font-semibold mt-0.5">
+                    <p className="text-sm text-ink">{cook.title}</p>
+                    <div className="flex items-center gap-1 text-sm text-accent font-semibold mt-0.5">
                       <Star className="w-3 h-3 fill-detail text-detail" />
                       <span>{cook.rating}</span>
-                      <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
+                      <span className="text-ink font-normal">({cook.reviewCount} đánh giá)</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-xs text-muted line-clamp-2 mb-3">{cook.bio}</p>
+                <p className="text-sm text-ink mb-3">{cook.bio}</p>
 
-                <div className="space-y-1.5 text-xs text-muted py-2 border-t border-border-soft">
+                <div className="space-y-1.5 text-sm text-ink py-2 border-t border-border-soft">
                   <div className="flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-detail shrink-0" />
-                    <span className="line-clamp-1">Khu vực: {cook.serviceAreas.join(', ')}</span>
+                    <span className="min-w-0 break-words">Khu vực: {cook.serviceAreas.join(', ')}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5 text-detail shrink-0" />
@@ -460,19 +460,19 @@ export const HomePage: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <ChefHat className="w-3.5 h-3.5 text-detail shrink-0" />
-                    <span className="line-clamp-1">Sở trường: {cook.specialties.slice(0, 2).join(', ')}</span>
+                    <span className="min-w-0 break-words">Sở trường: {cook.specialties.slice(0, 2).join(', ')}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-border-soft flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-border-soft flex flex-wrap gap-3 items-center justify-between">
                 <div>
-                  <p className="text-[10px] text-muted">Công nấu khởi điểm:</p>
-                  <p className="text-xs font-bold text-accent">{formatVND(cook.baseLaborFee)}</p>
+                  <p className="text-xs text-ink">Công nấu khởi điểm:</p>
+                  <p className="text-base font-bold text-accent">{formatVND(cook.baseLaborFee)}</p>
                 </div>
                 <button
                   onClick={() => navigateTo(`/cooks/${cook.id}`)}
-                  className="px-3 py-1.5 bg-brand hover:bg-brand-hover text-on-brand text-xs font-semibold rounded-lg transition-colors"
+                  className="px-3 py-1.5 bg-brand hover:bg-brand-hover text-on-brand text-sm font-semibold rounded-lg transition-colors"
                 >
                   Xem hồ sơ
                 </button>
