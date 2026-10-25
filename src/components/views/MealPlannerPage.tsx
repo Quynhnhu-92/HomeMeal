@@ -314,7 +314,7 @@ export const MealPlannerPage: React.FC = () => {
                 Quy trình đặt nấu bữa ăn
               </span>
               <span className="inline-flex items-center gap-1 text-[11px] font-medium text-accent bg-surface-alt px-2 py-0.5 rounded-md border border-border-soft">
-                <ChefHat className="w-3 h-3 text-accent" />
+                <ChefHat className="w-3 h-3 text-detail" />
                 Đầu bếp nấu trực tiếp tại nhà
               </span>
             </div>
@@ -370,7 +370,7 @@ export const MealPlannerPage: React.FC = () => {
               </p>
             </div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-alt border border-border-soft text-accent text-xs font-semibold shrink-0">
-              <Clock className="w-4 h-4 text-accent" />
+              <Clock className="w-4 h-4 text-detail" />
               <span>Yêu cầu đặt trước tối thiểu 4 tiếng</span>
             </div>
           </div>
@@ -379,7 +379,7 @@ export const MealPlannerPage: React.FC = () => {
           {!timeValidation.isValid ? (
             <div className="p-4 rounded-xl bg-surface-alt border-2 border-accent text-accent space-y-2 animate-pulse">
               <div className="flex items-start gap-2.5">
-                <AlertTriangle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <AlertTriangle className="w-5 h-5 text-detail shrink-0 mt-0.5" />
                 <div className="text-xs sm:text-sm space-y-1">
                   <p className="font-bold text-accent">
                     ⚠️ Giờ phục vụ không hợp lệ (Không được chọn cách hiện tại dưới 4 tiếng)
@@ -393,7 +393,7 @@ export const MealPlannerPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleApplyEarliestTime}
-                  className="px-3.5 py-1.5 bg-accent hover:bg-accent-hover text-on-accent font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-xs"
+                  className="px-3.5 py-1.5 bg-brand hover:bg-brand-hover text-on-brand font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-xs"
                 >
                   <Zap className="w-3.5 h-3.5" />
                   <span>Tự động chọn giờ sớm nhất khả dụng ({timeValidation.suggestedFormatted})</span>
@@ -403,7 +403,7 @@ export const MealPlannerPage: React.FC = () => {
           ) : (
             <div className="p-3.5 rounded-xl bg-surface-alt border border-border-soft text-accent flex items-center justify-between gap-3 text-xs sm:text-sm">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-detail shrink-0" />
                 <span>
                   <strong>Thời gian hợp lệ:</strong> Phục vụ lúc <strong>{draftOrder.servingTime} ngày {draftOrder.date}</strong> (cách hiện tại {Math.floor(timeValidation.hoursUntilService)} giờ {Math.round((timeValidation.hoursUntilService - Math.floor(timeValidation.hoursUntilService)) * 60)} phút - Đầu bếp có đủ thời gian chuẩn bị & di chuyển tới nhà bạn).
                 </span>
@@ -414,7 +414,7 @@ export const MealPlannerPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div>
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <Calendar className="w-4 h-4 text-accent" /> Ngày đầu bếp tới nấu:
+                <Calendar className="w-4 h-4 text-detail" /> Ngày đầu bếp tới nấu:
               </label>
               <input
                 type="date"
@@ -432,7 +432,7 @@ export const MealPlannerPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <Clock className="w-4 h-4 text-accent" /> Giờ ăn cơm mong muốn:
+                <Clock className="w-4 h-4 text-detail" /> Giờ ăn cơm mong muốn:
               </label>
               <input
                 type="time"
@@ -449,7 +449,7 @@ export const MealPlannerPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <Users className="w-4 h-4 text-accent" /> Số lượng khách ăn:
+                <Users className="w-4 h-4 text-detail" /> Số lượng khách ăn:
               </label>
               <div className="relative">
                 <input
@@ -477,7 +477,7 @@ export const MealPlannerPage: React.FC = () => {
 
             <div className="sm:col-span-2">
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <MapPin className="w-4 h-4 text-accent" /> Địa chỉ nhà bạn (Nơi đầu bếp đến nấu):
+                <MapPin className="w-4 h-4 text-detail" /> Địa chỉ nhà bạn (Nơi đầu bếp đến nấu):
               </label>
               <input
                 type="text"
@@ -501,7 +501,7 @@ export const MealPlannerPage: React.FC = () => {
           </div>
 
           <div className="p-4 bg-surface-alt rounded-xl border border-border-soft text-xs text-muted flex items-start gap-2">
-            <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+            <Info className="w-4 h-4 text-detail shrink-0 mt-0.5" />
             <div>
               <span className="font-semibold text-ink">Cam kết phục vụ tại nhà:</span> Đầu bếp chuẩn bị nguyên liệu tươi, nấu trực tiếp tại gian bếp của bạn, dọn món nóng lên bàn và vệ sinh khu vực bếp sau khi hoàn tất.
             </div>
@@ -547,7 +547,7 @@ export const MealPlannerPage: React.FC = () => {
           <div className="bg-surface rounded-2xl p-6 border border-brand shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border-soft pb-3">
               <div className="flex items-center gap-2">
-                <PenTool className="w-4 h-4 text-accent" />
+                <PenTool className="w-4 h-4 text-detail" />
                 <h3 className="font-bold text-accent text-sm sm:text-base">
                   Điền món ăn bạn muốn đầu bếp nấu
                 </h3>
@@ -582,7 +582,7 @@ export const MealPlannerPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleAddBulkDishes}
-                    className="px-4 py-2 bg-accent hover:bg-accent-hover text-on-accent text-xs font-bold rounded-lg transition-all shadow-xs self-start sm:self-auto"
+                    className="px-4 py-2 bg-brand hover:bg-brand-hover text-on-brand text-xs font-bold rounded-lg transition-all shadow-xs self-start sm:self-auto"
                   >
                     Thêm danh sách món này
                   </button>
@@ -672,7 +672,7 @@ export const MealPlannerPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleAddCustomDish()}
-                  className="w-full py-2.5 px-4 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 h-[42px]"
+                  className="w-full py-2.5 px-4 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 h-[42px]"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Thêm món vào mâm cơm</span>
@@ -683,7 +683,7 @@ export const MealPlannerPage: React.FC = () => {
             {/* Quick Inspiration Pills */}
             <div className="pt-2 border-t border-border-soft">
               <div className="flex items-center gap-1.5 text-xs text-muted mb-2 font-medium">
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
+                <Sparkles className="w-3.5 h-3.5 text-detail" />
                 <span>Gợi ý bấm nhanh món ăn gia đình quen thuộc:</span>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -718,7 +718,7 @@ export const MealPlannerPage: React.FC = () => {
           <div className="bg-surface rounded-2xl p-6 border border-border-soft shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-border-soft">
               <div className="flex items-center gap-2">
-                <Utensils className="w-4 h-4 text-accent" />
+                <Utensils className="w-4 h-4 text-detail" />
                 <h3 className="font-bold text-accent text-base">
                   Mâm cơm của bạn ({selectedItems.length} món)
                 </h3>
@@ -847,7 +847,7 @@ export const MealPlannerPage: React.FC = () => {
           </div>
 
           <div className="p-4 bg-surface-alt rounded-xl border border-border-soft text-accent text-xs flex items-start gap-2.5">
-            <AlertCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-detail shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold">Lưu ý quan trọng về dị ứng thực phẩm:</p>
               Nếu trong gia đình có người dị ứng nghiêm trọng (hải sản, đậu phộng, trứng...), hãy ghi rõ bên dưới để đầu bếp chuẩn bị dao thớt riêng biệt và kiểm tra nhãn thành phần khi đi chợ.
@@ -885,7 +885,7 @@ export const MealPlannerPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleAddAllergy}
-                className="px-3 py-2 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                className="px-3 py-2 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
               >
                 Thêm
               </button>
@@ -1063,13 +1063,13 @@ export const MealPlannerPage: React.FC = () => {
                           <h3 className="font-bold text-base text-accent">{cook.name}</h3>
                           {cook.verified && (
                             <span title="Đã kiểm định VSATTP">
-                              <CheckCircle2 className="w-4 h-4 text-accent" />
+                              <CheckCircle2 className="w-4 h-4 text-detail" />
                             </span>
                           )}
                         </div>
                         <p className="text-xs text-muted">{cook.title}</p>
                         <div className="flex items-center gap-1 text-xs text-accent font-semibold mt-0.5">
-                          <Star className="w-3 h-3 fill-accent text-accent" />
+                          <Star className="w-3 h-3 fill-detail text-detail" />
                           <span>{cook.rating}</span>
                           <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
                         </div>
@@ -1207,7 +1207,7 @@ export const MealPlannerPage: React.FC = () => {
             className={`px-6 py-2.5 font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm transition-all ${
               currentStep === 1 && !timeValidation.isValid
                 ? 'bg-border-soft text-muted cursor-not-allowed'
-                : 'bg-accent hover:bg-accent-hover text-on-accent'
+                : 'bg-brand hover:bg-brand-hover text-on-brand'
             }`}
           >
             <span>Tiếp tục: {STEPS[currentStep]}</span>
@@ -1217,9 +1217,9 @@ export const MealPlannerPage: React.FC = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-8 py-3 bg-accent hover:bg-accent-hover text-on-accent font-bold text-sm sm:text-base rounded-xl flex items-center gap-2 shadow-md hover:shadow-lg"
+            className="px-8 py-3 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm sm:text-base rounded-xl flex items-center gap-2 shadow-md hover:shadow-lg"
           >
-            <Check className="w-5 h-5 text-on-accent" />
+            <Check className="w-5 h-5 text-on-brand" />
             <span>Gửi yêu cầu đặt bữa (Chưa trừ tiền)</span>
           </button>
         )}

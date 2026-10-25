@@ -44,7 +44,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
         <h2 className="text-xl font-bold text-accent">Không tìm thấy hóa đơn</h2>
         <button
           onClick={() => navigateTo('/orders')}
-          className="mt-4 px-4 py-2 bg-accent text-on-accent rounded-xl text-xs font-semibold"
+          className="mt-4 px-4 py-2 bg-brand text-on-brand rounded-xl text-xs font-semibold"
         >
           Quay lại danh sách đơn hàng
         </button>
@@ -111,7 +111,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
 
         {/* Notice of Separation */}
         <div className="p-4 bg-surface-alt rounded-2xl border border-brand text-xs text-accent flex items-center gap-3">
-          <ShieldCheck className="w-5 h-5 shrink-0 text-accent" />
+          <ShieldCheck className="w-5 h-5 shrink-0 text-detail" />
           <div>
             <strong>Cam kết thanh toán minh bạch:</strong> Chi phí nguyên liệu được thanh toán theo đúng hóa đơn thực tế của đầu bếp. Tiền công nấu ăn được tính riêng biệt và không kèm bất kỳ phụ phí ẩn nào.
           </div>
@@ -225,7 +225,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
           {/* Dispute Warning if any */}
           {isDisputed && (
             <div className="p-3 bg-surface-alt border border-border-soft text-accent rounded-xl text-xs font-semibold flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-accent shrink-0" />
+              <AlertTriangle className="w-4 h-4 text-detail shrink-0" />
               <span>Đơn hàng đang có khiếu nại chưa giải quyết. Hệ thống tạm khóa thanh toán đối với khoản tiền này.</span>
             </div>
           )}
@@ -241,20 +241,20 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
 
             {isPaid ? (
               <div className="flex items-center gap-2 text-accent bg-surface-alt px-4 py-2 rounded-xl text-xs font-bold">
-                <CheckCircle className="w-4 h-4 text-accent" />
+                <CheckCircle className="w-4 h-4 text-detail" />
                 <span>ĐÃ THANH TOÁN THÀNH CÔNG</span>
               </div>
             ) : (
               <button
                 disabled={isDisputed}
                 onClick={() => setShowPaymentModal(true)}
-                className={`w-full sm:w-auto px-8 py-3.5 text-on-accent font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 ${
+                className={`w-full sm:w-auto px-8 py-3.5 text-on-brand font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 ${
                   isDisputed
                     ? 'bg-border-soft cursor-not-allowed text-muted'
-                    : 'bg-accent hover:bg-accent-hover'
+                    : 'bg-brand hover:bg-brand-hover'
                 }`}
               >
-                <CreditCard className="w-4 h-4 text-on-accent" />
+                <CreditCard className="w-4 h-4 text-on-brand" />
                 <span>Xác nhận hoàn thành & Thanh toán ngay</span>
               </button>
             )}
@@ -265,7 +265,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
         {isPaid && (
           <div className="p-6 bg-surface-alt rounded-2xl border border-border-soft space-y-4">
             <h4 className="font-bold text-base text-accent flex items-center gap-2">
-              <Star className="w-5 h-5 text-accent fill-accent" />
+              <Star className="w-5 h-5 text-detail fill-detail" />
               <span>Đánh giá trải nghiệm bữa ăn</span>
             </h4>
 
@@ -301,7 +301,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
 
                 <button
                   onClick={handleSendReview}
-                  className="px-4 py-2 bg-accent text-on-accent font-semibold rounded-lg hover:bg-accent-hover"
+                  className="px-4 py-2 bg-brand text-on-brand font-semibold rounded-lg hover:bg-brand-hover"
                 >
                   Gửi đánh giá
                 </button>
@@ -346,7 +346,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
                     checked={selectedPaymentMethod === 'bank_transfer'}
                     onChange={() => setSelectedPaymentMethod('bank_transfer')}
                   />
-                  <Building2 className="w-4 h-4 text-accent" />
+                  <Building2 className="w-4 h-4 text-detail" />
                   <div>
                     <p className="font-bold text-xs text-ink">Chuyển khoản ngân hàng 24/7 (VietQR)</p>
                     <p className="text-[10px] text-muted">Quét mã QR qua mọi ứng dụng ngân hàng</p>
@@ -363,7 +363,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
                     checked={selectedPaymentMethod === 'momo'}
                     onChange={() => setSelectedPaymentMethod('momo')}
                   />
-                  <QrCode className="w-4 h-4 text-accent" />
+                  <QrCode className="w-4 h-4 text-detail" />
                   <div>
                     <p className="font-bold text-xs text-ink">Ví điện tử MoMo</p>
                     <p className="text-[10px] text-muted">Thanh toán tức thì</p>
@@ -380,7 +380,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
                     checked={selectedPaymentMethod === 'card'}
                     onChange={() => setSelectedPaymentMethod('card')}
                   />
-                  <CreditCard className="w-4 h-4 text-accent" />
+                  <CreditCard className="w-4 h-4 text-detail" />
                   <div>
                     <p className="font-bold text-xs text-ink">Thẻ Quốc tế (Visa / Mastercard / JCB)</p>
                     <p className="text-[10px] text-muted">Cổng thẻ nội địa và quốc tế</p>
@@ -398,7 +398,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
                 <button
                   disabled={isProcessingPayment}
                   onClick={handleSimulatedPayment}
-                  className="px-6 py-2 bg-accent hover:bg-accent-hover text-on-accent text-xs font-bold rounded-lg shadow-sm flex items-center gap-1.5"
+                  className="px-6 py-2 bg-brand hover:bg-brand-hover text-on-brand text-xs font-bold rounded-lg shadow-sm flex items-center gap-1.5"
                 >
                   {isProcessingPayment ? 'Đang xác thực...' : `Thanh toán ${formatVND(order.finalPayableAmount)}`}
                 </button>

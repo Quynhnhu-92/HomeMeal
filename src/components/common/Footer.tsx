@@ -44,10 +44,10 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 py-10">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-brand text-on-brand flex items-center justify-center font-bold text-lg">
+              <div className="w-8 h-8 rounded-lg bg-brand text-accent flex items-center justify-center font-bold text-lg">
                 H
               </div>
-              <span className="text-xl font-bold tracking-tight text-ink">HomeMeal</span>
+              <span className="text-xl font-bold tracking-tight text-accent">HomeMeal</span>
             </div>
             <p className="text-sm font-medium text-ink italic mb-3">
               "Bữa cơm chân tình cho người bận rộn"

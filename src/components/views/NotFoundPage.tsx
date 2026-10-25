@@ -22,9 +22,9 @@ export const NotFoundPage: React.FC = () => {
       <div className="flex items-center justify-center gap-3 pt-4">
         <button
           onClick={() => navigateTo('/')}
-          className="px-6 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-sm transition-all"
+          className="px-6 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-sm transition-all"
         >
-          <Home className="w-4 h-4 text-on-accent" />
+          <Home className="w-4 h-4 text-on-brand" />
           <span>Về trang chủ HomeMeal</span>
         </button>
       </div>

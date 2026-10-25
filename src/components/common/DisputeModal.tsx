@@ -53,7 +53,7 @@ export const DisputeModal: React.FC<DisputeModalProps> = ({
         <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs sm:text-sm">
           <div className="p-3 bg-surface-alt rounded-xl border border-border-soft text-accent text-xs">
             <p className="font-semibold mb-1 flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4 text-accent" /> Quyền lợi bảo vệ khách hàng:
+              <AlertTriangle className="w-4 h-4 text-detail" /> Quyền lợi bảo vệ khách hàng:
             </p>
             Khi gửi yêu cầu, đơn hàng sẽ chuyển sang trạng thái <strong>Đang khiếu nại</strong> và hệ thống <strong>tạm ngừng thu khoản tiền này</strong> cho tới khi đầu bếp bổ sung chứng từ giải trình.
           </div>
@@ -115,7 +115,7 @@ export const DisputeModal: React.FC<DisputeModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-accent text-on-accent font-medium rounded-lg hover:bg-accent-hover transition-colors"
+              className="px-4 py-2 bg-brand text-on-brand font-medium rounded-lg hover:bg-brand-hover transition-colors"
             >
               Gửi khiếu nại & Khóa thanh toán
             </button>

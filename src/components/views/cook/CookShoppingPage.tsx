@@ -167,13 +167,13 @@ export const CookShoppingPage: React.FC = () => {
               onClick={() => setShowBudgetChangeModal(true)}
               className="px-3.5 py-2 bg-surface-alt border border-accent text-accent font-semibold text-xs rounded-xl hover:bg-surface-alt flex items-center gap-1.5"
             >
-              <AlertTriangle className="w-3.5 h-3.5 text-accent" />
+              <AlertTriangle className="w-3.5 h-3.5 text-detail" />
               <span>Xin duyệt tăng ngân sách</span>
             </button>
 
             <button
               onClick={() => setShowAddModal(true)}
-              className="px-4 py-2 bg-accent text-on-accent font-semibold text-xs rounded-xl hover:bg-accent-hover flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 bg-brand text-on-brand font-semibold text-xs rounded-xl hover:bg-brand-hover flex items-center gap-1.5 shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Thêm món đã mua</span>
@@ -204,7 +204,7 @@ export const CookShoppingPage: React.FC = () => {
                   <td className="py-3 px-3 text-right font-bold text-accent">{formatVND(item.actualPrice)}</td>
                   <td className="py-3 px-3 text-center">
                     <span className="inline-flex items-center gap-1 text-[11px] text-accent bg-surface-alt px-2 py-0.5 rounded border border-border-soft">
-                      <Camera className="w-3 h-3 text-accent" /> Có ảnh
+                      <Camera className="w-3 h-3 text-detail" /> Có ảnh
                     </span>
                   </td>
                   <td className="py-3 px-3 text-muted text-[11px] max-w-xs truncate">{item.notes || '—'}</td>
@@ -231,9 +231,9 @@ export const CookShoppingPage: React.FC = () => {
 
           <button
             onClick={handleCompleteShopping}
-            className="w-full sm:w-auto px-6 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
           >
-            <CheckCircle className="w-4 h-4 text-on-accent" />
+            <CheckCircle className="w-4 h-4 text-on-brand" />
             <span>Hoàn thành đi chợ & Gửi hóa đơn cho khách</span>
           </button>
         </div>
@@ -341,7 +341,7 @@ export const CookShoppingPage: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-accent text-on-accent text-xs font-bold rounded-lg hover:bg-accent-hover"
+                  className="px-5 py-2 bg-brand text-on-brand text-xs font-bold rounded-lg hover:bg-brand-hover"
                 >
                   Lưu món vào danh sách
                 </button>
@@ -360,7 +360,7 @@ export const CookShoppingPage: React.FC = () => {
           >
             <div className="p-5 border-b border-border-soft bg-surface flex justify-between items-center text-accent">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-accent" />
+                <AlertTriangle className="w-5 h-5 text-detail" />
                 <h3 className="font-bold text-base">Gửi yêu cầu xin duyệt tăng ngân sách</h3>
               </div>
               <button onClick={() => setShowBudgetChangeModal(false)} className="text-muted hover:text-accent">✕</button>
@@ -419,7 +419,7 @@ export const CookShoppingPage: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-accent hover:bg-accent-hover text-on-accent text-xs font-bold rounded-lg"
+                  className="px-5 py-2 bg-brand hover:bg-brand-hover text-on-brand text-xs font-bold rounded-lg"
                 >
                   Gửi yêu cầu tới khách
                 </button>

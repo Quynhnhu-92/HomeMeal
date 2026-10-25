@@ -80,7 +80,7 @@ export const HomePage: React.FC = () => {
             {/* Left Column */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-alt border border-brand text-accent text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
+                <Sparkles className="w-3.5 h-3.5 text-detail" />
                 <span>Dịch vụ đầu bếp đến tận nhà nấu ăn & Đi chợ minh bạch</span>
               </div>
 
@@ -99,9 +99,9 @@ export const HomePage: React.FC = () => {
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
                   onClick={() => navigateTo('/meal-planner')}
-                  className="px-6 py-3.5 bg-accent text-on-accent font-semibold text-sm sm:text-base rounded-xl hover:bg-accent-hover transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+                  className="px-6 py-3.5 bg-brand text-on-brand font-semibold text-sm sm:text-base rounded-xl hover:bg-brand-hover transition-all shadow-md hover:shadow-lg flex items-center gap-2"
                 >
-                  <ShoppingBag className="w-5 h-5 text-on-accent" />
+                  <ShoppingBag className="w-5 h-5 text-on-brand" />
                   <span>Đặt đầu bếp tới nhà ngay</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -188,7 +188,7 @@ export const HomePage: React.FC = () => {
                 {/* Trust guarantee badge */}
                 <div className="bg-brand text-ink p-3 rounded-xl flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-accent" />
+                    <ShieldCheck className="w-4 h-4 text-detail" />
                     <span className="font-medium">Chỉ cần đặt trước tối thiểu 4 tiếng</span>
                   </div>
                   <span className="font-bold text-on-brand">An tâm 100%</span>
@@ -228,7 +228,7 @@ export const HomePage: React.FC = () => {
                   setQuickDate(quickValidation.earliestDateStr);
                   setQuickTime(quickValidation.earliestTimeStr);
                 }}
-                className="px-2.5 py-1 bg-accent hover:bg-accent-hover text-on-accent font-medium rounded-lg shrink-0 self-start sm:self-auto"
+                className="px-2.5 py-1 bg-brand hover:bg-brand-hover text-on-brand font-medium rounded-lg shrink-0 self-start sm:self-auto"
               >
                 Chỉnh về giờ sớm nhất ({quickValidation.earliestTimeStr})
               </button>
@@ -238,7 +238,7 @@ export const HomePage: React.FC = () => {
           <form onSubmit={handleQuickPlan} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
             <div>
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <Users className="w-3.5 h-3.5 text-accent" /> Số người ăn:
+                <Users className="w-3.5 h-3.5 text-detail" /> Số người ăn:
               </label>
               <div className="relative">
                 <input
@@ -258,7 +258,7 @@ export const HomePage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-accent" /> Ngày đầu bếp tới:
+                <Calendar className="w-3.5 h-3.5 text-detail" /> Ngày đầu bếp tới:
               </label>
               <input
                 type="date"
@@ -273,7 +273,7 @@ export const HomePage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-accent" /> Giờ dọn cơm ăn:
+                <Clock className="w-3.5 h-3.5 text-detail" /> Giờ dọn cơm ăn:
               </label>
               <input
                 type="time"
@@ -321,7 +321,7 @@ export const HomePage: React.FC = () => {
                 className={`w-full py-2.5 px-4 font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 h-[42px] ${
                   !quickValidation.isValid
                     ? 'bg-surface-alt hover:bg-brand text-accent'
-                    : 'bg-accent hover:bg-accent-hover text-on-accent'
+                    : 'bg-brand hover:bg-brand-hover text-on-brand'
                 }`}
               >
                 <span>{!quickValidation.isValid ? 'Cần cách 4 tiếng' : 'Lên kế hoạch bữa ăn'}</span>
@@ -365,7 +365,7 @@ export const HomePage: React.FC = () => {
                   <ul className="text-xs text-muted space-y-1">
                     {menu.dishes.map((d, i) => (
                       <li key={i} className="flex items-center gap-1.5">
-                        <Check className="w-3 h-3 text-accent shrink-0" />
+                        <Check className="w-3 h-3 text-detail shrink-0" />
                         <span className="line-clamp-1">{d}</span>
                       </li>
                     ))}
@@ -434,13 +434,13 @@ export const HomePage: React.FC = () => {
                       <h3 className="font-bold text-accent text-sm sm:text-base">{cook.name}</h3>
                       {cook.verified && (
                         <span title="Đã xác thực danh tính & chứng nhận VSATTP">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-accent" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-detail" />
                         </span>
                       )}
                     </div>
                     <p className="text-xs text-muted line-clamp-1">{cook.title}</p>
                     <div className="flex items-center gap-1 text-xs text-accent font-semibold mt-0.5">
-                      <Star className="w-3 h-3 fill-accent text-accent" />
+                      <Star className="w-3 h-3 fill-detail text-detail" />
                       <span>{cook.rating}</span>
                       <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
                     </div>
@@ -451,15 +451,15 @@ export const HomePage: React.FC = () => {
 
                 <div className="space-y-1.5 text-xs text-muted py-2 border-t border-border-soft">
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <MapPin className="w-3.5 h-3.5 text-detail shrink-0" />
                     <span className="line-clamp-1">Khu vực: {cook.serviceAreas.join(', ')}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <Users className="w-3.5 h-3.5 text-detail shrink-0" />
                     <span>Quy mô: Phục vụ tới {cook.maxGuests} khách</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <ChefHat className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <ChefHat className="w-3.5 h-3.5 text-detail shrink-0" />
                     <span className="line-clamp-1">Sở trường: {cook.specialties.slice(0, 2).join(', ')}</span>
                   </div>
                 </div>
@@ -472,7 +472,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => navigateTo(`/cooks/${cook.id}`)}
-                  className="px-3 py-1.5 bg-accent hover:bg-accent-hover text-on-accent text-xs font-semibold rounded-lg transition-colors"
+                  className="px-3 py-1.5 bg-brand hover:bg-brand-hover text-on-brand text-xs font-semibold rounded-lg transition-colors"
                 >
                   Xem hồ sơ
                 </button>
@@ -602,7 +602,7 @@ export const HomePage: React.FC = () => {
           </p>
           <button
             onClick={() => navigateTo('/meal-planner')}
-            className="px-6 py-3 bg-accent text-on-accent font-bold text-sm sm:text-base rounded-xl hover:bg-accent-hover transition-all shadow-md"
+            className="px-6 py-3 bg-brand text-on-brand font-bold text-sm sm:text-base rounded-xl hover:bg-brand-hover transition-all shadow-md"
           >
             Lên kế hoạch bữa ăn ngay hôm nay
           </button>

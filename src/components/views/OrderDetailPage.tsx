@@ -55,7 +55,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
         <p className="text-xs text-muted">Mã đơn hàng không hợp lệ hoặc đã bị xóa.</p>
         <button
           onClick={() => navigateTo('/orders')}
-          className="px-5 py-2.5 bg-accent text-on-accent text-xs font-semibold rounded-xl"
+          className="px-5 py-2.5 bg-brand text-on-brand text-xs font-semibold rounded-xl"
         >
           Quay lại danh sách đơn hàng
         </button>
@@ -109,16 +109,16 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
           {order.status === 'service_completed' && (
             <button
               onClick={() => navigateTo(`/orders/${order.id}/bill`)}
-              className="px-6 py-3 bg-accent hover:bg-accent-hover text-on-accent font-bold text-sm rounded-xl shadow-md transition-all flex items-center gap-2"
+              className="px-6 py-3 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm rounded-xl shadow-md transition-all flex items-center gap-2"
             >
-              <Receipt className="w-4 h-4 text-on-accent" />
+              <Receipt className="w-4 h-4 text-on-brand" />
               <span>Xem hóa đơn & Thanh toán</span>
             </button>
           )}
 
           {order.status === 'paid' && (
             <div className="flex items-center gap-2 px-4 py-2 bg-surface-alt border border-border-soft text-accent rounded-xl text-xs font-bold">
-              <CheckCircle className="w-4 h-4 text-accent" />
+              <CheckCircle className="w-4 h-4 text-detail" />
               <span>Đã thanh toán trọn vẹn</span>
             </div>
           )}
@@ -129,7 +129,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
           <div className="p-5 bg-surface-alt/80 rounded-2xl border border-border-soft space-y-4">
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2 text-accent font-bold text-base">
-                <FileText className="w-5 h-5 text-accent" />
+                <FileText className="w-5 h-5 text-detail" />
                 <span>Đầu bếp đã gửi Bảng báo giá tiệc tại nhà #{quotation.id}</span>
               </div>
               <span className="text-xs bg-brand text-on-brand font-bold px-2 py-0.5 rounded">
@@ -169,7 +169,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => acceptQuotation(order.id)}
-                className="px-5 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
+                className="px-5 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
               >
                 <Check className="w-4 h-4" />
                 <span>Đồng ý báo giá & Chốt lịch nấu</span>
@@ -189,7 +189,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
           <div className="p-5 bg-surface-alt rounded-2xl border border-accent space-y-4">
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2 text-accent font-bold text-base">
-                <AlertTriangle className="w-5 h-5 text-accent" />
+                <AlertTriangle className="w-5 h-5 text-detail" />
                 <span>Yêu cầu phê duyệt điều chỉnh ngân sách đi chợ</span>
               </div>
               <span className="text-xs bg-surface-alt text-accent font-bold px-2 py-0.5 rounded">
@@ -225,7 +225,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <button
                 onClick={() => approveBudgetChange(order.id, pendingBudgetRequest.id)}
-                className="px-5 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
+                className="px-5 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
               >
                 <Check className="w-4 h-4" />
                 <span>Đồng ý duyệt tăng +{formatVND(pendingBudgetRequest.difference)}</span>
@@ -244,7 +244,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
         {order.status === 'disputed' && order.dispute && (
           <div className="p-5 bg-surface-alt rounded-2xl border border-accent space-y-3">
             <div className="flex items-center gap-2 text-accent font-bold text-base">
-              <AlertTriangle className="w-5 h-5 text-accent" />
+              <AlertTriangle className="w-5 h-5 text-detail" />
               <span>Đơn hàng đang có khiếu nại chứng từ</span>
             </div>
             <p className="text-xs text-accent">
@@ -270,18 +270,18 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
             <h3 className="font-bold text-accent">Thông tin thời gian & Địa chỉ phục vụ tại gia:</h3>
             <div className="space-y-2 text-xs">
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-accent" />
+                <Calendar className="w-4 h-4 text-detail" />
                 <span>{order.date} lúc {order.servingTime}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-accent" />
+                <Users className="w-4 h-4 text-detail" />
                 <span>{order.guestCount} người ăn</span>
               </div>
               <div className="flex items-center gap-2 font-medium text-accent">
                 <span>Hình thức: {order.serviceType === 'party_at_home' ? 'Đầu bếp nấu tiệc tại gia' : 'Đầu bếp đến tận nhà nấu ăn'}</span>
               </div>
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-detail shrink-0 mt-0.5" />
                 <span className="line-clamp-2">{order.customerAddress}</span>
               </div>
             </div>
@@ -438,7 +438,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
         {/* Footer dispute & help bar */}
         <div className="pt-4 border-t border-border-soft flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2 text-muted">
-            <HelpCircle className="w-4 h-4 text-accent" />
+            <HelpCircle className="w-4 h-4 text-detail" />
             <span>Có thắc mắc về giá cả hoặc chất lượng phục vụ?</span>
           </div>
 

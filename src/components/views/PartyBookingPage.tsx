@@ -98,7 +98,7 @@ export const PartyBookingPage: React.FC = () => {
         {!timeValidation.isValid ? (
           <div className="p-3.5 rounded-xl bg-surface-alt border border-accent text-accent text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-accent shrink-0" />
+              <AlertTriangle className="w-4 h-4 text-detail shrink-0" />
               <span>{timeValidation.message}</span>
             </div>
             <button
@@ -107,14 +107,14 @@ export const PartyBookingPage: React.FC = () => {
                 setDate(timeValidation.earliestDateStr);
                 setTime(timeValidation.earliestTimeStr);
               }}
-              className="px-2.5 py-1 bg-accent hover:bg-accent-hover text-on-accent font-medium rounded-lg shrink-0"
+              className="px-2.5 py-1 bg-brand hover:bg-brand-hover text-on-brand font-medium rounded-lg shrink-0"
             >
               Chọn giờ sớm nhất ({timeValidation.earliestTimeStr})
             </button>
           </div>
         ) : (
           <div className="p-3 rounded-xl bg-surface-alt border border-border-soft text-accent text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-detail shrink-0" />
             <span>
               Thời gian hợp lệ: Khai tiệc lúc <strong>{time} ngày {date}</strong> (cách hiện tại {Math.floor(timeValidation.hoursUntilService)} giờ - Đạt chuẩn tối thiểu 4 tiếng chuẩn bị).
             </span>
@@ -140,7 +140,7 @@ export const PartyBookingPage: React.FC = () => {
 
           <div>
             <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-              <Users className="w-3.5 h-3.5 text-accent" /> Số lượng khách:
+              <Users className="w-3.5 h-3.5 text-detail" /> Số lượng khách:
             </label>
             <input
               type="number"
@@ -154,7 +154,7 @@ export const PartyBookingPage: React.FC = () => {
 
           <div>
             <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-accent" /> Ngày tổ chức:
+              <Calendar className="w-3.5 h-3.5 text-detail" /> Ngày tổ chức:
             </label>
             <input
               type="date"
@@ -169,7 +169,7 @@ export const PartyBookingPage: React.FC = () => {
 
           <div>
             <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-accent" /> Giờ khai tiệc:
+              <Clock className="w-3.5 h-3.5 text-detail" /> Giờ khai tiệc:
             </label>
             <input
               type="time"
@@ -183,7 +183,7 @@ export const PartyBookingPage: React.FC = () => {
 
           <div className="sm:col-span-2">
             <label className="block text-xs font-semibold text-ink mb-1.5 flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-accent" /> Địa điểm tổ chức:
+              <MapPin className="w-3.5 h-3.5 text-detail" /> Địa điểm tổ chức:
             </label>
             <input
               type="text"
@@ -324,13 +324,13 @@ export const PartyBookingPage: React.FC = () => {
         {/* Action Button */}
         <div className="pt-4 border-t border-border-soft flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-muted flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-accent" />
+            <ShieldCheck className="w-4 h-4 text-detail" />
             <span>Đầu bếp sẽ gửi báo giá cụ thể. Bạn xem và duyệt trước khi chốt đơn.</span>
           </div>
 
           <button
             type="submit"
-            className="w-full sm:w-auto px-8 py-3.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-sm sm:text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-3.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm sm:text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
           >
             <span>Gửi yêu cầu & Nhận báo giá chi tiết</span>
           </button>

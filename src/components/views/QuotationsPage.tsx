@@ -33,7 +33,7 @@ export const QuotationsPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-border-soft">
                 <div>
                   <div className="flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-accent" />
+                    <FileText className="w-5 h-5 text-detail" />
                     <h3 className="font-bold text-base text-accent">Báo giá cho Đơn #{order.orderCode}</h3>
                     <span className={`px-2.5 py-0.5 rounded text-xs font-bold ${
                       q.status === 'accepted'
@@ -100,7 +100,7 @@ export const QuotationsPage: React.FC = () => {
                     </button>
                     <button
                       onClick={() => acceptQuotation(order.id)}
-                      className="px-5 py-2 bg-accent hover:bg-accent-hover text-on-accent text-xs font-bold rounded-xl shadow-sm flex items-center gap-1"
+                      className="px-5 py-2 bg-brand hover:bg-brand-hover text-on-brand text-xs font-bold rounded-xl shadow-sm flex items-center gap-1"
                     >
                       <Check className="w-4 h-4" />
                       <span>Đồng ý báo giá</span>

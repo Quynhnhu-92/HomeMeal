@@ -36,7 +36,7 @@ export const CookEarningsPage: React.FC = () => {
           <div className="p-6 rounded-2xl bg-surface-alt border border-brand space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-accent">
               <span>THU NHẬP CÔNG NẤU TẠI GIA</span>
-              <Wallet className="w-5 h-5 text-accent" />
+              <Wallet className="w-5 h-5 text-detail" />
             </div>
             <p className="text-3xl font-extrabold text-accent">{formatVND(totalLaborEarnings)}</p>
             <p className="text-[11px] text-accent font-medium">
@@ -95,7 +95,7 @@ export const CookEarningsPage: React.FC = () => {
                     <td className="py-3 px-3 text-right font-medium text-ink">{formatVND(o.actualGroceryTotal)}</td>
                     <td className="py-3 px-3 text-center">
                       <span className="inline-flex items-center gap-1 text-[11px] font-bold text-accent bg-surface-alt px-2.5 py-0.5 rounded-full border border-border-soft">
-                        <CheckCircle className="w-3 h-3 text-accent" /> Đã chuyển khoản
+                        <CheckCircle className="w-3 h-3 text-detail" /> Đã chuyển khoản
                       </span>
                     </td>
                   </tr>

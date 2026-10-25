@@ -69,7 +69,7 @@ export const SupportPage: React.FC = () => {
       {/* Policies Grid */}
       <div className="space-y-4" id="policies">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-accent" />
+          <ShieldCheck className="w-5 h-5 text-detail" />
           <h2 className="text-xl font-bold text-accent">Quy định minh bạch & Chính sách hủy/hoàn tiền</h2>
         </div>
 
@@ -93,7 +93,7 @@ export const SupportPage: React.FC = () => {
       {/* Frequently Asked Questions */}
       <div className="space-y-4" id="faqs">
         <div className="flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-accent" />
+          <HelpCircle className="w-5 h-5 text-detail" />
           <h2 className="text-xl font-bold text-accent">Câu hỏi thường gặp (FAQ)</h2>
         </div>
 
@@ -126,7 +126,7 @@ export const SupportPage: React.FC = () => {
 
         {submittedMessage ? (
           <div className="p-6 bg-surface-alt rounded-2xl border border-border-soft text-center space-y-2">
-            <CheckCircle2 className="w-8 h-8 text-accent mx-auto" />
+            <CheckCircle2 className="w-8 h-8 text-detail mx-auto" />
             <h3 className="font-bold text-accent">Đã gửi tin nhắn hỗ trợ thành công!</h3>
             <p className="text-xs text-accent">Chuyên viên HomeMeal sẽ liên hệ với bạn qua số điện thoại hoặc email đã cung cấp.</p>
           </div>
@@ -172,7 +172,7 @@ export const SupportPage: React.FC = () => {
 
             <button
               type="submit"
-              className="px-6 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all"
+              className="px-6 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all"
             >
               Gửi yêu cầu hỗ trợ
             </button>

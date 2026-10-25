@@ -214,7 +214,7 @@ export const AdminDashboardPage: React.FC = () => {
             <div key={order.id} className="bg-surface rounded-2xl border border-accent p-6 space-y-4 shadow-xs">
               <div className="flex items-center justify-between pb-3 border-b border-border-soft">
                 <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-accent" />
+                  <AlertTriangle className="w-5 h-5 text-detail" />
                   <span className="font-bold text-base text-ink">Khiếu nại Đơn #{order.orderCode}</span>
                 </div>
                 <span className="px-2.5 py-0.5 rounded bg-surface-alt text-accent text-xs font-bold">
@@ -241,7 +241,7 @@ export const AdminDashboardPage: React.FC = () => {
                   <div className="flex justify-end pt-1">
                     <button
                       onClick={() => handleResolve(order.id)}
-                      className="px-4 py-2 bg-accent hover:bg-accent-hover text-on-accent font-bold rounded-lg text-xs flex items-center gap-1.5 shadow-sm"
+                      className="px-4 py-2 bg-brand hover:bg-brand-hover text-on-brand font-bold rounded-lg text-xs flex items-center gap-1.5 shadow-sm"
                     >
                       <Check className="w-4 h-4" />
                       <span>Xác nhận khấu trừ {formatVND(order.dispute?.reportedAmount || 0)} & Cập nhật hóa đơn</span>

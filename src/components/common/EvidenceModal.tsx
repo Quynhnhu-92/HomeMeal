@@ -70,13 +70,13 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ item, onClose }) =
           <div className="bg-surface-alt/60 rounded-xl p-4 border border-brand/40 space-y-2.5 text-xs sm:text-sm">
             <div className="flex justify-between items-center py-1 border-b border-border-soft">
               <span className="text-muted flex items-center gap-1.5">
-                <Store className="w-4 h-4 text-accent" /> Địa điểm mua:
+                <Store className="w-4 h-4 text-detail" /> Địa điểm mua:
               </span>
               <span className="font-semibold text-ink">{item.storeName || 'Chợ truyền thống'}</span>
             </div>
             <div className="flex justify-between items-center py-1 border-b border-border-soft">
               <span className="text-muted flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-accent" /> Thời gian mua sắm:
+                <Calendar className="w-4 h-4 text-detail" /> Thời gian mua sắm:
               </span>
               <span className="font-semibold text-ink">{item.purchaseTime}</span>
             </div>
@@ -103,7 +103,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ item, onClose }) =
           </div>
 
           <div className="flex items-center gap-2 p-3 bg-surface rounded-xl border border-border-soft text-xs text-accent">
-            <CheckCircle className="w-4 h-4 text-accent shrink-0" />
+            <CheckCircle className="w-4 h-4 text-detail shrink-0" />
             <span>
               Chứng từ này được đính kèm vào hóa đơn cuối cùng. Bạn chỉ thanh toán đúng số tiền thực chi này.
             </span>
@@ -114,7 +114,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ item, onClose }) =
         <div className="p-4 bg-surface-alt border-t border-border-soft flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-accent text-on-accent text-xs sm:text-sm font-semibold rounded-lg hover:bg-accent-hover"
+            className="px-4 py-2 bg-brand text-on-brand text-xs sm:text-sm font-semibold rounded-lg hover:bg-brand-hover"
           >
             Đóng cửa sổ
           </button>

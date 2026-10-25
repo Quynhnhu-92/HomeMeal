@@ -49,9 +49,9 @@ export const CookDashboardPage: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigateTo('/cook/shopping')}
-            className="px-4 py-2.5 bg-accent text-on-accent font-semibold text-xs sm:text-sm rounded-xl hover:bg-accent-hover shadow-sm flex items-center gap-1.5"
+            className="px-4 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl hover:bg-brand-hover shadow-sm flex items-center gap-1.5"
           >
-            <Receipt className="w-4 h-4 text-on-accent" />
+            <Receipt className="w-4 h-4 text-on-brand" />
             <span>Mục đi chợ & Hóa đơn</span>
           </button>
           <button
@@ -142,7 +142,7 @@ export const CookDashboardPage: React.FC = () => {
                 {order.status === 'awaiting_cook' && (
                   <button
                     onClick={() => updateOrderStatus(order.id, 'confirmed', 'Đầu bếp đã nhận đơn!')}
-                    className="px-3.5 py-1.5 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                    className="px-3.5 py-1.5 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
                   >
                     Chấp nhận đơn
                   </button>
@@ -154,7 +154,7 @@ export const CookDashboardPage: React.FC = () => {
                       updateOrderStatus(order.id, 'shopping_in_progress', 'Đầu bếp bắt đầu đi chợ');
                       navigateTo(`/cook/shopping?orderId=${order.id}`);
                     }}
-                    className="px-3.5 py-1.5 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                    className="px-3.5 py-1.5 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
                   >
                     Bắt đầu đi chợ
                   </button>
@@ -163,7 +163,7 @@ export const CookDashboardPage: React.FC = () => {
                 {order.status === 'shopping_in_progress' && (
                   <button
                     onClick={() => navigateTo(`/cook/shopping?orderId=${order.id}`)}
-                    className="px-3.5 py-1.5 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                    className="px-3.5 py-1.5 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
                   >
                     Tải hóa đơn chợ & Quản lý
                   </button>
@@ -172,7 +172,7 @@ export const CookDashboardPage: React.FC = () => {
                 {order.status === 'evidence_submitted' && (
                   <button
                     onClick={() => updateOrderStatus(order.id, 'preparing_meal', 'Đầu bếp bắt đầu nấu nướng')}
-                    className="px-3.5 py-1.5 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                    className="px-3.5 py-1.5 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
                   >
                     Bắt đầu nấu món
                   </button>
@@ -181,7 +181,7 @@ export const CookDashboardPage: React.FC = () => {
                 {order.status === 'preparing_meal' && (
                   <button
                     onClick={() => updateOrderStatus(order.id, 'serving_at_home', 'Đầu bếp đang tới nhà khách hàng & bắt đầu nấu tại gian bếp')}
-                    className="px-3.5 py-1.5 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                    className="px-3.5 py-1.5 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
                   >
                     Đến nhà khách nấu
                   </button>
@@ -190,7 +190,7 @@ export const CookDashboardPage: React.FC = () => {
                 {order.status === 'serving_at_home' && (
                   <button
                     onClick={() => updateOrderStatus(order.id, 'service_completed', 'Đã nấu xong, dọn mâm cơm lên bàn ăn nóng hổi và dọn dẹp sạch sẽ gian bếp')}
-                    className="px-3.5 py-1.5 bg-accent text-on-accent text-xs font-semibold rounded-lg hover:bg-accent-hover"
+                    className="px-3.5 py-1.5 bg-brand text-on-brand text-xs font-semibold rounded-lg hover:bg-brand-hover"
                   >
                     Xác nhận nấu & dọn xong
                   </button>
@@ -287,7 +287,7 @@ const CookQuotationForm: React.FC<CookQuotationFormProps> = ({ order, currentUse
         <span className="text-xs font-semibold text-accent">
           Tổng dịch vụ: {formatVND(laborFee + assistantFee + equipmentFee)}
         </span>
-        <button type="submit" className="rounded-lg bg-accent px-3.5 py-2 text-xs font-semibold text-on-accent hover:bg-accent-hover">
+        <button type="submit" className="rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-on-brand hover:bg-brand-hover">
           Gửi báo giá
         </button>
       </div>

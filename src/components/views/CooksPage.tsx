@@ -122,7 +122,7 @@ export const CooksPage: React.FC = () => {
                     <h3 className="font-bold text-lg text-accent">{cook.name}</h3>
                     {cook.verified && (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-alt text-accent text-[10px] font-semibold border border-border-soft">
-                        <CheckCircle2 className="w-3 h-3 text-accent" /> Đã kiểm định
+                        <CheckCircle2 className="w-3 h-3 text-detail" /> Đã kiểm định
                       </span>
                     )}
                   </div>
@@ -130,7 +130,7 @@ export const CooksPage: React.FC = () => {
                   
                   <div className="flex items-center gap-3 text-xs text-muted mt-1.5">
                     <div className="flex items-center gap-1 text-accent font-bold">
-                      <Star className="w-3.5 h-3.5 fill-accent text-accent" />
+                      <Star className="w-3.5 h-3.5 fill-detail text-detail" />
                       <span>{cook.rating}</span>
                       <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
                     </div>
@@ -146,15 +146,15 @@ export const CooksPage: React.FC = () => {
 
               <div className="space-y-2 text-xs py-3 border-t border-border-soft bg-surface-alt p-3 rounded-xl border">
                 <div className="flex items-center gap-2 text-ink">
-                  <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <MapPin className="w-3.5 h-3.5 text-detail shrink-0" />
                   <span>Khu vực nhận nấu: <strong>{cook.serviceAreas.join(', ')}</strong></span>
                 </div>
                 <div className="flex items-center gap-2 text-ink">
-                  <Users className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <Users className="w-3.5 h-3.5 text-detail shrink-0" />
                   <span>Quy mô tối đa: <strong>{cook.maxGuests} khách</strong> (Có hỗ trợ phụ bếp cho tiệc lớn)</span>
                 </div>
                 <div className="flex items-start gap-2 text-ink">
-                  <ChefHat className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
+                  <ChefHat className="w-3.5 h-3.5 text-detail shrink-0 mt-0.5" />
                   <span>Sở trường: <strong>{cook.specialties.join(', ')}</strong></span>
                 </div>
               </div>
@@ -175,7 +175,7 @@ export const CooksPage: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleSelectCookForOrder(cook)}
-                  className="px-4 py-2 bg-accent text-on-accent text-xs font-semibold rounded-xl hover:bg-accent-hover shadow-sm"
+                  className="px-4 py-2 bg-brand text-on-brand text-xs font-semibold rounded-xl hover:bg-brand-hover shadow-sm"
                 >
                   Đặt đầu bếp này
                 </button>

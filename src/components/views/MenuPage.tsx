@@ -50,9 +50,9 @@ export const MenuPage: React.FC = () => {
         {selectedItems.length > 0 && (
           <button
             onClick={() => navigateTo('/meal-planner')}
-            className="px-5 py-2.5 bg-accent text-on-accent font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-2 hover:bg-accent-hover shadow-sm self-start md:self-auto"
+            className="px-5 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-2 hover:bg-brand-hover shadow-sm self-start md:self-auto"
           >
-            <ShoppingBag className="w-4 h-4 text-on-accent" />
+            <ShoppingBag className="w-4 h-4 text-on-brand" />
             <span>Đã chọn {selectedItems.length} món · Đặt bữa ngay</span>
           </button>
         )}
@@ -184,7 +184,7 @@ export const MenuPage: React.FC = () => {
                 >
                   {isSelected ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-accent" />
+                      <Check className="w-3.5 h-3.5 text-detail" />
                       <span>Đã thêm vào thực đơn</span>
                     </>
                   ) : (
@@ -271,7 +271,7 @@ export const MenuPage: React.FC = () => {
                   handleToggleDish(selectedDishDetail);
                   setSelectedDishDetail(null);
                 }}
-                className="px-4 py-2 bg-accent text-on-accent text-xs font-semibold rounded-lg"
+                className="px-4 py-2 bg-brand text-on-brand text-xs font-semibold rounded-lg"
               >
                 {selectedItems.some((i) => i.dish.id === selectedDishDetail.id)
                   ? 'Bỏ chọn món'

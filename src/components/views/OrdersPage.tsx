@@ -60,9 +60,9 @@ export const OrdersPage: React.FC = () => {
 
         <button
           onClick={() => navigateTo('/meal-planner')}
-          className="px-5 py-2.5 bg-accent text-on-accent font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 hover:bg-accent-hover shadow-sm self-start sm:self-auto"
+          className="px-5 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 hover:bg-brand-hover shadow-sm self-start sm:self-auto"
         >
-          <ShoppingBag className="w-4 h-4 text-on-accent" />
+          <ShoppingBag className="w-4 h-4 text-on-brand" />
           <span>Đặt bữa ăn mới</span>
         </button>
       </div>
@@ -123,11 +123,11 @@ export const OrdersPage: React.FC = () => {
 
                 <div className="text-xs text-muted flex items-center gap-3">
                   <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-accent" /> {order.date}
+                    <Calendar className="w-3.5 h-3.5 text-detail" /> {order.date}
                   </span>
                   <span>·</span>
                   <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-accent" /> {order.servingTime}
+                    <Clock className="w-3.5 h-3.5 text-detail" /> {order.servingTime}
                   </span>
                 </div>
               </div>
@@ -171,12 +171,12 @@ export const OrdersPage: React.FC = () => {
               {isPendingBillReview && (
                 <div className="p-3 bg-surface-alt rounded-xl border border-border-soft text-xs text-accent mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-accent shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-detail shrink-0" />
                     <span>Bữa ăn đã được nấu và phục vụ hoàn tất! Mời bạn kiểm tra hóa đơn và thanh toán.</span>
                   </div>
                   <button
                     onClick={() => navigateTo(`/orders/${order.id}/bill`)}
-                    className="px-3 py-1 bg-accent hover:bg-accent-hover text-on-accent font-bold rounded-lg text-xs"
+                    className="px-3 py-1 bg-brand hover:bg-brand-hover text-on-brand font-bold rounded-lg text-xs"
                   >
                     Xem hóa đơn & Thanh toán
                   </button>
@@ -186,12 +186,12 @@ export const OrdersPage: React.FC = () => {
               {isPendingBudget && (
                 <div className="p-3 bg-surface-alt rounded-xl border border-border-soft text-xs text-accent mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-accent shrink-0" />
+                    <AlertTriangle className="w-4 h-4 text-detail shrink-0" />
                     <span>Đầu bếp đang xin phép tăng ngân sách đi chợ. Vui lòng phê duyệt hoặc yêu cầu đổi món.</span>
                   </div>
                   <button
                     onClick={() => navigateTo(`/orders/${order.id}`)}
-                    className="px-3 py-1 bg-accent hover:bg-accent-hover text-on-accent font-bold rounded-lg text-xs"
+                    className="px-3 py-1 bg-brand hover:bg-brand-hover text-on-brand font-bold rounded-lg text-xs"
                   >
                     Xử lý yêu cầu
                   </button>
@@ -201,12 +201,12 @@ export const OrdersPage: React.FC = () => {
               {isPendingQuote && (
                 <div className="p-3 bg-surface-alt rounded-xl border border-border-soft text-xs text-accent mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-accent shrink-0" />
+                    <FileText className="w-4 h-4 text-detail shrink-0" />
                     <span>Đầu bếp đã gửi bảng báo giá chi tiết gồm tiền công và nhân sự phụ bếp tiệc.</span>
                   </div>
                   <button
                     onClick={() => navigateTo(`/orders/${order.id}`)}
-                    className="px-3 py-1 bg-accent hover:bg-accent-hover text-on-accent font-bold rounded-lg text-xs"
+                    className="px-3 py-1 bg-brand hover:bg-brand-hover text-on-brand font-bold rounded-lg text-xs"
                   >
                     Xem báo giá
                   </button>
@@ -216,12 +216,12 @@ export const OrdersPage: React.FC = () => {
               {isDisputed && (
                 <div className="p-3 bg-surface-alt rounded-xl border border-border-soft text-xs text-accent mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-accent shrink-0" />
+                    <AlertTriangle className="w-4 h-4 text-detail shrink-0" />
                     <span>Đơn hàng đang trong trạng thái khiếu nại chứng từ. Tiền chưa bị trừ.</span>
                   </div>
                   <button
                     onClick={() => navigateTo(`/orders/${order.id}`)}
-                    className="px-3 py-1 bg-accent hover:bg-accent-hover text-on-accent font-bold rounded-lg text-xs"
+                    className="px-3 py-1 bg-brand hover:bg-brand-hover text-on-brand font-bold rounded-lg text-xs"
                   >
                     Xem tiến độ giải quyết
                   </button>

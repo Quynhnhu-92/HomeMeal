@@ -41,7 +41,7 @@ export const Navbar: React.FC = () => {
           onClick={() => navigateTo('/')}
           className="flex items-center gap-2 text-xl font-bold tracking-tight text-accent whitespace-nowrap shrink-0 group text-left"
         >
-          <div className="w-9 h-9 rounded-lg bg-brand text-ink flex items-center justify-center font-bold text-lg shadow-sm group-hover:bg-brand-hover transition-colors">
+          <div className="w-9 h-9 rounded-lg bg-brand text-accent flex items-center justify-center font-bold text-lg shadow-sm group-hover:bg-brand-hover transition-colors">
             H
           </div>
           <div className="flex flex-col">
@@ -90,9 +90,9 @@ export const Navbar: React.FC = () => {
               onClick={() => setRoleMenuOpen(!roleMenuOpen)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border-soft bg-surface text-xs font-medium text-ink hover:border-brand transition-all"
             >
-              {(!authUser || currentUser.role === 'customer') && <User className="w-3.5 h-3.5 text-accent" />}
-              {currentUser.role === 'cook' && <ChefHat className="w-3.5 h-3.5 text-accent" />}
-              {currentUser.role === 'admin' && <Shield className="w-3.5 h-3.5 text-accent" />}
+              {(!authUser || currentUser.role === 'customer') && <User className="w-3.5 h-3.5 text-detail" />}
+              {currentUser.role === 'cook' && <ChefHat className="w-3.5 h-3.5 text-detail" />}
+              {currentUser.role === 'admin' && <Shield className="w-3.5 h-3.5 text-detail" />}
               <span className="hidden sm:inline">
                 {!authUser ? 'Đăng nhập' : currentUser.role === 'customer'
                   ? 'Khách hàng'
@@ -115,21 +115,21 @@ export const Navbar: React.FC = () => {
           {currentUser.role === 'cook' ? (
             <button
               onClick={() => navigateTo('/cook/dashboard')}
-              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-accent bg-accent rounded-lg hover:bg-accent-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
             >
               Góc Đầu Bếp
             </button>
           ) : currentUser.role === 'admin' ? (
             <button
               onClick={() => navigateTo('/admin')}
-              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-accent bg-accent rounded-lg hover:bg-accent-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
             >
               Trang Quản Trị
             </button>
           ) : (
             <button
               onClick={() => navigateTo('/meal-planner')}
-              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-accent bg-accent rounded-lg hover:bg-accent-hover transition-colors whitespace-nowrap shrink-0 shadow-sm items-center gap-1.5"
+              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm items-center gap-1.5"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Đặt bữa ăn ngay</span>

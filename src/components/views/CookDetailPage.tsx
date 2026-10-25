@@ -62,7 +62,7 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
               <h1 className="text-2xl sm:text-3xl font-extrabold text-accent">{cook.name}</h1>
               {cook.verified && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-alt text-accent text-xs font-bold border border-border-soft">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-accent" /> Đã xác thực danh tính & VSATTP
+                  <CheckCircle2 className="w-3.5 h-3.5 text-detail" /> Đã xác thực danh tính & VSATTP
                 </span>
               )}
             </div>
@@ -71,13 +71,13 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
 
             <div className="flex flex-wrap items-center gap-4 text-xs text-muted">
               <div className="flex items-center gap-1 text-accent font-bold">
-                <Star className="w-4 h-4 fill-accent text-accent" />
+                <Star className="w-4 h-4 fill-detail text-detail" />
                 <span className="text-sm">{cook.rating}</span>
                 <span className="font-normal">({cook.reviewCount} đánh giá khách hàng)</span>
               </div>
               <span>·</span>
               <div className="flex items-center gap-1">
-                <Award className="w-4 h-4 text-accent" />
+                <Award className="w-4 h-4 text-detail" />
                 <span>{cook.experienceYears} năm kinh nghiệm nấu bếp</span>
               </div>
             </div>
@@ -152,7 +152,7 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
         <div className="flex gap-3 w-full sm:w-auto">
           <button
             onClick={handleBook}
-            className="flex-1 sm:flex-none px-6 py-3 bg-accent text-on-accent font-bold text-xs sm:text-sm rounded-xl hover:bg-accent-hover shadow-md transition-all text-center"
+            className="flex-1 sm:flex-none px-6 py-3 bg-brand text-on-brand font-bold text-xs sm:text-sm rounded-xl hover:bg-brand-hover shadow-md transition-all text-center"
           >
             Đặt đầu bếp nấu tại nhà
           </button>
