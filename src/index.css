@@ -136,13 +136,64 @@
   --color-control-border: #89897F;
   --color-disabled: #E9E9E1;
   --color-overlay: #000000;
+  /* One family, with distinct roles instead of competing typefaces. */
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.5;
+  --text-sm--line-height: 1.65;
+  --text-base--line-height: 1.65;
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.65;
   background-color: var(--color-surface);
   color: var(--color-ink);
+}
+
+/* Heading levels retain their responsive sizes; weight and rhythm define hierarchy. */
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading);
+  line-height: 1.4;
+}
+
+:where(h1) {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+
+:where(h2) {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+:where(h3, h4) {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+:where(h5, h6) {
+  font-weight: 600;
+}
+
+:where(p, li) {
+  line-height: 1.65;
+}
+
+:where(button, input, select, textarea) {
+  font-family: var(--font-body);
+}
+
+:where(label) {
+  font-weight: 500;
+}
+
+:where(strong, b) {
+  font-weight: 700;
 }
 
 :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
