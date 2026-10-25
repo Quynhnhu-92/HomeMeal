@@ -208,7 +208,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
         </div>
 
         {/* SECTION C: FINAL TOTAL */}
-        <div className="p-6 bg-surface-alt rounded-2xl border-2 border-brand space-y-4">
+        <div className="p-6 bg-gradient-to-br from-surface-alt to-surface rounded-2xl border-2 border-brand space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-bold text-accent uppercase tracking-wider">Mục C: Tổng quyết toán</span>
@@ -315,7 +315,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
       {showPaymentModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-surface-alt rounded-3xl max-w-md w-full overflow-hidden shadow-lg border border-border-soft"
+            className="bg-surface-alt rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-border-soft"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-5 border-b border-border-soft bg-surface flex justify-between items-center">

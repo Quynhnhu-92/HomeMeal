@@ -1,4 +1,3 @@
-import { ImageWithFallback } from '../common/ImageWithFallback';
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { formatVND } from '../../utils/pricing';
@@ -75,7 +74,7 @@ export const PartyBookingPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Hero Banner */}
-      <div className="bg-surface-alt rounded-3xl p-6 sm:p-10 text-ink shadow-lg space-y-4">
+      <div className="bg-gradient-to-r from-surface-alt to-surface-alt rounded-3xl p-6 sm:p-10 text-ink shadow-lg space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface/10 text-xs font-semibold backdrop-blur-xs text-accent">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Phục vụ mâm tiệc từ 10 khách trở lên</span>
@@ -298,7 +297,7 @@ export const PartyBookingPage: React.FC = () => {
                   className="w-4 h-4 text-accent focus:ring-accent"
                 />
                 <div className="w-12 h-12 rounded-full overflow-hidden border border-brand shrink-0">
-                  <ImageWithFallback fallbackType="cook" src={c.avatar} alt={c.name} className="w-full h-full object-cover" />
+                  <img src={c.avatar} alt={c.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h4 className="font-bold text-sm text-accent">{c.name}</h4>

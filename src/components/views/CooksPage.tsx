@@ -109,7 +109,7 @@ export const CooksPage: React.FC = () => {
           >
             <div>
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-20 h-25 rounded-xl overflow-hidden border-2 border-brand shrink-0 bg-surface-alt">
+                <div className="w-18 h-18 rounded-2xl overflow-hidden border-2 border-brand shrink-0 bg-surface-alt">
                   <ImageWithFallback
                     src={cook.avatar}
                     alt={cook.name}
@@ -117,7 +117,7 @@ export const CooksPage: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <h3 className="font-bold text-lg text-accent">{cook.name}</h3>
                     {cook.verified && (

@@ -1,4 +1,3 @@
-import { ImageWithFallback } from '../../common/ImageWithFallback';
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { formatVND } from '../../../utils/pricing';
@@ -312,7 +311,7 @@ export const AdminDashboardPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             {cooks.map((c) => (
               <div key={c.id} className="p-4 rounded-xl border border-border-soft bg-surface-alt flex gap-3 items-center">
-                <ImageWithFallback fallbackType="cook" src={c.avatar} alt={c.name} className="w-12 h-12 rounded-full object-cover border border-brand" />
+                <img src={c.avatar} alt={c.name} className="w-12 h-12 rounded-full object-cover border border-brand" />
                 <div className="flex-1">
                   <h4 className="font-bold text-sm text-accent">{c.name}</h4>
                   <p className="text-[11px] text-muted">{c.title}</p>

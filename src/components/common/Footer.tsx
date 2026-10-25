@@ -151,13 +151,9 @@ export const Footer: React.FC = () => {
 
         {/* Compact copyright and policy links. */}
         <div className="footer-brand-row pt-4 border-t border-accent/15 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-ink">
-          <div className="flex items-center gap-4 min-w-0">
-            <img src="/brand/homemeal-footer.svg" alt="HomeMeal" width={1286} height={784}
-              loading="lazy" className="w-20 sm:w-24 h-auto shrink-0" />
-            <div className="min-w-0 space-y-1">
-              <p>© 2026 HomeMeal Vietnam. Nền tảng nguyên mẫu phục vụ trình bày đồ án và đánh giá học thuật.</p>
-              <p>Phiên bản thử nghiệm tương tác 1.0</p>
-            </div>
+          <div className="min-w-0 space-y-1">
+            <p>© 2026 HomeMeal Vietnam. Nền tảng nguyên mẫu phục vụ trình bày đồ án và đánh giá học thuật.</p>
+            <p>Phiên bản thử nghiệm tương tác 1.0</p>
           </div>
           <nav aria-label="Chính sách cuối trang" className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:shrink-0">
             <button onClick={() => navigateTo('/support')} className="min-h-11 text-left hover:underline underline-offset-4">Bảo mật thông tin</button>

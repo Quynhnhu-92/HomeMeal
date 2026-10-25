@@ -15,7 +15,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ item, onClose }) =
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="bg-surface-alt rounded-2xl max-w-2xl w-full overflow-hidden shadow-lg border border-border-soft max-h-[90vh] flex flex-col"
+        className="bg-surface-alt rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-border-soft max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -59,7 +59,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ item, onClose }) =
                 <ImageWithFallback
                   src={item.ingredientImageUrl || item.receiptImageUrl || 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'}
                   alt={`Nguyên liệu ${item.name}`}
-                  fallbackType="receipt"
+                  fallbackType="dish"
                   className="w-full h-full object-cover"
                 />
               </div>

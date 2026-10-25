@@ -34,7 +34,7 @@ export const DisputeModal: React.FC<DisputeModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="bg-surface-alt rounded-2xl max-w-lg w-full overflow-hidden shadow-lg border border-border-soft"
+        className="bg-surface-alt rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-5 border-b border-border-soft flex items-center justify-between bg-surface">

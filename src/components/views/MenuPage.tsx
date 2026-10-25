@@ -213,7 +213,7 @@ export const MenuPage: React.FC = () => {
       {selectedDishDetail && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-surface-alt rounded-2xl max-w-lg w-full overflow-hidden shadow-lg border border-border-soft max-h-[85vh] flex flex-col"
+            className="bg-surface-alt rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft max-h-[85vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-16/9 bg-surface-alt">

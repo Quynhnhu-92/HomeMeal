@@ -48,7 +48,7 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
       {/* Main Profile Card */}
       <div className="bg-surface rounded-3xl border border-border-soft p-6 sm:p-8 shadow-xs">
         <div className="flex flex-col sm:flex-row items-start gap-6">
-          <div className="w-24 h-30 sm:w-32 sm:h-40 rounded-2xl overflow-hidden border-4 border-brand shrink-0 bg-surface-alt">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-4 border-brand shrink-0 bg-surface-alt">
             <ImageWithFallback
               src={cook.avatar}
               alt={cook.name}
