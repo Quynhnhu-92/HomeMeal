@@ -104,7 +104,7 @@ export const CookShoppingPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <button
           onClick={() => navigateTo('/cook/dashboard')}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#738078] hover:text-[#285E56]"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted hover:text-accent"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Quay lại Bảng điều khiển đầu bếp</span>
@@ -112,11 +112,11 @@ export const CookShoppingPage: React.FC = () => {
 
         {/* Order Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-[#738078]">Đang quản lý đơn:</span>
+          <span className="text-xs text-muted">Đang quản lý đơn:</span>
           <select
             value={selectedOrderId}
             onChange={(e) => setSelectedOrderId(e.target.value)}
-            className="px-3 py-1.5 bg-white border border-[#E5ECE7] rounded-xl text-xs font-bold text-[#285E56]"
+            className="px-3 py-1.5 bg-surface border border-border-soft rounded-xl text-xs font-bold text-accent"
           >
             {orders.map((o) => (
               <option key={o.id} value={o.id}>
@@ -129,35 +129,35 @@ export const CookShoppingPage: React.FC = () => {
 
       {/* Financial Health Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-[#E5ECE7] space-y-1">
-          <span className="text-xs text-[#738078]">Ngân sách khách duyệt trần:</span>
-          <p className="text-2xl font-bold text-[#263B35]">{formatVND(budget)}</p>
-          <p className="text-[11px] text-[#738078]">Không được vượt quá nếu chưa xin phép</p>
+        <div className="bg-surface p-5 rounded-2xl border border-border-soft space-y-1">
+          <span className="text-xs text-muted">Ngân sách khách duyệt trần:</span>
+          <p className="text-2xl font-bold text-ink">{formatVND(budget)}</p>
+          <p className="text-[11px] text-muted">Không được vượt quá nếu chưa xin phép</p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-[#E5ECE7] space-y-1">
-          <span className="text-xs text-[#738078]">Thực chi đã ghi nhận:</span>
-          <p className="text-2xl font-bold text-[#285E56]">{formatVND(actual)}</p>
-          <p className="text-[11px] text-[#738078]">{currentOrder.shoppingList.length} món nguyên liệu</p>
+        <div className="bg-surface p-5 rounded-2xl border border-border-soft space-y-1">
+          <span className="text-xs text-muted">Thực chi đã ghi nhận:</span>
+          <p className="text-2xl font-bold text-accent">{formatVND(actual)}</p>
+          <p className="text-[11px] text-muted">{currentOrder.shoppingList.length} món nguyên liệu</p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-[#E5ECE7] space-y-1">
-          <span className="text-xs text-[#738078]">Ngân sách còn lại:</span>
-          <p className={`text-2xl font-bold ${remaining >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
+        <div className="bg-surface p-5 rounded-2xl border border-border-soft space-y-1">
+          <span className="text-xs text-muted">Ngân sách còn lại:</span>
+          <p className={`text-2xl font-bold ${remaining >= 0 ? 'text-accent' : 'text-accent'}`}>
             {formatVND(remaining)}
           </p>
-          <p className="text-[11px] text-[#738078]">
+          <p className="text-[11px] text-muted">
             {remaining >= 0 ? 'Trong hạn mức an toàn' : 'Vượt mức! Cần gửi xin duyệt'}
           </p>
         </div>
       </div>
 
       {/* Main Checklist Container */}
-      <div className="bg-white rounded-3xl border border-[#E5ECE7] p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E5ECE7]">
+      <div className="bg-surface rounded-3xl border border-border-soft p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border-soft">
           <div>
-            <h2 className="text-xl font-bold text-[#263B35]">Danh mục nguyên liệu & Hóa đơn đối soát</h2>
-            <p className="text-xs text-[#738078]">
+            <h2 className="text-xl font-bold text-accent">Danh mục nguyên liệu & Hóa đơn đối soát</h2>
+            <p className="text-xs text-muted">
               Nhập chi tiết từng món mua tại sạp chợ hoặc siêu thị, chụp ảnh hóa đơn gửi khách kiểm tra.
             </p>
           </div>
@@ -165,15 +165,15 @@ export const CookShoppingPage: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setShowBudgetChangeModal(true)}
-              className="px-3.5 py-2 bg-amber-50 border border-amber-300 text-amber-900 font-semibold text-xs rounded-xl hover:bg-amber-100 flex items-center gap-1.5"
+              className="px-3.5 py-2 bg-surface-alt border border-accent text-accent font-semibold text-xs rounded-xl hover:bg-surface-alt flex items-center gap-1.5"
             >
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-700" />
+              <AlertTriangle className="w-3.5 h-3.5 text-accent" />
               <span>Xin duyệt tăng ngân sách</span>
             </button>
 
             <button
               onClick={() => setShowAddModal(true)}
-              className="px-4 py-2 bg-[#285E56] text-white font-semibold text-xs rounded-xl hover:bg-[#1f4b44] flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 bg-accent text-on-accent font-semibold text-xs rounded-xl hover:bg-accent-hover flex items-center gap-1.5 shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Thêm món đã mua</span>
@@ -185,7 +185,7 @@ export const CookShoppingPage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-stone-50 text-[#738078] border-b border-[#E5ECE7]">
+              <tr className="bg-surface-alt text-muted border-b border-border-soft">
                 <th className="py-2.5 px-3">Nguyên liệu</th>
                 <th className="py-2.5 px-3">Địa điểm mua</th>
                 <th className="py-2.5 px-3">Số lượng</th>
@@ -195,23 +195,23 @@ export const CookShoppingPage: React.FC = () => {
                 <th className="py-2.5 px-3 text-center">Xóa</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E5ECE7]">
+            <tbody className="divide-y divide-border-soft">
               {currentOrder.shoppingList.map((item) => (
-                <tr key={item.id} className="hover:bg-stone-50/50">
-                  <td className="py-3 px-3 font-semibold text-[#263B35]">{item.name}</td>
-                  <td className="py-3 px-3 text-[#738078]">{item.storeName}</td>
-                  <td className="py-3 px-3 text-[#738078]">{item.quantity} {item.unit}</td>
-                  <td className="py-3 px-3 text-right font-bold text-[#285E56]">{formatVND(item.actualPrice)}</td>
+                <tr key={item.id} className="hover:bg-surface-alt/50">
+                  <td className="py-3 px-3 font-semibold text-ink">{item.name}</td>
+                  <td className="py-3 px-3 text-muted">{item.storeName}</td>
+                  <td className="py-3 px-3 text-muted">{item.quantity} {item.unit}</td>
+                  <td className="py-3 px-3 text-right font-bold text-accent">{formatVND(item.actualPrice)}</td>
                   <td className="py-3 px-3 text-center">
-                    <span className="inline-flex items-center gap-1 text-[11px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      <Camera className="w-3 h-3 text-emerald-600" /> Có ảnh
+                    <span className="inline-flex items-center gap-1 text-[11px] text-accent bg-surface-alt px-2 py-0.5 rounded border border-border-soft">
+                      <Camera className="w-3 h-3 text-accent" /> Có ảnh
                     </span>
                   </td>
-                  <td className="py-3 px-3 text-[#738078] text-[11px] max-w-xs truncate">{item.notes || '—'}</td>
+                  <td className="py-3 px-3 text-muted text-[11px] max-w-xs truncate">{item.notes || '—'}</td>
                   <td className="py-3 px-3 text-center">
                     <button
                       onClick={() => deleteShoppingEvidenceItem(currentOrder.id, item.id)}
-                      className="p-1 text-rose-600 hover:bg-rose-50 rounded"
+                      className="p-1 text-accent hover:bg-surface-alt rounded"
                       title="Xóa món này"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -224,16 +224,16 @@ export const CookShoppingPage: React.FC = () => {
         </div>
 
         {/* Submit to Customer button */}
-        <div className="pt-4 border-t border-[#E5ECE7] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-[#738078]">
+        <div className="pt-4 border-t border-border-soft flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted">
             Khi đã mua đủ nguyên liệu, bấm nút bên dưới để gửi chứng từ cho khách hàng và bắt đầu chuyển sang bước nấu món.
           </p>
 
           <button
             onClick={handleCompleteShopping}
-            className="w-full sm:w-auto px-6 py-2.5 bg-[#285E56] hover:bg-[#1f4b44] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
           >
-            <CheckCircle className="w-4 h-4 text-[#B8E4D3]" />
+            <CheckCircle className="w-4 h-4 text-on-accent" />
             <span>Hoàn thành đi chợ & Gửi hóa đơn cho khách</span>
           </button>
         </div>
@@ -241,93 +241,93 @@ export const CookShoppingPage: React.FC = () => {
 
       {/* Modal: Add Ingredient */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-[#FFFDF7] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-[#E5ECE7]"
+            className="bg-surface-alt rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-5 border-b border-[#E5ECE7] bg-white flex justify-between items-center">
-              <h3 className="font-bold text-[#263B35] text-base">Thêm nguyên liệu thực mua tại chợ</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-[#738078] hover:text-[#263B35]">✕</button>
+            <div className="p-5 border-b border-border-soft bg-surface flex justify-between items-center">
+              <h3 className="font-bold text-accent text-base">Thêm nguyên liệu thực mua tại chợ</h3>
+              <button onClick={() => setShowAddModal(false)} className="text-muted hover:text-accent">✕</button>
             </div>
 
             <form onSubmit={handleAddItem} className="p-5 space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Tên nguyên liệu:</label>
+                <label className="block font-semibold text-ink mb-1">Tên nguyên liệu:</label>
                 <input
                   type="text"
                   placeholder="Ví dụ: Tôm sú tươi, Rau thơm tổng hợp..."
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] focus:ring-2 focus:ring-[#285E56]"
+                  className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft focus:ring-2 focus:ring-accent"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-[#263B35] mb-1">Số lượng:</label>
+                  <label className="block font-semibold text-ink mb-1">Số lượng:</label>
                   <input
                     type="text"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] focus:ring-2 focus:ring-[#285E56]"
+                    className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft focus:ring-2 focus:ring-accent"
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-[#263B35] mb-1">Đơn vị:</label>
+                  <label className="block font-semibold text-ink mb-1">Đơn vị:</label>
                   <input
                     type="text"
                     value={unit}
                     onChange={(e) => setUnit(e.target.value)}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] focus:ring-2 focus:ring-[#285E56]"
+                    className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-[#263B35] mb-1">Đơn giá thực mua (VNĐ):</label>
+                  <label className="block font-semibold text-ink mb-1">Đơn giá thực mua (VNĐ):</label>
                   <input
                     type="number"
                     step="5000"
                     value={actualPrice}
                     onChange={(e) => setActualPrice(Number(e.target.value))}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] focus:ring-2 focus:ring-[#285E56] font-bold text-[#285E56]"
+                    className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft focus:ring-2 focus:ring-accent font-bold text-accent"
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-[#263B35] mb-1">Nơi mua sắm:</label>
+                  <label className="block font-semibold text-ink mb-1">Nơi mua sắm:</label>
                   <input
                     type="text"
                     value={storeName}
                     onChange={(e) => setStoreName(e.target.value)}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] focus:ring-2 focus:ring-[#285E56]"
+                    className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Ảnh hóa đơn hoặc sạp chợ:</label>
+                <label className="block font-semibold text-ink mb-1">Ảnh hóa đơn hoặc sạp chợ:</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={receiptUrl}
                     onChange={(e) => setReceiptUrl(e.target.value)}
                     placeholder="URL ảnh hóa đơn..."
-                    className="flex-1 px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] text-xs focus:ring-2 focus:ring-[#285E56]"
+                    className="flex-1 px-3 py-2 bg-surface rounded-xl border border-border-soft text-xs focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Ghi chú nguồn gốc:</label>
+                <label className="block font-semibold text-ink mb-1">Ghi chú nguồn gốc:</label>
                 <input
                   type="text"
                   placeholder="Ví dụ: Tôm tươi sống nhảy tanh tách tại sạp quen..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7]"
+                  className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft"
                 />
               </div>
 
@@ -335,13 +335,13 @@ export const CookShoppingPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 border border-[#E5ECE7] text-xs font-semibold rounded-lg"
+                  className="px-4 py-2 border border-border-soft text-xs font-semibold rounded-lg"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#285E56] text-white text-xs font-bold rounded-lg hover:bg-[#1f4b44]"
+                  className="px-5 py-2 bg-accent text-on-accent text-xs font-bold rounded-lg hover:bg-accent-hover"
                 >
                   Lưu món vào danh sách
                 </button>
@@ -353,58 +353,58 @@ export const CookShoppingPage: React.FC = () => {
 
       {/* Modal: Request Budget Change */}
       {showBudgetChangeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-[#FFFDF7] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-[#E5ECE7]"
+            className="bg-surface-alt rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-5 border-b border-[#E5ECE7] bg-white flex justify-between items-center text-amber-900">
+            <div className="p-5 border-b border-border-soft bg-surface flex justify-between items-center text-accent">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-amber-600" />
+                <AlertTriangle className="w-5 h-5 text-accent" />
                 <h3 className="font-bold text-base">Gửi yêu cầu xin duyệt tăng ngân sách</h3>
               </div>
-              <button onClick={() => setShowBudgetChangeModal(false)} className="text-[#738078] hover:text-[#263B35]">✕</button>
+              <button onClick={() => setShowBudgetChangeModal(false)} className="text-muted hover:text-accent">✕</button>
             </div>
 
             <form onSubmit={handleSendBudgetChangeRequest} className="p-5 space-y-4 text-xs sm:text-sm">
-              <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 text-xs">
+              <div className="p-3 bg-surface-alt rounded-xl border border-border-soft text-accent text-xs">
                 Khi gửi yêu cầu này, hệ thống sẽ tạm dừng quy trình đi chợ và thông báo ngay đến ứng dụng của khách hàng. Khách có thể <strong>Đồng ý</strong> hoặc <strong>Yêu cầu đổi món khác</strong>.
               </div>
 
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Món nguyên liệu bị tăng giá:</label>
+                <label className="block font-semibold text-ink mb-1">Món nguyên liệu bị tăng giá:</label>
                 <input
                   type="text"
                   value={bcrItem}
                   onChange={(e) => setBcrItem(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] focus:ring-2 focus:ring-[#285E56]"
+                  className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft focus:ring-2 focus:ring-accent"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Số tiền chênh lệch cần duyệt thêm (VNĐ):</label>
+                <label className="block font-semibold text-ink mb-1">Số tiền chênh lệch cần duyệt thêm (VNĐ):</label>
                 <input
                   type="number"
                   step="10000"
                   value={bcrDifference}
                   onChange={(e) => setBcrDifference(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7] font-bold text-amber-900 focus:ring-2 focus:ring-[#285E56]"
+                  className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft font-bold text-accent focus:ring-2 focus:ring-accent"
                   required
                 />
-                <p className="text-[11px] text-[#738078] mt-1">
+                <p className="text-[11px] text-muted mt-1">
                   Ngân sách mới đề xuất: <strong>{formatVND(currentOrder.estimatedGroceryBudget + bcrDifference)}</strong> (cũ: {formatVND(currentOrder.estimatedGroceryBudget)})
                 </p>
               </div>
 
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Giải trình lý do & phương án thay thế:</label>
+                <label className="block font-semibold text-ink mb-1">Giải trình lý do & phương án thay thế:</label>
                 <textarea
                   rows={3}
                   value={bcrReason}
                   onChange={(e) => setBcrReason(e.target.value)}
                   placeholder="Nêu lý do giá tăng tại chợ và phương án thay thế nếu khách không đồng ý tăng tiền..."
-                  className="w-full px-3 py-2 bg-white rounded-xl border border-[#E5ECE7]"
+                  className="w-full px-3 py-2 bg-surface rounded-xl border border-border-soft"
                   required
                 />
               </div>
@@ -413,13 +413,13 @@ export const CookShoppingPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowBudgetChangeModal(false)}
-                  className="px-4 py-2 border border-[#E5ECE7] text-xs font-semibold rounded-lg"
+                  className="px-4 py-2 border border-border-soft text-xs font-semibold rounded-lg"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold rounded-lg"
+                  className="px-5 py-2 bg-accent hover:bg-accent-hover text-on-accent text-xs font-bold rounded-lg"
                 >
                   Gửi yêu cầu tới khách
                 </button>

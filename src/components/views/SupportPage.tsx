@@ -55,13 +55,13 @@ export const SupportPage: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       {/* Header */}
-      <div className="bg-white rounded-3xl border border-[#E5ECE7] p-6 sm:p-10 shadow-xs">
-        <span className="text-xs font-bold text-[#285E56] uppercase tracking-wider">Trung tâm trợ giúp</span>
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#263B35]">Chính sách & Hỗ trợ Khách hàng</h1>
-        <p className="text-xs sm:text-sm text-[#738078] mt-2 leading-relaxed">
+      <div className="bg-surface rounded-3xl border border-border-soft p-6 sm:p-10 shadow-xs">
+        <span className="text-xs font-bold text-accent uppercase tracking-wider">Trung tâm trợ giúp</span>
+        <h1 className="text-2xl sm:text-3xl font-bold text-accent">Chính sách & Hỗ trợ Khách hàng</h1>
+        <p className="text-xs sm:text-sm text-muted mt-2 leading-relaxed">
           HomeMeal xây dựng bộ quy tắc vận hành minh bạch nhằm bảo đảm quyền lợi tối đa cho cả khách hàng lẫn đầu bếp gia đình.
         </p>
-        <div className="mt-4 p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-900">
+        <div className="mt-4 p-3 bg-surface-alt rounded-xl border border-border-soft text-[11px] text-accent">
           * Lưu ý mẫu quy chế: Toàn bộ điều khoản bên dưới được soạn thảo để minh họa quy trình vận hành và cần được chủ sở hữu doanh nghiệp rà soát pháp lý khi triển khai thực tế.
         </div>
       </div>
@@ -69,20 +69,20 @@ export const SupportPage: React.FC = () => {
       {/* Policies Grid */}
       <div className="space-y-4" id="policies">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#285E56]" />
-          <h2 className="text-xl font-bold text-[#263B35]">Quy định minh bạch & Chính sách hủy/hoàn tiền</h2>
+          <ShieldCheck className="w-5 h-5 text-accent" />
+          <h2 className="text-xl font-bold text-accent">Quy định minh bạch & Chính sách hủy/hoàn tiền</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {policies.map((p, idx) => (
-            <div key={idx} className="bg-white rounded-2xl border border-[#E5ECE7] p-5 space-y-2 hover:border-[#B8E4D3] transition-colors">
-              <h3 className="font-bold text-sm text-[#263B35] flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#E7F5EF] text-[#285E56] flex items-center justify-center text-[10px] font-bold">
+            <div key={idx} className="bg-surface rounded-2xl border border-border-soft p-5 space-y-2 hover:border-brand transition-colors">
+              <h3 className="font-bold text-sm text-accent flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-surface-alt text-accent flex items-center justify-center text-[10px] font-bold">
                   {idx + 1}
                 </span>
                 <span>{p.title}</span>
               </h3>
-              <p className="text-xs text-[#738078] leading-relaxed pl-7">
+              <p className="text-xs text-muted leading-relaxed pl-7">
                 {p.content}
               </p>
             </div>
@@ -93,22 +93,22 @@ export const SupportPage: React.FC = () => {
       {/* Frequently Asked Questions */}
       <div className="space-y-4" id="faqs">
         <div className="flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-[#285E56]" />
-          <h2 className="text-xl font-bold text-[#263B35]">Câu hỏi thường gặp (FAQ)</h2>
+          <HelpCircle className="w-5 h-5 text-accent" />
+          <h2 className="text-xl font-bold text-accent">Câu hỏi thường gặp (FAQ)</h2>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#E5ECE7] divide-y divide-[#E5ECE7]">
+        <div className="bg-surface rounded-2xl border border-border-soft divide-y divide-border-soft">
           {FAQS.map((faq, idx) => (
             <div key={idx} className="p-4 sm:p-5">
               <button
                 onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                className="w-full flex items-center justify-between text-left font-bold text-xs sm:text-sm text-[#263B35]"
+                className="w-full flex items-center justify-between text-left font-bold text-xs sm:text-sm text-ink"
               >
                 <span>{faq.q}</span>
-                <ChevronDown className={`w-4 h-4 text-[#738078] transition-transform ${openFaq === idx ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 text-muted transition-transform ${openFaq === idx ? 'rotate-180' : ''}`} />
               </button>
               {openFaq === idx && (
-                <p className="mt-3 text-xs text-[#738078] leading-relaxed animate-in fade-in duration-150">
+                <p className="mt-3 text-xs text-muted leading-relaxed animate-in fade-in duration-150">
                   {faq.a}
                 </p>
               )}
@@ -118,27 +118,27 @@ export const SupportPage: React.FC = () => {
       </div>
 
       {/* Contact Form */}
-      <div className="bg-white rounded-3xl border border-[#E5ECE7] p-6 sm:p-8 space-y-6">
+      <div className="bg-surface rounded-3xl border border-border-soft p-6 sm:p-8 space-y-6">
         <div>
-          <h2 className="text-xl font-bold text-[#263B35]">Liên hệ với ban quản trị HomeMeal</h2>
-          <p className="text-xs text-[#738078] mt-1">Đội ngũ hỗ trợ phản hồi trong vòng 30 phút đối với các vấn đề liên quan đến đơn hàng đang diễn ra.</p>
+          <h2 className="text-xl font-bold text-accent">Liên hệ với ban quản trị HomeMeal</h2>
+          <p className="text-xs text-muted mt-1">Đội ngũ hỗ trợ phản hồi trong vòng 30 phút đối với các vấn đề liên quan đến đơn hàng đang diễn ra.</p>
         </div>
 
         {submittedMessage ? (
-          <div className="p-6 bg-emerald-50 rounded-2xl border border-emerald-200 text-center space-y-2">
-            <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-            <h3 className="font-bold text-emerald-900">Đã gửi tin nhắn hỗ trợ thành công!</h3>
-            <p className="text-xs text-emerald-800">Chuyên viên HomeMeal sẽ liên hệ với bạn qua số điện thoại hoặc email đã cung cấp.</p>
+          <div className="p-6 bg-surface-alt rounded-2xl border border-border-soft text-center space-y-2">
+            <CheckCircle2 className="w-8 h-8 text-accent mx-auto" />
+            <h3 className="font-bold text-accent">Đã gửi tin nhắn hỗ trợ thành công!</h3>
+            <p className="text-xs text-accent">Chuyên viên HomeMeal sẽ liên hệ với bạn qua số điện thoại hoặc email đã cung cấp.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmitContact} className="space-y-4 text-xs sm:text-sm">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Chủ đề cần hỗ trợ:</label>
+                <label className="block font-semibold text-ink mb-1">Chủ đề cần hỗ trợ:</label>
                 <select
                   value={contactSubject}
                   onChange={(e) => setContactSubject(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm"
+                  className="w-full px-3.5 py-2.5 bg-surface-alt border border-border-soft rounded-xl text-xs sm:text-sm"
                 >
                   <option value="Thắc mắc về hóa đơn mua sắm">Thắc mắc về hóa đơn mua sắm</option>
                   <option value="Yêu cầu hỗ trợ đơn tiệc quy mô lớn">Yêu cầu hỗ trợ tiệc lớn trên 50 người</option>
@@ -149,30 +149,30 @@ export const SupportPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-[#263B35] mb-1">Số điện thoại liên hệ:</label>
+                <label className="block font-semibold text-ink mb-1">Số điện thoại liên hệ:</label>
                 <input
                   type="text"
                   defaultValue="0908 123 456"
-                  className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm"
+                  className="w-full px-3.5 py-2.5 bg-surface-alt border border-border-soft rounded-xl text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-semibold text-[#263B35] mb-1">Nội dung chi tiết:</label>
+              <label className="block font-semibold text-ink mb-1">Nội dung chi tiết:</label>
               <textarea
                 rows={3}
                 value={contactMessage}
                 onChange={(e) => setContactMessage(e.target.value)}
                 placeholder="Mô tả cụ thể yêu cầu của bạn..."
-                className="w-full px-3.5 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm"
+                className="w-full px-3.5 py-2.5 bg-surface-alt border border-border-soft rounded-xl text-xs sm:text-sm"
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#285E56] hover:bg-[#1f4b44] text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all"
+              className="px-6 py-2.5 bg-accent hover:bg-accent-hover text-on-accent font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all"
             >
               Gửi yêu cầu hỗ trợ
             </button>

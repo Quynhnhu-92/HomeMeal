@@ -38,11 +38,11 @@ export const MenuPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-[#E5ECE7]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-border-soft">
         <div>
-          <span className="text-xs font-bold text-[#285E56] uppercase tracking-wider">Thực đơn phong phú</span>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#263B35]">Chọn món theo sở thích gia đình</h1>
-          <p className="text-xs sm:text-sm text-[#738078] mt-1">
+          <span className="text-xs font-bold text-accent uppercase tracking-wider">Thực đơn phong phú</span>
+          <h1 className="text-2xl sm:text-3xl font-bold text-accent">Chọn món theo sở thích gia đình</h1>
+          <p className="text-xs sm:text-sm text-muted mt-1">
             Mỗi món ăn đều liệt kê rõ nguyên liệu dự kiến và chi phí đi chợ tham khảo.
           </p>
         </div>
@@ -50,25 +50,25 @@ export const MenuPage: React.FC = () => {
         {selectedItems.length > 0 && (
           <button
             onClick={() => navigateTo('/meal-planner')}
-            className="px-5 py-2.5 bg-[#285E56] text-white font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-2 hover:bg-[#1f4b44] shadow-sm self-start md:self-auto"
+            className="px-5 py-2.5 bg-accent text-on-accent font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-2 hover:bg-accent-hover shadow-sm self-start md:self-auto"
           >
-            <ShoppingBag className="w-4 h-4 text-[#B8E4D3]" />
+            <ShoppingBag className="w-4 h-4 text-on-accent" />
             <span>Đã chọn {selectedItems.length} món · Đặt bữa ngay</span>
           </button>
         )}
       </div>
 
       {/* Search & Filter Toolbar */}
-      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E5ECE7] space-y-4">
+      <div className="bg-surface p-4 sm:p-5 rounded-2xl border border-border-soft space-y-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-[#738078] absolute left-3.5 top-3" />
+            <Search className="w-4 h-4 text-muted absolute left-3.5 top-3" />
             <input
               type="text"
               placeholder="Tìm theo tên món hoặc nguyên liệu (vd: cá bớp, thịt ba rọi, nấm...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-[#285E56]"
+              className="w-full pl-10 pr-4 py-2.5 bg-surface-alt border border-border-soft rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-accent"
             />
           </div>
 
@@ -76,7 +76,7 @@ export const MenuPage: React.FC = () => {
             <select
               value={selectedComplexity}
               onChange={(e) => setSelectedComplexity(e.target.value)}
-              className="px-3 py-2.5 bg-[#FFFDF7] border border-[#E5ECE7] rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#285E56]"
+              className="px-3 py-2.5 bg-surface-alt border border-border-soft rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent"
             >
               <option value="all">Mọi độ khó</option>
               <option value="simple">Dễ làm</option>
@@ -104,8 +104,8 @@ export const MenuPage: React.FC = () => {
               onClick={() => setSelectedCategory(cat.id as any)}
               className={`px-3.5 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === cat.id
-                  ? 'bg-[#285E56] text-white'
-                  : 'bg-[#FFFDF7] text-[#263B35] hover:bg-[#E7F5EF]'
+                  ? 'bg-brand text-ink'
+                  : 'bg-surface-alt text-ink hover:bg-surface-alt'
               }`}
             >
               {cat.label}
@@ -122,36 +122,36 @@ export const MenuPage: React.FC = () => {
           return (
             <div
               key={dish.id}
-              className={`bg-white rounded-2xl border overflow-hidden transition-all flex flex-col justify-between ${
-                isSelected ? 'border-[#285E56] ring-2 ring-[#285E56]/20 shadow-md' : 'border-[#E5ECE7] hover:border-[#B8E4D3]'
+              className={`bg-surface rounded-2xl border overflow-hidden transition-all flex flex-col justify-between ${
+                isSelected ? 'border-brand ring-2 ring-accent/20 shadow-md' : 'border-border-soft hover:border-brand'
               }`}
             >
               <div>
-                <div className="relative aspect-16/10 bg-stone-100 overflow-hidden">
+                <div className="relative aspect-16/10 bg-surface-alt overflow-hidden">
                   <ImageWithFallback
                     src={dish.imageUrl}
                     alt={dish.name}
                     fallbackType="dish"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-white/95 text-[10px] font-semibold text-[#285E56]">
+                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-surface/95 text-[10px] font-semibold text-accent">
                     Khẩu phần: {dish.suggestedPortion}
                   </div>
-                  <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/60 text-white text-[10px]">
+                  <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-overlay/60 text-on-accent text-[10px]">
                     {dish.prepTimeMinutes} phút
                   </div>
                 </div>
 
                 <div className="p-4 space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-bold text-[#263B35] text-sm sm:text-base leading-snug">{dish.name}</h3>
+                    <h3 className="font-bold text-accent text-sm sm:text-base leading-snug">{dish.name}</h3>
                   </div>
 
-                  <p className="text-xs text-[#738078] line-clamp-2">{dish.description}</p>
+                  <p className="text-xs text-muted line-clamp-2">{dish.description}</p>
 
                   <div className="pt-2 flex flex-wrap gap-1">
                     {dish.dietaryTags.map((tag, idx) => (
-                      <span key={idx} className="text-[10px] px-2 py-0.5 bg-[#E7F5EF] text-[#285E56] rounded-md font-medium">
+                      <span key={idx} className="text-[10px] px-2 py-0.5 bg-surface-alt text-accent rounded-md font-medium">
                         {tag}
                       </span>
                     ))}
@@ -160,15 +160,15 @@ export const MenuPage: React.FC = () => {
               </div>
 
               <div className="p-4 pt-0">
-                <div className="py-2.5 border-t border-[#E5ECE7] flex items-center justify-between text-xs">
+                <div className="py-2.5 border-t border-border-soft flex items-center justify-between text-xs">
                   <div>
-                    <span className="text-[#738078] text-[10px] block">Tiền chợ tham khảo:</span>
-                    <span className="font-bold text-[#285E56] text-sm">{formatVND(dish.estimatedCost)}</span>
+                    <span className="text-muted text-[10px] block">Tiền chợ tham khảo:</span>
+                    <span className="font-bold text-accent text-sm">{formatVND(dish.estimatedCost)}</span>
                   </div>
 
                   <button
                     onClick={() => setSelectedDishDetail(dish)}
-                    className="text-xs text-[#738078] hover:text-[#285E56] underline"
+                    className="text-xs text-muted hover:text-accent underline"
                   >
                     Xem nguyên liệu
                   </button>
@@ -178,13 +178,13 @@ export const MenuPage: React.FC = () => {
                   onClick={() => handleToggleDish(dish)}
                   className={`w-full py-2 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5 ${
                     isSelected
-                      ? 'bg-[#285E56] text-white shadow-xs'
-                      : 'bg-[#E7F5EF] hover:bg-[#285E56] text-[#285E56] hover:text-white'
+                      ? 'bg-brand text-ink shadow-xs'
+                      : 'bg-surface-alt hover:bg-brand text-on-brand hover:text-on-brand'
                   }`}
                 >
                   {isSelected ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-[#B8E4D3]" />
+                      <Check className="w-3.5 h-3.5 text-accent" />
                       <span>Đã thêm vào thực đơn</span>
                     </>
                   ) : (
@@ -201,21 +201,21 @@ export const MenuPage: React.FC = () => {
       </div>
 
       {filteredDishes.length === 0 && (
-        <div className="text-center py-16 bg-white rounded-2xl border border-[#E5ECE7] space-y-3">
-          <Utensils className="w-10 h-10 text-[#738078] mx-auto opacity-50" />
-          <h3 className="font-bold text-[#263B35]">Không tìm thấy món ăn phù hợp</h3>
-          <p className="text-xs text-[#738078]">Hãy thử đổi từ khóa tìm kiếm hoặc bỏ chọn các bộ lọc phân loại.</p>
+        <div className="text-center py-16 bg-surface rounded-2xl border border-border-soft space-y-3">
+          <Utensils className="w-10 h-10 text-muted mx-auto opacity-50" />
+          <h3 className="font-bold text-accent">Không tìm thấy món ăn phù hợp</h3>
+          <p className="text-xs text-muted">Hãy thử đổi từ khóa tìm kiếm hoặc bỏ chọn các bộ lọc phân loại.</p>
         </div>
       )}
 
       {/* Dish Detail Modal */}
       {selectedDishDetail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-[#FFFDF7] rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-[#E5ECE7] max-h-[85vh] flex flex-col"
+            className="bg-surface-alt rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft max-h-[85vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-16/9 bg-stone-100">
+            <div className="relative aspect-16/9 bg-surface-alt">
               <ImageWithFallback
                 src={selectedDishDetail.imageUrl}
                 alt={selectedDishDetail.name}
@@ -224,7 +224,7 @@ export const MenuPage: React.FC = () => {
               />
               <button
                 onClick={() => setSelectedDishDetail(null)}
-                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black"
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-overlay/60 text-on-accent flex items-center justify-center hover:bg-overlay"
               >
                 ✕
               </button>
@@ -232,37 +232,37 @@ export const MenuPage: React.FC = () => {
 
             <div className="p-5 overflow-y-auto space-y-4">
               <div>
-                <h3 className="font-bold text-lg text-[#263B35]">{selectedDishDetail.name}</h3>
-                <p className="text-xs text-[#738078] mt-1">{selectedDishDetail.description}</p>
+                <h3 className="font-bold text-lg text-accent">{selectedDishDetail.name}</h3>
+                <p className="text-xs text-muted mt-1">{selectedDishDetail.description}</p>
               </div>
 
               <div>
-                <h4 className="font-bold text-xs uppercase tracking-wider text-[#285E56] mb-2">
+                <h4 className="font-bold text-xs uppercase tracking-wider text-accent mb-2">
                   Danh sách nguyên liệu ước tính khi đi chợ:
                 </h4>
-                <div className="bg-white rounded-xl border border-[#E5ECE7] divide-y divide-[#E5ECE7] text-xs">
+                <div className="bg-surface rounded-xl border border-border-soft divide-y divide-border-soft text-xs">
                   {selectedDishDetail.ingredients.map((ing) => (
                     <div key={ing.id} className="p-2.5 flex justify-between items-center">
                       <div>
-                        <span className="font-medium text-[#263B35]">{ing.name}</span>
-                        <span className="text-[#738078] ml-1">({ing.estimatedQuantity} {ing.unit})</span>
+                        <span className="font-medium text-ink">{ing.name}</span>
+                        <span className="text-muted ml-1">({ing.estimatedQuantity} {ing.unit})</span>
                       </div>
-                      <span className="font-semibold text-[#285E56]">{formatVND(ing.estimatedPrice)}</span>
+                      <span className="font-semibold text-accent">{formatVND(ing.estimatedPrice)}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="p-3 bg-[#E7F5EF] rounded-xl border border-[#B8E4D3]/50 text-xs text-[#285E56] flex items-center justify-between">
+              <div className="p-3 bg-surface-alt rounded-xl border border-brand/50 text-xs text-accent flex items-center justify-between">
                 <span>Tổng tiền chợ ước tính cho món này:</span>
                 <span className="font-bold text-sm">{formatVND(selectedDishDetail.estimatedCost)}</span>
               </div>
             </div>
 
-            <div className="p-4 bg-stone-50 border-t border-[#E5ECE7] flex justify-end gap-2">
+            <div className="p-4 bg-surface-alt border-t border-border-soft flex justify-end gap-2">
               <button
                 onClick={() => setSelectedDishDetail(null)}
-                className="px-4 py-2 border border-[#E5ECE7] bg-white text-xs font-semibold rounded-lg"
+                className="px-4 py-2 border border-border-soft bg-surface text-xs font-semibold rounded-lg"
               >
                 Đóng
               </button>
@@ -271,7 +271,7 @@ export const MenuPage: React.FC = () => {
                   handleToggleDish(selectedDishDetail);
                   setSelectedDishDetail(null);
                 }}
-                className="px-4 py-2 bg-[#285E56] text-white text-xs font-semibold rounded-lg"
+                className="px-4 py-2 bg-accent text-on-accent text-xs font-semibold rounded-lg"
               >
                 {selectedItems.some((i) => i.dish.id === selectedDishDetail.id)
                   ? 'Bỏ chọn món'

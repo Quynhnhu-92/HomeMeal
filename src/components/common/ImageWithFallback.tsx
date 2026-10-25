@@ -19,7 +19,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   if (error || !src) {
     return (
       <div
-        className={`flex flex-col items-center justify-center bg-gradient-to-br from-[#E7F5EF] to-[#FFFDF7] text-[#285E56] border border-[#E5ECE7] select-none p-3 ${className}`}
+        className={`flex flex-col items-center justify-center bg-gradient-to-br from-surface-alt to-surface-alt text-accent border border-border-soft select-none p-3 ${className}`}
       >
         {fallbackType === 'dish' && <Utensils className="w-8 h-8 opacity-70 mb-1" />}
         {fallbackType === 'cook' && <ChefHat className="w-8 h-8 opacity-70 mb-1" />}

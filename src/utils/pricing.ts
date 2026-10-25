@@ -136,39 +136,39 @@ export function calculateLaborFee(
 export function getStatusMeta(status: string): { label: string; bg: string; text: string; dot: string } {
   switch (status) {
     case 'draft':
-      return { label: 'Bản nháp', bg: 'bg-stone-100', text: 'text-stone-700', dot: 'bg-stone-400' };
+      return { label: 'Bản nháp', bg: 'bg-surface-alt', text: 'text-ink', dot: 'bg-border-soft' };
     case 'awaiting_cook':
-      return { label: 'Chờ đầu bếp nhận', bg: 'bg-amber-50', text: 'text-amber-800', dot: 'bg-amber-500' };
+      return { label: 'Chờ đầu bếp nhận', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
     case 'awaiting_quotation':
-      return { label: 'Chờ báo giá', bg: 'bg-sky-50', text: 'text-sky-800', dot: 'bg-sky-500' };
+      return { label: 'Chờ báo giá', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'quotation_submitted':
-      return { label: 'Đã có báo giá chi tiết', bg: 'bg-indigo-50', text: 'text-indigo-800', dot: 'bg-indigo-600' };
+      return { label: 'Đã có báo giá chi tiết', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'confirmed':
-      return { label: 'Đã xác nhận', bg: 'bg-emerald-50', text: 'text-emerald-800', dot: 'bg-emerald-600' };
+      return { label: 'Đã xác nhận', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'shopping_in_progress':
-      return { label: 'Đang đi chợ', bg: 'bg-teal-50', text: 'text-teal-800', dot: 'bg-teal-600' };
+      return { label: 'Đang đi chợ', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'evidence_submitted':
-      return { label: 'Đã tải hóa đơn đi chợ', bg: 'bg-cyan-50', text: 'text-cyan-800', dot: 'bg-cyan-600' };
+      return { label: 'Đã tải hóa đơn đi chợ', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'awaiting_budget_approval':
-      return { label: 'Chờ duyệt tăng ngân sách', bg: 'bg-amber-50', text: 'text-amber-900', dot: 'bg-amber-600' };
+      return { label: 'Chờ duyệt tăng ngân sách', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
     case 'preparing_meal':
-      return { label: 'Đang nấu nướng', bg: 'bg-orange-50', text: 'text-orange-900', dot: 'bg-orange-600' };
+      return { label: 'Đang nấu nướng', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
     case 'ready_for_service':
-      return { label: 'Món đã sẵn sàng', bg: 'bg-emerald-50', text: 'text-emerald-800', dot: 'bg-emerald-600' };
+      return { label: 'Món đã sẵn sàng', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'serving_at_home':
-      return { label: 'Đầu bếp đang tới nhà / Nấu tại gian bếp', bg: 'bg-blue-50', text: 'text-blue-800', dot: 'bg-blue-600' };
+      return { label: 'Đầu bếp đang tới nhà / Nấu tại gian bếp', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'service_completed':
-      return { label: 'Đã nấu & dọn xong - Chờ kiểm tra & thanh toán', bg: 'bg-emerald-100', text: 'text-emerald-900', dot: 'bg-emerald-700' };
+      return { label: 'Đã nấu & dọn xong - Chờ kiểm tra & thanh toán', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'awaiting_payment':
-      return { label: 'Chờ thanh toán', bg: 'bg-purple-50', text: 'text-purple-800', dot: 'bg-purple-600' };
+      return { label: 'Chờ thanh toán', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'paid':
     case 'completed':
-      return { label: 'Hoàn tất & Đã thanh toán', bg: 'bg-teal-100', text: 'text-teal-900', dot: 'bg-teal-700' };
+      return { label: 'Hoàn tất & Đã thanh toán', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'disputed':
-      return { label: 'Đang khiếu nại hóa đơn', bg: 'bg-rose-50', text: 'text-rose-900', dot: 'bg-rose-600' };
+      return { label: 'Đang khiếu nại hóa đơn', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
     case 'cancelled':
-      return { label: 'Đã hủy', bg: 'bg-gray-100', text: 'text-gray-700', dot: 'bg-gray-400' };
+      return { label: 'Đã hủy', bg: 'bg-surface-alt', text: 'text-ink', dot: 'bg-border-soft' };
     default:
-      return { label: status, bg: 'bg-stone-50', text: 'text-stone-700', dot: 'bg-stone-400' };
+      return { label: status, bg: 'bg-surface-alt', text: 'text-ink', dot: 'bg-border-soft' };
   }
 }

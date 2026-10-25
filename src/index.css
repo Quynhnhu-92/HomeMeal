@@ -1,36 +1,65 @@
 @import "tailwindcss";
 
 @theme {
-  --color-page-background: #65DCB4;
-  --color-action: #5e4338;
-  --color-action-hover: #49342c;
-  --color-primary-mint: #B8E4D3;
-  --color-deep-teal: #285E56;
-  --color-light-mint: #E7F5EF;
-  --color-warm-cream: #FFFDF7;
-  --color-accent-orange: #F2AD72;
-  --color-text-main: #263B35;
-  --color-text-secondary: #738078;
-  --color-border-soft: #E5ECE7;
-  --color-error-red: #C94C4C;
+  /* 60%: clean primary surfaces and warm alternating panels. */
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F7F7EE;
+
+  /* 30%: mint supporting surfaces, selections and highlights. */
+  --color-brand: #90E4C1;
+  --color-brand-hover: #7CD6B0;
+  --color-on-brand: #292D2A;
+
+  /* 10%: burgundy primary actions, key headings and visual anchors. */
+  --color-accent: #481620;
+  --color-accent-hover: #361018;
+  --color-on-accent: #FFFFFF;
+
+  /* Neutral supporting colors keep text and controls accessible. */
+  --color-ink: #292D2A;
+  --color-muted: #62625C;
+  --color-border-soft: #DEDED4;
+  --color-control-border: #89897F;
+  --color-disabled: #E9E9E1;
+  --color-overlay: #000000;
   --font-sans: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-page-background);
-  color: #263B35;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
 }
 
-/* Shared action colors for the existing HomeMeal button variants. */
-button:is([class~="bg-[#285E56]"], [class~="bg-[#B8E4D3]"], [class~="bg-[#E7F5EF]"]) {
-  background-color: var(--color-action);
-  color: #fff;
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  border-color: var(--color-control-border);
 }
 
-button:is([class~="bg-[#285E56]"], [class~="bg-[#B8E4D3]"], [class~="bg-[#E7F5EF]"]):hover:not(:disabled) {
-  background-color: var(--color-action-hover);
-  color: #fff;
+/* A burgundy outline stays visible on white, off-white and mint surfaces. */
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+button.bg-brand:is(:hover, :active):not(:disabled) {
+  background-color: var(--color-brand-hover);
+  color: var(--color-on-brand);
+}
+
+button.bg-accent:is(:hover, :active):not(:disabled) {
+  background-color: var(--color-accent-hover);
+  color: var(--color-on-accent);
+}
+
+button:is(.bg-brand, .bg-accent):disabled {
+  background-color: var(--color-disabled);
+  color: var(--color-muted);
+  border-color: var(--color-border-soft);
+}
+
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-on-brand);
 }
 
 /* Custom scrollbar */
@@ -39,12 +68,12 @@ button:is([class~="bg-[#285E56]"], [class~="bg-[#B8E4D3]"], [class~="bg-[#E7F5EF
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #E7F5EF;
+  background: var(--color-surface-alt);
 }
 ::-webkit-scrollbar-thumb {
-  background: #B8E4D3;
+  background: var(--color-brand);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #285E56;
+  background: var(--color-accent);
 }
