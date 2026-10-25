@@ -1,44 +1,30 @@
 import React, { useState } from 'react';
-import { Utensils, ChefHat, Receipt } from 'lucide-react';
+import { Image as ImageIcon } from 'lucide-react';
 
 interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackType?: 'dish' | 'cook' | 'receipt';
   label?: string;
 }
 
+// Photography is intentionally reserved for supplied assets. Evidence remains viewable.
 export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
-  src,
-  alt,
-  className = '',
-  fallbackType = 'dish',
-  label,
-  ...props
+  src, alt, className = '', fallbackType = 'dish', label, ...props
 }) => {
-  const [error, setError] = useState(false);
+  const [failedSrc, setFailedSrc] = useState<string>();
+  const isEvidence = fallbackType === 'receipt' && src && !src.includes('images.unsplash.com');
 
-  if (error || !src) {
+  if (!isEvidence || failedSrc === src) {
     return (
       <div
-        className={`flex flex-col items-center justify-center bg-gradient-to-br from-surface-alt to-surface-alt text-accent border border-border-soft select-none p-3 ${className}`}
+        role="img"
+        aria-label={label || `Vị trí ảnh: ${alt || (fallbackType === 'cook' ? 'đầu bếp' : 'món ăn')}`}
+        className={`image-placeholder bg-surface-alt text-detail flex items-center justify-center overflow-hidden ${className}`}
       >
-        {fallbackType === 'dish' && <Utensils className="w-8 h-8 opacity-70 mb-1" />}
-        {fallbackType === 'cook' && <ChefHat className="w-8 h-8 opacity-70 mb-1" />}
-        {fallbackType === 'receipt' && <Receipt className="w-8 h-8 opacity-70 mb-1" />}
-        <span className="text-xs font-medium text-center line-clamp-1 opacity-80">
-          {label || alt || 'HomeMeal'}
-        </span>
+        <ImageIcon aria-hidden="true" className="h-7 w-7 shrink-0 opacity-60" strokeWidth={1.25} />
       </div>
     );
   }
 
-  return (
-    <img
-      src={src}
-      alt={alt || 'HomeMeal'}
-      referrerPolicy="no-referrer"
-      onError={() => setError(true)}
-      className={className}
-      {...props}
-    />
-  );
+  return <img src={src} alt={alt || 'Chứng từ mua sắm'} className={className}
+    referrerPolicy="no-referrer" {...props} onError={() => setFailedSrc(src)} />;
 };

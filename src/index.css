@@ -131,7 +131,7 @@
 
   /* Neutral supporting colors keep text and controls accessible. */
   --color-ink: #333333;
-  --color-muted: #62625C;
+  --color-muted: #735444;
   --color-border-soft: #E5E5DC;
   --color-control-border: #89897F;
   --color-disabled: #E9E9E1;
@@ -288,10 +288,7 @@ button:is(.bg-brand, .bg-accent):disabled {
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-surface) 98%, transparent),
-    color-mix(in srgb, var(--color-surface-alt) 96%, transparent) 55%,
-    color-mix(in srgb, var(--color-brand) 16%, transparent));
+  background: var(--color-surface-alt);
   opacity: 0;
   transition: opacity 250ms var(--interaction-ease);
 }
@@ -310,9 +307,7 @@ button:is(.bg-brand, .bg-accent):disabled {
 }
 
 .interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked))::before {
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-surface-alt) 85%, transparent),
-    color-mix(in srgb, var(--color-brand) 24%, transparent));
+  background: color-mix(in srgb, var(--color-brand) 18%, var(--color-surface));
 }
 
 .interaction-card:focus-within {
@@ -358,7 +353,7 @@ button.bg-accent:not(.interaction-card) {
 
 @media (hover: hover) and (pointer: fine) {
   .interaction-card:not(:disabled):hover {
-    translate: 0 -4px;
+    translate: 0 -2px;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
       var(--tw-ring-shadow, 0 0 transparent),
       var(--card-selected-shadow),
@@ -421,8 +416,18 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
     right: -5rem;
     bottom: -8rem;
     background-color: var(--color-footer-watermark);
-    opacity: 0.32;
+    opacity: 0.06;
     -webkit-mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
     mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
   }
 }
+
+/* Reserve asset geometry; image icons never collapse or cause loading shifts. */
+.image-placeholder { min-width: 0; }
+html { scroll-padding-top: 5.5rem; }
+.home-page section { min-width: 0; }
+.home-page h3 { text-wrap: pretty; }
+.home-page .interaction-card { min-width: 0; }
+.home-page .interaction-card p { overflow-wrap: anywhere; }
+
+.home-page button { min-height: 2.75rem; }

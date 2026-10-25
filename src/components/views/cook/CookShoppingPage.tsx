@@ -116,7 +116,7 @@ export const CookShoppingPage: React.FC = () => {
           <select
             value={selectedOrderId}
             onChange={(e) => setSelectedOrderId(e.target.value)}
-            className="px-3 py-1.5 bg-surface border border-border-soft rounded-xl text-xs font-bold text-accent"
+            className="min-w-0 max-w-full px-3 py-1.5 bg-surface border border-border-soft rounded-xl text-xs font-bold text-accent"
           >
             {orders.map((o) => (
               <option key={o.id} value={o.id}>
@@ -243,7 +243,7 @@ export const CookShoppingPage: React.FC = () => {
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-surface-alt rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft"
+            className="bg-surface-alt rounded-3xl max-w-lg w-full overflow-hidden shadow-lg border border-border-soft"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-5 border-b border-border-soft bg-surface flex justify-between items-center">
@@ -355,7 +355,7 @@ export const CookShoppingPage: React.FC = () => {
       {showBudgetChangeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-surface-alt rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft"
+            className="bg-surface-alt rounded-3xl max-w-lg w-full overflow-hidden shadow-lg border border-border-soft"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-5 border-b border-border-soft bg-surface flex justify-between items-center text-accent">
