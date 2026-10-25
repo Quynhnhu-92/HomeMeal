@@ -426,18 +426,3 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
     mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
   }
 }
-
-/* Homepage comparison cards need clear titles and comfortable reading text. */
-.home-readable-cards h3 {
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0;
-}
-
-.home-readable-cards li {
-  align-items: flex-start;
-}
-
-.home-readable-cards li > svg {
-  margin-top: 0.35em;
-}
