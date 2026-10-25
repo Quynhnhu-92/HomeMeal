@@ -6,8 +6,8 @@ export const Footer: React.FC = () => {
   const { navigateTo } = useApp();
 
   return (
-    <footer className="bg-brand text-ink pt-14 pb-10 border-t border-accent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="site-footer bg-brand text-ink pt-14 pb-10 border-t border-accent/15">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Core Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-12 border-b border-border-soft text-sm">
           <div className="flex items-start gap-3">
@@ -125,11 +125,6 @@ export const Footer: React.FC = () => {
                   Quy trình giải quyết khiếu nại
                 </button>
               </li>
-              <li>
-                <button onClick={() => navigateTo('/support#terms')} className="hover:text-ink transition-colors">
-                  Điều khoản dịch vụ
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -160,14 +155,17 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 border-t border-border-soft flex flex-col sm:flex-row items-center justify-between text-xs text-ink gap-3">
-          <p>© 2026 HomeMeal Vietnam. Nền tảng nguyên mẫu phục vụ trình bày đồ án và đánh giá học thuật.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-ink">Phiên bản thử nghiệm tương tác 1.0</span>
-            <span>·</span>
-            <button onClick={() => navigateTo('/support')} className="hover:underline">Bảo mật thông tin</button>
+        {/* Bottom brand strip; reuse the existing copyright and policy links. */}
+        <div className="footer-brand-row pt-8 border-t border-accent/15 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between text-xs text-ink">
+          <div className="min-w-0 space-y-2">
+            <p>© 2026 HomeMeal Vietnam. Nền tảng nguyên mẫu phục vụ trình bày đồ án và đánh giá học thuật.</p>
+            <p>Phiên bản thử nghiệm tương tác 1.0</p>
           </div>
+          <nav aria-label="Chính sách cuối trang" className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:shrink-0">
+            <button onClick={() => navigateTo('/support')} className="min-h-11 text-left hover:underline underline-offset-4">Bảo mật thông tin</button>
+            <span aria-hidden="true">·</span>
+            <button onClick={() => navigateTo('/support#terms')} className="min-h-11 text-left hover:underline underline-offset-4">Điều khoản dịch vụ</button>
+          </nav>
         </div>
       </div>
     </footer>
