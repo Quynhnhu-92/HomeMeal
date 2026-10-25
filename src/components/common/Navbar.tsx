@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-surface-alt/95 backdrop-blur-md border-b border-border-soft">
+    <header className="sticky top-0 z-40 bg-brand backdrop-blur-md border-b border-border-soft">
       {/* Main Top Bar - strict 3-zone contract */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Zone 1: Brand Wordmark */}
@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className="leading-none text-xl font-bold">HomeMeal</span>
-            <span className="text-[10px] tracking-normal font-normal text-muted hidden sm:block">
+            <span className="text-[10px] tracking-normal font-normal text-ink hidden sm:block">
               Nấu cơm & Đi chợ minh bạch
             </span>
           </div>
@@ -75,7 +75,7 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => navigateTo('/support')}
             className={`whitespace-nowrap shrink-0 py-1 transition-colors hover:text-accent ${
-              isActive('/support') ? 'text-accent font-semibold' : 'text-muted'
+              isActive('/support') ? 'text-accent font-semibold' : 'text-ink'
             }`}
           >
             Hỗ trợ & Chính sách
@@ -104,7 +104,7 @@ export const Navbar: React.FC = () => {
 
             {roleMenuOpen && (
               <div className="absolute right-0 mt-2 w-56 bg-surface rounded-xl shadow-lg border border-border-soft py-2 z-50">
-                <p className="px-3 py-2 text-xs text-muted">{authUser ? `Đã đăng nhập: ${authUser.email}` : 'Bạn chưa đăng nhập'}</p>
+                <p className="px-3 py-2 text-xs text-ink">{authUser ? `Đã đăng nhập: ${authUser.email}` : 'Bạn chưa đăng nhập'}</p>
                 <button onClick={() => { navigateTo(authUser ? '/account' : '/login'); setRoleMenuOpen(false); }} className="w-full px-3 py-2 text-left text-sm hover:bg-surface-alt">{authUser ? 'Tài khoản cá nhân' : 'Đăng nhập / Đăng ký'}</button>
                 {authUser && <button onClick={() => { void logout().then(() => { setRoleMenuOpen(false); navigateTo('/'); }).catch((error) => showToast(error.message || 'Không thể đăng xuất.')); }} className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-surface-alt"><LogOut size={15} />Đăng xuất</button>}
               </div>
@@ -185,13 +185,13 @@ export const Navbar: React.FC = () => {
               navigateTo('/support');
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left px-3 py-2 text-sm text-muted hover:bg-surface-alt rounded-lg"
+            className="w-full text-left px-3 py-2 text-sm text-ink hover:bg-surface-alt rounded-lg"
           >
             Hỗ trợ & Chính sách
           </button>
           <div className="pt-2 border-t border-border-soft">
             <button onClick={() => { navigateTo(authUser?.role === 'admin' ? '/admin' : authUser?.role === 'cook' ? '/cook/dashboard' : '/account'); setMobileMenuOpen(false); }} className="w-full px-3 py-2 text-left text-sm font-semibold text-accent">{authUser?.role === 'admin' ? 'Trang Quản Trị' : authUser?.role === 'cook' ? 'Góc Đầu Bếp' : authUser ? 'Tài khoản cá nhân' : 'Đăng nhập / Đăng ký'}</button>
-            {authUser && <button onClick={() => { void logout().then(() => { setMobileMenuOpen(false); navigateTo('/'); }).catch((error) => showToast(error.message || 'Không thể đăng xuất.')); }} className="w-full px-3 py-2 text-left text-sm text-muted">Đăng xuất</button>}
+            {authUser && <button onClick={() => { void logout().then(() => { setMobileMenuOpen(false); navigateTo('/'); }).catch((error) => showToast(error.message || 'Không thể đăng xuất.')); }} className="w-full px-3 py-2 text-left text-sm text-ink">Đăng xuất</button>}
           </div>
         </div>
       )}
