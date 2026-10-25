@@ -6,10 +6,10 @@ export const Footer: React.FC = () => {
   const { navigateTo } = useApp();
 
   return (
-    <footer className="site-footer bg-brand text-ink pt-14 pb-10 border-t border-accent/15">
+    <footer className="site-footer bg-brand text-ink pt-8 pb-6 border-t border-accent/15">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Core Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-12 border-b border-border-soft text-sm">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pb-6 border-b border-border-soft text-sm">
           <div className="flex items-start gap-3">
             <Receipt className="w-5 h-5 text-ink shrink-0 mt-0.5" />
             <div>
@@ -41,12 +41,12 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Links Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 py-10">
-          <div className="lg:col-span-2">
-            <p className="text-sm font-medium text-ink italic mb-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-5 gap-y-6 py-6">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
+            <p className="text-sm font-medium text-ink italic mb-2">
               "Bữa cơm chân tình cho người bận rộn"
             </p>
-            <p className="text-xs text-ink leading-relaxed max-w-sm mb-4">
+            <p className="text-xs text-ink leading-relaxed max-w-sm mb-3">
               Nền tảng kết nối dịch vụ đầu bếp đến tận nhà nấu cơm gia đình và tiệc tại gia theo ngân sách thực tế. Trao quyền cho khách hàng tự điền món ăn và kiểm tra chứng từ minh bạch, không phí ẩn.
             </p>
             <div className="space-y-1.5 text-xs text-ink">
@@ -69,27 +69,27 @@ export const Footer: React.FC = () => {
             <h5 className="font-semibold text-xs uppercase tracking-wider text-ink mb-3">Dịch vụ</h5>
             <ul className="space-y-2 text-xs text-ink">
               <li>
-                <button onClick={() => navigateTo('/meal-planner')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/meal-planner')} className="text-left hover:text-ink transition-colors">
                   Đặt bữa cơm gia đình
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/party-booking')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/party-booking')} className="text-left hover:text-ink transition-colors">
                   Đặt tiệc & cỗ tại gia
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/menu')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/menu')} className="text-left hover:text-ink transition-colors">
                   Thực đơn gợi ý
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/cooks')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/cooks')} className="text-left hover:text-ink transition-colors">
                   Đội ngũ đầu bếp
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/quotations')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/quotations')} className="text-left hover:text-ink transition-colors">
                   Báo giá tiệc theo yêu cầu
                 </button>
               </li>
@@ -100,48 +100,48 @@ export const Footer: React.FC = () => {
             <h5 className="font-semibold text-xs uppercase tracking-wider text-ink mb-3">Chính sách & Hỗ trợ</h5>
             <ul className="space-y-2 text-xs text-ink">
               <li>
-                <button onClick={() => navigateTo('/support')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/support')} className="text-left hover:text-ink transition-colors">
                   Trung tâm trợ giúp & FAQ
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/support#cancellation')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/support#cancellation')} className="text-left hover:text-ink transition-colors">
                   Chính sách hủy đơn & Hoàn tiền
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/support#evidence')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/support#evidence')} className="text-left hover:text-ink transition-colors">
                   Quy định chứng từ mua sắm
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/support#disputes')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/support#disputes')} className="text-left hover:text-ink transition-colors">
                   Quy trình giải quyết khiếu nại
                 </button>
               </li>
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <h5 className="font-semibold text-xs uppercase tracking-wider text-ink mb-3">Dành cho đối tác</h5>
             <ul className="space-y-2 text-xs text-ink">
               <li>
-                <button onClick={() => navigateTo('/cook/dashboard')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/cook/dashboard')} className="text-left hover:text-ink transition-colors">
                   Góc làm việc của đầu bếp
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/support#cook-register')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/support#cook-register')} className="text-left hover:text-ink transition-colors">
                   Đăng ký trở thành đầu bếp
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/cook/earnings')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/cook/earnings')} className="text-left hover:text-ink transition-colors">
                   Chính sách thu nhập & công nấu
                 </button>
               </li>
               <li>
-                <button onClick={() => navigateTo('/admin')} className="hover:text-ink transition-colors">
+                <button onClick={() => navigateTo('/admin')} className="text-left hover:text-ink transition-colors">
                   Cổng quản trị viên
                 </button>
               </li>
@@ -149,20 +149,9 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom brand strip; reuse the existing copyright and policy links. */}
-        <div className="footer-brand-row pt-8 border-t border-accent/15 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between text-xs text-ink">
-          <div className="min-w-0 space-y-2">
-            <div className="inline-flex max-w-full rounded-xl bg-surface px-4 py-3">
-              <img
-                src="/brand/homemeal-footer.svg"
-                alt="HomeMeal"
-                width={1286}
-                height={784}
-                loading="lazy"
-                decoding="async"
-                className="h-auto w-44 max-w-full sm:w-48"
-              />
-            </div>
+        {/* Compact copyright and policy links. */}
+        <div className="footer-brand-row pt-4 border-t border-accent/15 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-ink">
+          <div className="min-w-0 space-y-1">
             <p>© 2026 HomeMeal Vietnam. Nền tảng nguyên mẫu phục vụ trình bày đồ án và đánh giá học thuật.</p>
             <p>Phiên bản thử nghiệm tương tác 1.0</p>
           </div>

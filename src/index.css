@@ -253,10 +253,10 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
     position: absolute;
     z-index: -1;
     pointer-events: none;
-    width: clamp(32rem, 64vw, 58rem);
+    width: clamp(25rem, 46vw, 42rem);
     aspect-ratio: 1286 / 784;
-    right: -8rem;
-    bottom: -10rem;
+    right: -5rem;
+    bottom: -8rem;
     background-color: var(--color-footer-watermark);
     opacity: 0.32;
     -webkit-mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
