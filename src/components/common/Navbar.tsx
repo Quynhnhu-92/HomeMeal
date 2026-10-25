@@ -56,9 +56,15 @@ export const Navbar: React.FC = () => {
           onClick={() => navigateTo('/')}
           className="flex items-center gap-2 text-xl font-bold tracking-tight text-accent whitespace-nowrap shrink-0 group text-left"
         >
-          <div className="w-9 h-9 rounded-lg bg-brand text-accent flex items-center justify-center font-bold text-lg shadow-sm group-hover:bg-brand-hover transition-colors">
-            H
-          </div>
+          <img
+            src="/brand/homemeal-footer.svg"
+            alt=""
+            aria-hidden="true"
+            width={1286}
+            height={784}
+            decoding="async"
+            className="h-auto w-9 shrink-0 min-[360px]:w-12 sm:w-16"
+          />
           <div className="flex flex-col">
             <span className="leading-none text-xl font-bold">HomeMeal</span>
             <span className="text-[10px] tracking-normal font-normal text-ink hidden sm:block">

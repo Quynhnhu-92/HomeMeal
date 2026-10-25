@@ -13,6 +13,7 @@
   /* 10%: warm-brown details and deep-burgundy visual anchors. */
   --color-accent: #481620;
   --color-detail: #735444;
+  --color-footer-watermark: #2BA17A;
   --color-accent-hover: #361018;
   --color-on-accent: #FFFFFF;
 
@@ -238,7 +239,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   }
 }
 
-/* Solid mint footer: crisp, clipped geometry stays behind the content. */
+/* Solid mint footer: crop the original logo into the background, behind content. */
 .site-footer {
   position: relative;
   isolation: isolate;
@@ -246,31 +247,19 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   background-image: none;
 }
 
-.site-footer::before,
-.site-footer::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.site-footer::before {
-  width: clamp(22rem, 44vw, 38rem);
-  aspect-ratio: 1;
-  left: -12rem;
-  bottom: -18rem;
-  border: 4rem solid var(--color-accent);
-  border-radius: 50%;
-  opacity: 0.05;
-}
-
-.site-footer::after {
-  width: clamp(22rem, 40vw, 34rem);
-  height: 26rem;
-  right: -12rem;
-  top: 6rem;
-  border-radius: 50% 40% 60% 45%;
-  background-color: var(--color-detail);
-  rotate: -22deg;
-  opacity: 0.06;
+@supports ((mask-image: url("")) or (-webkit-mask-image: url(""))) {
+  .site-footer::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: clamp(32rem, 64vw, 58rem);
+    aspect-ratio: 1286 / 784;
+    right: -8rem;
+    bottom: -10rem;
+    background-color: var(--color-footer-watermark);
+    opacity: 0.32;
+    -webkit-mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
+    mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
+  }
 }
