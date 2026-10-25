@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-brand backdrop-blur-md border-b border-border-soft">
+    <header className="sticky top-0 z-40 bg-surface-alt backdrop-blur-md border-b border-border-soft">
       {/* Main Top Bar - strict 3-zone contract */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Zone 1: Brand Wordmark */}
