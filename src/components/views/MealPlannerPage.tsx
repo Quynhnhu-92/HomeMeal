@@ -1042,7 +1042,16 @@ export const MealPlannerPage: React.FC = () => {
                 <div
                   key={cook.id}
                   onClick={() => updateDraftOrder({ cookId: cook.id })}
-                  className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      updateDraftOrder({ cookId: cook.id });
+                    }
+                  }}
+                  className={`interaction-card p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                     isSelected
                       ? 'border-brand bg-surface-alt/30 shadow-md ring-2 ring-accent/20'
                       : 'border-border-soft bg-surface hover:border-brand'

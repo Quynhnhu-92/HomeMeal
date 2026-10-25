@@ -159,7 +159,7 @@ export const SmartMenuPage: React.FC = () => {
         <p className="mb-4 mt-2 text-sm text-muted">Chọn một mục tiêu để bắt đầu. Bạn có thể thay đổi bất cứ lúc nào.</p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">{NUTRITION_GOALS.map((goal, i) => {
           const Icon = ICONS[i]; const selected = preferences.goal === goal.id;
-          return <button key={goal.id} type="button" aria-pressed={selected} onClick={() => update('goal', goal.id)} className={`flex gap-3 rounded-2xl border-2 p-4 text-left transition-colors ${selected ? 'border-accent bg-brand' : 'border-border-soft bg-surface hover:border-brand'}`}><span className="rounded-xl bg-surface-alt p-2.5 text-accent"><Icon size={21} /></span><span><span className="block text-sm font-bold">{goal.name}</span><span className="mt-1 block text-xs leading-5 text-ink">{goal.description}</span></span></button>;
+          return <button key={goal.id} type="button" aria-pressed={selected} onClick={() => update('goal', goal.id)} className={`interaction-card flex gap-3 rounded-2xl border-2 p-4 text-left transition-colors ${selected ? 'border-accent bg-brand' : 'border-border-soft bg-surface hover:border-brand'}`}><span className="rounded-xl bg-surface-alt p-2.5 text-accent"><Icon size={21} /></span><span><span className="block text-sm font-bold">{goal.name}</span><span className="mt-1 block text-xs leading-5 text-ink">{goal.description}</span></span></button>;
         })}</div>
       </fieldset>
 

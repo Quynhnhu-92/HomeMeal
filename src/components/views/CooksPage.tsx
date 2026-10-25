@@ -105,7 +105,7 @@ export const CooksPage: React.FC = () => {
         {filteredCooks.map((cook) => (
           <div
             key={cook.id}
-            className="bg-surface rounded-2xl border border-border-soft p-6 hover:shadow-lg transition-all flex flex-col justify-between"
+            className="interaction-card bg-surface rounded-2xl border border-border-soft p-6 hover:shadow-lg transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-start gap-4 mb-4">

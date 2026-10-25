@@ -282,7 +282,7 @@ export const PartyBookingPage: React.FC = () => {
             {cooks.map((c) => (
               <label
                 key={c.id}
-                className={`p-4 rounded-2xl border-2 flex items-center gap-3.5 cursor-pointer transition-all ${
+                className={`interaction-card p-4 rounded-2xl border-2 flex items-center gap-3.5 cursor-pointer transition-all ${
                   selectedCookId === c.id
                     ? 'border-brand bg-surface-alt/40 shadow-xs'
                     : 'border-border-soft hover:border-brand'

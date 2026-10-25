@@ -78,3 +78,110 @@ button:is(.bg-brand, .bg-accent):disabled {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent);
 }
+
+/* Effects reuse the palette; they never change layout or capture clicks. */
+:root {
+  --interaction-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.site-header {
+  transition: background-color 300ms var(--interaction-ease),
+    box-shadow 300ms var(--interaction-ease);
+}
+
+.site-header[data-scrolled="true"] {
+  background-color: color-mix(in srgb, var(--color-surface-alt) 88%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: none;
+}
+
+.interaction-card {
+  position: relative;
+  isolation: isolate;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
+    var(--tw-ring-shadow, 0 0 transparent),
+    0 2px 8px color-mix(in srgb, var(--color-accent) 5%, transparent);
+  transition: translate 250ms var(--interaction-ease),
+    box-shadow 250ms var(--interaction-ease), border-color 250ms var(--interaction-ease),
+    background-color 250ms var(--interaction-ease);
+}
+
+.interaction-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-surface) 24%, transparent),
+    color-mix(in srgb, var(--color-surface-alt) 16%, transparent) 45%,
+    color-mix(in srgb, var(--color-brand) 9%, transparent));
+  opacity: 0;
+  transition: opacity 250ms var(--interaction-ease);
+}
+
+.interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked)) {
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
+    var(--tw-ring-shadow, 0 0 transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--color-brand) 65%, transparent),
+    0 3px 10px color-mix(in srgb, var(--color-brand) 16%, transparent);
+}
+
+.interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked), :focus-within)::before {
+  opacity: 1;
+}
+
+.interaction-card:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+button:is(.bg-brand, .bg-accent, .border):not(.interaction-card) {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 45%, transparent),
+    0 2px 5px color-mix(in srgb, var(--color-accent) 9%, transparent);
+  transition: translate 200ms var(--interaction-ease),
+    box-shadow 200ms var(--interaction-ease), background-color 200ms var(--interaction-ease),
+    border-color 200ms var(--interaction-ease), color 200ms var(--interaction-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interaction-card:not(:disabled):hover {
+    translate: 0 -3px;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
+      var(--tw-ring-shadow, 0 0 transparent),
+      0 6px 16px color-mix(in srgb, var(--color-brand) 16%, transparent);
+  }
+
+  .interaction-card:not(:disabled):hover::before {
+    opacity: 1;
+  }
+
+  button:is(.bg-brand, .bg-accent, .border):not(.interaction-card):not(:disabled):hover {
+    translate: 0 -1px;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 55%, transparent),
+      0 4px 10px color-mix(in srgb, var(--color-brand) 18%, transparent);
+  }
+}
+
+button:is(.bg-brand, .bg-accent, .border):not(.interaction-card):not(:disabled):active,
+.interaction-card:not(:disabled):active {
+  translate: 0 1px;
+  box-shadow: inset 0 2px 4px color-mix(in srgb, var(--color-accent) 12%, transparent),
+    0 1px 2px color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+button:is(.bg-brand, .bg-accent, .border):disabled {
+  translate: none;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .interaction-card,
+  .interaction-card::before,
+  button:is(.bg-brand, .bg-accent, .border) {
+    transition: none !important;
+    translate: none !important;
+  }
+}

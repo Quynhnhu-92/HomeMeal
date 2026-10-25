@@ -346,7 +346,7 @@ export const HomePage: React.FC = () => {
           {SUGGESTED_MENUS.map((menu) => (
             <div
               key={menu.id}
-              className="bg-surface rounded-2xl border border-border-soft p-5 flex flex-col justify-between hover:shadow-lg transition-all hover:border-brand"
+              className="interaction-card bg-surface rounded-2xl border border-border-soft p-5 flex flex-col justify-between hover:shadow-lg transition-all hover:border-brand"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs">
@@ -417,7 +417,7 @@ export const HomePage: React.FC = () => {
           {cooks.map((cook) => (
             <div
               key={cook.id}
-              className="bg-surface rounded-2xl border border-border-soft p-5 hover:shadow-lg transition-all flex flex-col justify-between"
+              className="interaction-card bg-surface rounded-2xl border border-border-soft p-5 hover:shadow-lg transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center gap-3.5 mb-3.5">

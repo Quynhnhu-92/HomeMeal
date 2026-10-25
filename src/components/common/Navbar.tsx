@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { ChefHat, ShoppingBag, User, Shield, Menu, X, LogOut } from 'lucide-react';
 
@@ -6,6 +6,21 @@ export const Navbar: React.FC = () => {
   const { currentUser, authUser, logout, showToast, currentPath, navigateTo, orders } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    let previous = window.scrollY > 64;
+    setIsScrolled(previous);
+    const handleScroll = () => {
+      const next = window.scrollY > 64;
+      if (next !== previous) {
+        previous = next;
+        setIsScrolled(next);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Count active orders needing attention
   const pendingActionsCount = orders.filter(
@@ -33,7 +48,7 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-surface-alt backdrop-blur-md border-b border-border-soft">
+    <header data-scrolled={isScrolled} className="site-header sticky top-0 z-40 bg-surface-alt backdrop-blur-md border-b border-border-soft">
       {/* Main Top Bar - strict 3-zone contract */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Zone 1: Brand Wordmark */}

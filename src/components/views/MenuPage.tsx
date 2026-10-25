@@ -122,7 +122,8 @@ export const MenuPage: React.FC = () => {
           return (
             <div
               key={dish.id}
-              className={`bg-surface rounded-2xl border overflow-hidden transition-all flex flex-col justify-between ${
+              data-selected={isSelected}
+              className={`interaction-card bg-surface rounded-2xl border overflow-hidden transition-all flex flex-col justify-between ${
                 isSelected ? 'border-brand ring-2 ring-accent/20 shadow-md' : 'border-border-soft hover:border-brand'
               }`}
             >
