@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  /* 60%: clean white surfaces and light-mint alternating panels. */
+  /* 60%: clean white surfaces and mint-white alternating panels. */
   --color-surface: #FFFFFF;
-  --color-surface-alt: #DFF7F2;
+  --color-surface-alt: #F0FFF6;
 
   /* 30%: mint supporting surfaces, selections and highlights. */
   --color-brand: #90E4C1;
@@ -35,7 +35,7 @@ body {
   border-color: var(--color-control-border);
 }
 
-/* A burgundy outline stays visible on white, light-mint and mint surfaces. */
+/* A burgundy outline stays visible on white, mint-white and mint surfaces. */
 :where(button, a, input, select, textarea, [tabindex]):focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
