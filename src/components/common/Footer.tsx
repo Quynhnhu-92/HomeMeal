@@ -43,12 +43,6 @@ export const Footer: React.FC = () => {
         {/* Links Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 py-10">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-brand text-accent flex items-center justify-center font-bold text-lg">
-                H
-              </div>
-              <span className="text-xl font-bold tracking-tight text-accent">HomeMeal</span>
-            </div>
             <p className="text-sm font-medium text-ink italic mb-3">
               "Bữa cơm chân tình cho người bận rộn"
             </p>
@@ -158,6 +152,17 @@ export const Footer: React.FC = () => {
         {/* Bottom brand strip; reuse the existing copyright and policy links. */}
         <div className="footer-brand-row pt-8 border-t border-accent/15 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between text-xs text-ink">
           <div className="min-w-0 space-y-2">
+            <div className="inline-flex max-w-full rounded-xl bg-surface px-4 py-3">
+              <img
+                src="/brand/homemeal-footer.svg"
+                alt="HomeMeal"
+                width={1286}
+                height={784}
+                loading="lazy"
+                decoding="async"
+                className="h-auto w-44 max-w-full sm:w-48"
+              />
+            </div>
             <p>© 2026 HomeMeal Vietnam. Nền tảng nguyên mẫu phục vụ trình bày đồ án và đánh giá học thuật.</p>
             <p>Phiên bản thử nghiệm tương tác 1.0</p>
           </div>
