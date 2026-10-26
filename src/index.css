@@ -427,12 +427,9 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   }
 }
 
-/* Editorial split hero: luminous mint surfaces and high-contrast actions. */
+/* Editorial split hero: lightweight geometric mint panels, grid and grain. */
 .home-hero {
   --hero-deep-green: var(--color-footer-watermark);
-  --hero-pale-mint: #E7F5EF;
-  /* Pure deep green with white text is below AA; shade it using approved burgundy. */
-  --hero-cta-hover: color-mix(in srgb, var(--hero-deep-green) 75%, var(--color-accent));
   margin-block-end: clamp(2rem, 4vw, 3rem);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -473,19 +470,63 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   align-items: center;
   padding: 2.5rem 1rem 3rem;
   min-width: 0;
-  background:
-    radial-gradient(ellipse at 90% 100%,
-      color-mix(in srgb, var(--hero-pale-mint) 98%, transparent) 0%,
-      color-mix(in srgb, var(--hero-pale-mint) 72%, transparent) 28%,
-      transparent 65%),
-    linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand) 28%, var(--hero-pale-mint) 100%);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--color-brand);
   color: var(--color-accent);
 }
 
-.home-hero__content { width: 100%; max-width: 40.625rem; margin-inline: auto; }
+/* Uneven panel widths and softened edges avoid a repetitive stripe effect. */
+.home-hero__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 76% 105%,
+      color-mix(in srgb, var(--color-surface-alt) 85%, transparent),
+      color-mix(in srgb, var(--color-surface-alt) 25%, transparent) 28%,
+      transparent 52%),
+    linear-gradient(90deg,
+      transparent 0% 12%,
+      color-mix(in srgb, var(--color-surface-alt) 14%, transparent) 13% 31%,
+      transparent 32% 48%,
+      color-mix(in srgb, var(--hero-deep-green) 13%, transparent) 49% 61%,
+      color-mix(in srgb, var(--color-surface-alt) 20%, transparent) 62% 85%,
+      transparent 86%),
+    linear-gradient(90deg, transparent 24%,
+      color-mix(in srgb, var(--color-surface-alt) 10%, transparent) 25% 56%,
+      transparent 57%);
+}
+
+/* Small repeating gradients provide restrained grain without a raster asset. */
+.home-hero__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg,
+      color-mix(in srgb, var(--hero-deep-green) 9%, transparent) 0 1px,
+      transparent 1px 116px),
+    repeating-linear-gradient(90deg,
+      color-mix(in srgb, var(--hero-deep-green) 8%, transparent) 0 1px,
+      transparent 1px 148px),
+    repeating-linear-gradient(117deg,
+      color-mix(in srgb, var(--color-surface) 1.5%, transparent) 0 1px,
+      transparent 1px 3px),
+    repeating-linear-gradient(23deg,
+      color-mix(in srgb, var(--hero-deep-green) 1%, transparent) 0 1px,
+      transparent 1px 4px);
+}
+
+.home-hero__content { position: relative; z-index: 1; width: 100%; max-width: 40.625rem; margin-inline: auto; }
 .home-hero__eyebrow {
   color: var(--color-accent);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.06em;
@@ -493,17 +534,17 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 }
 
 .home-hero h1 {
-  font-size: clamp(2.25rem, 5vw, 2.75rem);
-  font-weight: 800;
+  font-size: clamp(2.25rem, 5vw, 2.625rem);
+  font-weight: 600;
   line-height: 1.12;
   letter-spacing: -0.035em;
-  color: var(--color-accent);
+  color: var(--color-surface);
   text-wrap: balance;
   margin-bottom: 1.5rem;
 }
 
 .home-hero__description {
-  color: var(--color-accent);
+  color: var(--color-surface);
   font-size: 1rem;
   line-height: 1.65;
   max-width: 35rem;
@@ -530,7 +571,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   background-color: var(--color-accent);
   color: var(--color-surface);
   border: 1px solid transparent;
@@ -545,11 +586,11 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-hero__primary:hover:not(:disabled) { background-color: var(--hero-cta-hover); }
+  .home-hero__primary:hover:not(:disabled) { background-color: var(--color-detail); }
   .home-hero__secondary:hover:not(:disabled) { background-color: var(--color-accent); color: var(--color-surface); border-color: var(--color-accent); }
 }
 
-.home-hero__primary:active:not(:disabled) { background-color: var(--hero-cta-hover); box-shadow: none; }
+.home-hero__primary:active:not(:disabled) { background-color: var(--color-detail); box-shadow: none; }
 .home-hero__secondary:active:not(:disabled) { background-color: var(--color-accent); color: var(--color-surface); }
 .home-hero__actions button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
 .home-hero__actions button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
@@ -558,7 +599,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1.25rem;
-  border-top: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--hero-deep-green) 35%, transparent);
   padding-top: 1.25rem;
   margin-top: 2rem;
   color: var(--color-accent);
@@ -579,7 +620,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   .home-hero__visual { aspect-ratio: auto; }
   .home-hero__panel { padding: 3.5rem 2rem; }
   .home-hero__eyebrow { font-size: 0.875rem; margin-bottom: 1.75rem; }
-  .home-hero h1 { font-size: clamp(2.875rem, 4vw, 4.25rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem; }
+  .home-hero h1 { font-size: clamp(2.875rem, 4vw, 4rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem; }
   .home-hero__description { font-size: 1.125rem; }
   .home-hero__actions { margin-top: 2rem; }
   .home-hero__actions button { min-height: 3.75rem; }
@@ -591,4 +632,17 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .home-hero__actions button { transition: none; }
+}
+
+@media (max-width: 639px) {
+  .home-hero__panel::before {
+    background:
+      radial-gradient(ellipse at 95% 110%, color-mix(in srgb, var(--color-surface-alt) 65%, transparent), transparent 45%),
+      linear-gradient(90deg, transparent 20%, color-mix(in srgb, var(--color-surface-alt) 10%, transparent) 21% 58%, transparent 59%);
+  }
+  .home-hero__panel::after {
+    background-image:
+      repeating-linear-gradient(0deg, color-mix(in srgb, var(--hero-deep-green) 6%, transparent) 0 1px, transparent 1px 128px),
+      repeating-linear-gradient(90deg, color-mix(in srgb, var(--hero-deep-green) 5%, transparent) 0 1px, transparent 1px 160px);
+  }
 }
