@@ -427,9 +427,10 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   }
 }
 
-/* Editorial split hero: solid mint with a faint bottom-only pale-mint light. */
+/* Editorial split hero: pale mint with three softly fading upper panels. */
 .home-hero {
   --hero-deep-green: var(--color-footer-watermark);
+  --hero-pale-mint: #E7F5EF;
   margin-block-end: clamp(2rem, 4vw, 3rem);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -473,22 +474,23 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background-color: var(--color-brand);
+  background-color: var(--hero-pale-mint);
   color: var(--color-accent);
 }
 
-/* Keep the upper 70% fully solid; the soft light never covers the controls. */
+/* Reference: uneven translucent columns at the top dissolve into a calm surface. */
 .home-hero__panel::before {
   content: "";
   position: absolute;
-  inset: auto 0 0;
-  height: 30%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 100%,
-    color-mix(in srgb, var(--color-surface-alt) 18%, transparent) 0%,
-    color-mix(in srgb, var(--color-surface-alt) 8%, transparent) 45%,
-    transparent 75%);
+  background:
+    linear-gradient(180deg, transparent 0%, var(--hero-pale-mint) 44%),
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--color-brand) 28%, var(--hero-pale-mint)) 0% 34%,
+      color-mix(in srgb, var(--color-brand) 44%, var(--hero-pale-mint)) 34% 80.5%,
+      color-mix(in srgb, var(--color-brand) 50%, var(--hero-pale-mint)) 80.5% 100%);
 }
 
 .home-hero__content { position: relative; z-index: 1; width: 100%; max-width: 40.625rem; margin-inline: auto; }
