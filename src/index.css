@@ -427,12 +427,9 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   }
 }
 
-/* Editorial split hero: luminous mint surfaces and high-contrast actions. */
+/* Editorial split hero: solid brand green, isolated from lower sections. */
 .home-hero {
   --hero-deep-green: var(--color-footer-watermark);
-  --hero-pale-mint: #E7F5EF;
-  /* Pure deep green with white text is below AA; shade it using approved burgundy. */
-  --hero-cta-hover: color-mix(in srgb, var(--hero-deep-green) 75%, var(--color-accent));
   margin-block-end: clamp(2rem, 4vw, 3rem);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -473,19 +470,14 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   align-items: center;
   padding: 2.5rem 1rem 3rem;
   min-width: 0;
-  background:
-    radial-gradient(ellipse at 90% 100%,
-      color-mix(in srgb, var(--hero-pale-mint) 98%, transparent) 0%,
-      color-mix(in srgb, var(--hero-pale-mint) 72%, transparent) 28%,
-      transparent 65%),
-    linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand) 28%, var(--hero-pale-mint) 100%);
-  color: var(--color-accent);
+  background-color: var(--hero-deep-green);
+  color: var(--color-surface);
 }
 
 .home-hero__content { width: 100%; max-width: 40.625rem; margin-inline: auto; }
 .home-hero__eyebrow {
-  color: var(--color-accent);
-  font-size: 0.8125rem;
+  color: var(--color-surface-alt);
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.06em;
@@ -497,13 +489,13 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.035em;
-  color: var(--color-accent);
+  color: var(--color-surface);
   text-wrap: balance;
   margin-bottom: 1.5rem;
 }
 
 .home-hero__description {
-  color: var(--color-accent);
+  color: var(--color-surface);
   font-size: 1rem;
   line-height: 1.65;
   max-width: 35rem;
@@ -540,33 +532,33 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 .home-hero__secondary {
   font-weight: 600;
   background-color: transparent;
-  color: var(--color-accent);
-  border: 1px solid var(--color-accent);
+  color: var(--color-surface);
+  border: 1px solid var(--color-surface);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-hero__primary:hover:not(:disabled) { background-color: var(--hero-cta-hover); }
-  .home-hero__secondary:hover:not(:disabled) { background-color: var(--color-accent); color: var(--color-surface); border-color: var(--color-accent); }
+  .home-hero__primary:hover:not(:disabled) { background-color: var(--color-detail); }
+  .home-hero__secondary:hover:not(:disabled) { background-color: var(--color-surface); color: var(--color-accent); border-color: var(--color-surface); }
 }
 
-.home-hero__primary:active:not(:disabled) { background-color: var(--hero-cta-hover); box-shadow: none; }
-.home-hero__secondary:active:not(:disabled) { background-color: var(--color-accent); color: var(--color-surface); }
-.home-hero__actions button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+.home-hero__primary:active:not(:disabled) { background-color: var(--color-detail); box-shadow: none; }
+.home-hero__secondary:active:not(:disabled) { background-color: var(--color-surface); color: var(--color-accent); }
+.home-hero__actions button:focus-visible { outline: 2px solid var(--color-surface); outline-offset: 4px; }
 .home-hero__actions button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
 .home-hero__trust {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1.25rem;
-  border-top: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+  border-top: 1px solid var(--color-brand);
   padding-top: 1.25rem;
   margin-top: 2rem;
-  color: var(--color-accent);
+  color: var(--color-surface);
   font-size: 0.875rem;
   line-height: 1.5;
 }
 .home-hero__trust li { line-height: inherit; }
-.home-hero__trust li::before { content: ""; display: inline-block; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--hero-deep-green); margin-right: 0.5rem; vertical-align: middle; }
+.home-hero__trust li::before { content: ""; display: inline-block; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-surface-alt); margin-right: 0.5rem; vertical-align: middle; }
 
 @media (min-width: 640px) {
   .home-hero__visual { aspect-ratio: 2 / 1; }

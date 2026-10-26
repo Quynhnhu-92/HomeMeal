@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
-import { ArrowRight, CookingPot } from 'lucide-react';
+import React from 'react';
+import { ArrowRight, Image as ImageIcon } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-
-// Fixed Unsplash photo, never a random-image endpoint.
-const HERO_PHOTO = 'https://images.unsplash.com/photo-1556911220-bff31c812dba';
 
 export const HomeHero: React.FC = () => {
   const { navigateTo } = useApp();
-  const [imageFailed, setImageFailed] = useState(false);
 
   const exploreProcess = () => {
     const section = document.getElementById('how-it-works');
@@ -22,28 +18,11 @@ export const HomeHero: React.FC = () => {
   return (
     <section className="home-hero" aria-labelledby="home-hero-title">
       <div className="home-hero__visual">
-        {imageFailed ? (
-          <div className="home-hero__fallback" role="img" aria-label="Ảnh nấu ăn tại nhà hiện chưa tải được">
-            <CookingPot aria-hidden="true" size={56} strokeWidth={1.25} />
-            <span>Bữa cơm nhà, ấm áp mỗi ngày</span>
-          </div>
-        ) : (
-          <img
-            src={`${HERO_PHOTO}?auto=format&fit=crop&w=1200&q=85`}
-            srcSet={[640, 960, 1200, 1600].map(width =>
-              `${HERO_PHOTO}?auto=format&fit=crop&w=${width}&q=85 ${width}w`
-            ).join(', ')}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            alt="Chuẩn bị nguyên liệu và nấu bữa ăn trong căn bếp gia đình"
-            width={1200}
-            height={1200}
-            fetchPriority="high"
-            loading="eager"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            onError={() => setImageFailed(true)}
-          />
-        )}
+        {/* Keep this reserved area until a suitable cooking photograph is verified. */}
+        <div className="home-hero__fallback" role="img" aria-label="Vị trí dành cho ảnh gia đình cùng nấu ăn tại nhà">
+          <ImageIcon aria-hidden="true" size={48} strokeWidth={1.25} />
+          <span>Ảnh gia đình cùng nấu ăn</span>
+        </div>
       </div>
 
       <div className="home-hero__panel">
