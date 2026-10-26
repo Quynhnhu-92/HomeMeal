@@ -486,6 +486,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   z-index: 0;
   pointer-events: none;
   background:
+    linear-gradient(180deg, transparent 0% 60%, var(--color-surface) 100%),
     linear-gradient(180deg, transparent 0%, var(--hero-pale-mint) 44%),
     linear-gradient(90deg,
       color-mix(in srgb, var(--color-brand) 28%, var(--hero-pale-mint)) 0% 34%,
