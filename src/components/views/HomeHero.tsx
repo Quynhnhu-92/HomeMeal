@@ -58,13 +58,13 @@ export const HomeHero: React.FC = () => {
           <div className="home-hero__actions">
             <button
               onClick={() => navigateTo('/meal-planner')}
-              className="bg-brand text-on-brand hover:bg-brand-hover font-semibold rounded-xl px-6 py-3.5 inline-flex items-center justify-center gap-3 transition-colors"
+              className="home-hero__primary"
             >
               Đặt đầu bếp ngay <ArrowRight aria-hidden="true" size={18} />
             </button>
             <button
               onClick={exploreProcess}
-              className="bg-surface border border-accent/30 text-accent hover:border-accent font-semibold rounded-xl px-5 py-3.5 transition-colors"
+              className="home-hero__secondary"
             >
               Khám phá cách hoạt động
             </button>
