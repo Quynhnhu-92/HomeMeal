@@ -431,6 +431,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 .home-hero {
   --hero-deep-green: var(--color-footer-watermark);
   --hero-pale-mint: #E7F5EF;
+  --hero-bottom-mint: color-mix(in srgb, var(--hero-pale-mint) 94%, var(--color-brand));
   margin-block-end: clamp(2rem, 4vw, 3rem);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -486,7 +487,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, transparent 0% 60%, var(--color-surface) 100%),
+    linear-gradient(180deg, transparent 0% 60%, var(--hero-bottom-mint) 100%),
     linear-gradient(180deg, transparent 0%, var(--hero-pale-mint) 44%),
     linear-gradient(90deg,
       color-mix(in srgb, var(--color-brand) 28%, var(--hero-pale-mint)) 0% 34%,
