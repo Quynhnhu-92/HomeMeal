@@ -1,10 +1,9 @@
+import { HomeHero } from './HomeHero';
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { SUGGESTED_MENUS } from '../../data/mockData';
 import { formatVND } from '../../utils/pricing';
 import { 
-  ShoppingBag, 
-  Receipt, 
   ShieldCheck, 
   Clock, 
   ArrowRight, 
@@ -13,9 +12,7 @@ import {
   MapPin, 
   Calendar, 
   ChefHat, 
-  Sparkles, 
   CheckCircle2, 
-  Search,
   Check
 } from 'lucide-react';
 import { ImageWithFallback } from '../common/ImageWithFallback';
@@ -73,131 +70,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="space-y-16 pb-16">
-      {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-surface pt-10 sm:pt-16 pb-12 sm:pb-20 border-b border-border-soft">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Column */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-alt border border-brand text-accent text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-detail" />
-                <span>Dịch vụ đầu bếp đến tận nhà nấu ăn & Đi chợ minh bạch</span>
-              </div>
-
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-accent tracking-tight leading-[1.2] text-balance">
-                Bữa cơm chân tình <br />
-                <span className="text-accent underline decoration-brand decoration-wavy decoration-2">
-                  cho người bận rộn
-                </span>
-              </h1>
-
-              <p className="text-sm sm:text-base text-muted leading-relaxed max-w-xl">
-                Bạn tự điền món yêu thích, đặt ngân sách đi chợ tùy ý. Đầu bếp HomeMeal đến tận gian bếp nhà bạn nấu nướng nóng hổi, đi chợ mua nguyên liệu tươi sống trong ngày, dọn mâm lên bàn và dọn dẹp sạch sẽ sau khi dùng bữa. Gửi ảnh biên lai hóa đơn thật tại chợ và <strong>chỉ thanh toán sau khi bạn đã dùng bữa trọn vẹn</strong>.
-              </p>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button
-                  onClick={() => navigateTo('/meal-planner')}
-                  className="px-6 py-3.5 bg-brand text-on-brand font-semibold text-sm sm:text-base rounded-xl hover:bg-brand-hover transition-all shadow-md hover:shadow-lg flex items-center gap-2"
-                >
-                  <ShoppingBag className="w-5 h-5 text-on-brand" />
-                  <span>Đặt đầu bếp tới nhà ngay</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => {
-                    const el = document.getElementById('how-it-works');
-                    el?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="px-6 py-3.5 bg-surface border border-accent text-accent font-semibold text-sm sm:text-base rounded-xl hover:bg-brand transition-all"
-                >
-                  Khám phá cách hoạt động
-                </button>
-              </div>
-
-              {/* Key Trust Highlights */}
-              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border-soft max-w-lg">
-                <div className="text-left">
-                  <p className="text-lg font-bold text-accent">100%</p>
-                  <p className="text-xs text-muted">Hóa đơn thực tế</p>
-                </div>
-                <div className="text-left">
-                  <p className="text-lg font-bold text-accent">0 đ</p>
-                  <p className="text-xs text-muted">Phí ẩn</p>
-                </div>
-                <div className="text-left">
-                  <p className="text-lg font-bold text-accent">Sau bữa</p>
-                  <p className="text-xs text-muted">Mới cần thanh toán</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Transparent Workflow & Trust Card (Không dùng hình minh họa món lẻ) */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden shadow-xl border border-brand bg-gradient-to-br from-surface via-surface-alt to-surface-alt p-5 sm:p-6 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-border-soft">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-brand text-ink flex items-center justify-center font-bold text-sm">
-                      ✓
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-accent text-sm sm:text-base">Quy trình nấu cơm minh bạch</h3>
-                      <p className="text-[11px] text-muted">Tự do yêu cầu theo khẩu vị riêng</p>
-                    </div>
-                  </div>
-                  <span className="text-[11px] font-semibold text-accent bg-surface-alt px-2.5 py-1 rounded-full border border-brand">
-                    100% Tiền chợ thật
-                  </span>
-                </div>
-
-                <div className="space-y-3 text-xs">
-                  <div className="p-3 bg-surface rounded-xl border border-border-soft flex items-start gap-3 shadow-xs">
-                    <span className="w-6 h-6 rounded-full bg-surface-alt text-accent font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
-                    <div>
-                      <h4 className="font-bold text-accent">Tự điền bất kỳ món ăn bạn muốn</h4>
-                      <p className="text-muted mt-0.5 leading-relaxed">Không ép mua theo combo. Bạn chỉ cần ghi tên món và khẩu vị yêu thích (ít cay, nấu mềm, đậm đà...).</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-surface rounded-xl border border-border-soft flex items-start gap-3 shadow-xs">
-                    <span className="w-6 h-6 rounded-full bg-surface-alt text-accent font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
-                    <div>
-                      <h4 className="font-bold text-accent">Đầu bếp đi chợ & chụp hóa đơn thật</h4>
-                      <p className="text-muted mt-0.5 leading-relaxed">Mua thực phẩm tươi mới trong ngày theo ngân sách của bạn, có biên lai đối soát từng đồng.</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-surface rounded-xl border border-border-soft flex items-start gap-3 shadow-xs">
-                    <span className="w-6 h-6 rounded-full bg-surface-alt text-accent font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
-                    <div>
-                      <h4 className="font-bold text-accent">Đầu bếp đến tận nhà & nấu nướng trực tiếp</h4>
-                      <p className="text-muted mt-0.5 leading-relaxed">Nấu nóng sốt ngay trên bếp nhà bạn, dọn mâm cơm lên bàn ăn và dọn dẹp sạch sẽ sau bữa.</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-surface rounded-xl border border-border-soft flex items-start gap-3 shadow-xs">
-                    <span className="w-6 h-6 rounded-full bg-surface-alt text-accent font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">4</span>
-                    <div>
-                      <h4 className="font-bold text-accent">Dùng bữa trọn vẹn mới thanh toán</h4>
-                      <p className="text-muted mt-0.5 leading-relaxed">Hài lòng với bữa ăn mới tiến hành thanh toán tiền chợ và tiền công tách bạch.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Trust guarantee badge */}
-                <div className="bg-brand text-ink p-3 rounded-xl flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-detail" />
-                    <span className="font-medium">Chỉ cần đặt trước tối thiểu 4 tiếng</span>
-                  </div>
-                  <span className="font-bold text-on-brand">An tâm 100%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeHero />
 
       {/* 2. Interactive Quick Meal Planner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
