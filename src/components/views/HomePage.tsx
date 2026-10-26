@@ -1,5 +1,4 @@
 import { HomeHero } from './HomeHero';
-import { HomeFinalCTA } from './HomeFinalCTA';
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { SUGGESTED_MENUS } from '../../data/mockData';
@@ -468,7 +467,19 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <HomeFinalCTA />
+        {/* Bottom CTA Banner */}
+        <div className="mt-12 text-center bg-gradient-to-r from-surface-alt to-surface-alt rounded-2xl p-8 text-ink">
+          <h3 className="text-xl sm:text-2xl font-bold mb-2">Sẵn sàng trải nghiệm bữa cơm ấm cúng?</h3>
+          <p className="text-xs sm:text-sm text-ink max-w-xl mx-auto mb-6">
+            Không còn nỗi lo tan sở tất bật đi chợ hay ăn cơm hộp ngấy mỡ. Đầu bếp tâm huyết đã sẵn sàng phục vụ gia đình bạn.
+          </p>
+          <button
+            onClick={() => navigateTo('/meal-planner')}
+            className="px-6 py-3 bg-brand text-on-brand font-bold text-sm sm:text-base rounded-xl hover:bg-brand-hover transition-all shadow-md"
+          >
+            Lên kế hoạch bữa ăn ngay hôm nay
+          </button>
+        </div>
       </section>
     </div>
   );
