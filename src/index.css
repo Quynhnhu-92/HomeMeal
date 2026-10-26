@@ -427,7 +427,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   }
 }
 
-/* Editorial split hero: lightweight geometric mint panels, grid and grain. */
+/* Editorial split hero: solid mint with a faint bottom-only pale-mint light. */
 .home-hero {
   --hero-deep-green: var(--color-footer-watermark);
   margin-block-end: clamp(2rem, 4vw, 3rem);
@@ -460,7 +460,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  color: var(--color-detail);
+  color: var(--color-accent);
   padding: 1.5rem;
   text-align: center;
 }
@@ -477,50 +477,18 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   color: var(--color-accent);
 }
 
-/* Uneven panel widths and softened edges avoid a repetitive stripe effect. */
+/* Keep the upper 70% fully solid; the soft light never covers the controls. */
 .home-hero__panel::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: auto 0 0;
+  height: 30%;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse at 76% 105%,
-      color-mix(in srgb, var(--color-surface-alt) 85%, transparent),
-      color-mix(in srgb, var(--color-surface-alt) 25%, transparent) 28%,
-      transparent 52%),
-    linear-gradient(90deg,
-      transparent 0% 12%,
-      color-mix(in srgb, var(--color-surface-alt) 14%, transparent) 13% 31%,
-      transparent 32% 48%,
-      color-mix(in srgb, var(--hero-deep-green) 13%, transparent) 49% 61%,
-      color-mix(in srgb, var(--color-surface-alt) 20%, transparent) 62% 85%,
-      transparent 86%),
-    linear-gradient(90deg, transparent 24%,
-      color-mix(in srgb, var(--color-surface-alt) 10%, transparent) 25% 56%,
-      transparent 57%);
-}
-
-/* Small repeating gradients provide restrained grain without a raster asset. */
-.home-hero__panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(0deg,
-      color-mix(in srgb, var(--hero-deep-green) 9%, transparent) 0 1px,
-      transparent 1px 116px),
-    repeating-linear-gradient(90deg,
-      color-mix(in srgb, var(--hero-deep-green) 8%, transparent) 0 1px,
-      transparent 1px 148px),
-    repeating-linear-gradient(117deg,
-      color-mix(in srgb, var(--color-surface) 1.5%, transparent) 0 1px,
-      transparent 1px 3px),
-    repeating-linear-gradient(23deg,
-      color-mix(in srgb, var(--hero-deep-green) 1%, transparent) 0 1px,
-      transparent 1px 4px);
+  background: radial-gradient(ellipse at 50% 100%,
+    color-mix(in srgb, var(--color-surface-alt) 18%, transparent) 0%,
+    color-mix(in srgb, var(--color-surface-alt) 8%, transparent) 45%,
+    transparent 75%);
 }
 
 .home-hero__content { position: relative; z-index: 1; width: 100%; max-width: 40.625rem; margin-inline: auto; }
@@ -538,13 +506,13 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   font-weight: 600;
   line-height: 1.12;
   letter-spacing: -0.035em;
-  color: var(--color-surface);
+  color: var(--color-accent);
   text-wrap: balance;
   margin-bottom: 1.5rem;
 }
 
 .home-hero__description {
-  color: var(--color-surface);
+  color: var(--color-accent);
   font-size: 1rem;
   line-height: 1.65;
   max-width: 35rem;
@@ -632,17 +600,4 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .home-hero__actions button { transition: none; }
-}
-
-@media (max-width: 639px) {
-  .home-hero__panel::before {
-    background:
-      radial-gradient(ellipse at 95% 110%, color-mix(in srgb, var(--color-surface-alt) 65%, transparent), transparent 45%),
-      linear-gradient(90deg, transparent 20%, color-mix(in srgb, var(--color-surface-alt) 10%, transparent) 21% 58%, transparent 59%);
-  }
-  .home-hero__panel::after {
-    background-image:
-      repeating-linear-gradient(0deg, color-mix(in srgb, var(--hero-deep-green) 6%, transparent) 0 1px, transparent 1px 128px),
-      repeating-linear-gradient(90deg, color-mix(in srgb, var(--hero-deep-green) 5%, transparent) 0 1px, transparent 1px 160px);
-  }
 }
