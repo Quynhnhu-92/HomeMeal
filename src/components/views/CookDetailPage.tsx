@@ -71,7 +71,7 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
 
             <div className="flex flex-wrap items-center gap-4 text-xs text-muted">
               <div className="flex items-center gap-1 text-accent font-bold">
-                <Star className="w-4 h-4 fill-detail text-detail" />
+                <Star className="w-4 h-4 fill-warm text-warm-shade" />
                 <span className="text-sm">{cook.rating}</span>
                 <span className="font-normal">({cook.reviewCount} đánh giá khách hàng)</span>
               </div>

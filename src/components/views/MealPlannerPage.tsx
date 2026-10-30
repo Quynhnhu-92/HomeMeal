@@ -1078,7 +1078,7 @@ export const MealPlannerPage: React.FC = () => {
                         </div>
                         <p className="text-xs text-muted">{cook.title}</p>
                         <div className="flex items-center gap-1 text-xs text-accent font-semibold mt-0.5">
-                          <Star className="w-3 h-3 fill-detail text-detail" />
+                          <Star className="w-3 h-3 fill-warm text-warm-shade" />
                           <span>{cook.rating}</span>
                           <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
                         </div>

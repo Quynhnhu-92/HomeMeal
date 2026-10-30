@@ -121,7 +121,7 @@ export const CooksPage: React.FC = () => {
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <h3 className="font-bold text-lg text-accent">{cook.name}</h3>
                     {cook.verified && (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-alt text-accent text-[10px] font-semibold border border-border-soft">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-warm/30 text-accent text-[10px] font-semibold border border-border-soft">
                         <CheckCircle2 className="w-3 h-3 text-detail" /> Đã kiểm định
                       </span>
                     )}
@@ -130,7 +130,7 @@ export const CooksPage: React.FC = () => {
                   
                   <div className="flex items-center gap-3 text-xs text-muted mt-1.5">
                     <div className="flex items-center gap-1 text-accent font-bold">
-                      <Star className="w-3.5 h-3.5 fill-detail text-detail" />
+                      <Star className="w-3.5 h-3.5 fill-warm text-warm-shade" />
                       <span>{cook.rating}</span>
                       <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
                     </div>

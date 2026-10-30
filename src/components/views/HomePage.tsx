@@ -223,7 +223,7 @@ export const HomePage: React.FC = () => {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-accent bg-surface-alt px-2.5 py-0.5 rounded-full">
+                  <span className="font-semibold text-accent bg-warm px-2.5 py-0.5 rounded-full">
                     {menu.guestCount}
                   </span>
                   <span className="text-muted">{menu.dishCount} món</span>
@@ -313,7 +313,7 @@ export const HomePage: React.FC = () => {
                     </div>
                     <p className="text-xs text-muted line-clamp-1">{cook.title}</p>
                     <div className="flex items-center gap-1 text-xs text-accent font-semibold mt-0.5">
-                      <Star className="w-3 h-3 fill-detail text-detail" />
+                      <Star className="w-3 h-3 fill-warm text-warm-shade" />
                       <span>{cook.rating}</span>
                       <span className="text-muted font-normal">({cook.reviewCount} đánh giá)</span>
                     </div>

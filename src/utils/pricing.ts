@@ -142,7 +142,7 @@ export function getStatusMeta(status: string): { label: string; bg: string; text
     case 'awaiting_quotation':
       return { label: 'Chờ báo giá', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'quotation_submitted':
-      return { label: 'Đã có báo giá chi tiết', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
+      return { label: 'Đã có báo giá chi tiết', bg: 'bg-warm/30', text: 'text-accent', dot: 'bg-warm-shade' };
     case 'confirmed':
       return { label: 'Đã xác nhận', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'shopping_in_progress':
@@ -150,7 +150,7 @@ export function getStatusMeta(status: string): { label: string; bg: string; text
     case 'evidence_submitted':
       return { label: 'Đã tải hóa đơn đi chợ', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'awaiting_budget_approval':
-      return { label: 'Chờ duyệt tăng ngân sách', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
+      return { label: 'Chờ duyệt tăng ngân sách', bg: 'bg-warm/30', text: 'text-accent', dot: 'bg-warm-shade' };
     case 'preparing_meal':
       return { label: 'Đang nấu nướng', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
     case 'ready_for_service':
@@ -165,7 +165,7 @@ export function getStatusMeta(status: string): { label: string; bg: string; text
     case 'completed':
       return { label: 'Hoàn tất & Đã thanh toán', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-brand' };
     case 'disputed':
-      return { label: 'Đang khiếu nại hóa đơn', bg: 'bg-surface-alt', text: 'text-accent', dot: 'bg-accent' };
+      return { label: 'Đang khiếu nại hóa đơn', bg: 'bg-highlight/10', text: 'text-ink', dot: 'bg-highlight' };
     case 'cancelled':
       return { label: 'Đã hủy', bg: 'bg-surface-alt', text: 'text-ink', dot: 'bg-border-soft' };
     default:

@@ -265,7 +265,7 @@ export const OrderBillPage: React.FC<OrderBillPageProps> = ({ orderId }) => {
         {isPaid && (
           <div className="p-6 bg-surface-alt rounded-2xl border border-border-soft space-y-4">
             <h4 className="font-bold text-base text-accent flex items-center gap-2">
-              <Star className="w-5 h-5 text-detail fill-detail" />
+              <Star className="w-5 h-5 text-warm-shade fill-warm" />
               <span>Đánh giá trải nghiệm bữa ăn</span>
             </h4>
 

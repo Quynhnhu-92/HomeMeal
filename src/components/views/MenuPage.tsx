@@ -138,7 +138,7 @@ export const MenuPage: React.FC = () => {
                   <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-surface/95 text-[10px] font-semibold text-accent">
                     Khẩu phần: {dish.suggestedPortion}
                   </div>
-                  <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-overlay/60 text-on-accent text-[10px]">
+                  <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-ink/90 text-on-accent text-[10px]">
                     {dish.prepTimeMinutes} phút
                   </div>
                 </div>
@@ -211,7 +211,7 @@ export const MenuPage: React.FC = () => {
 
       {/* Dish Detail Modal */}
       {selectedDishDetail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-xs animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/90 backdrop-blur-xs animate-in fade-in duration-150">
           <div
             className="bg-surface-alt rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-border-soft max-h-[85vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
@@ -225,7 +225,7 @@ export const MenuPage: React.FC = () => {
               />
               <button
                 onClick={() => setSelectedDishDetail(null)}
-                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-overlay/60 text-on-accent flex items-center justify-center hover:bg-overlay"
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/90 text-on-accent flex items-center justify-center hover:bg-ink"
               >
                 ✕
               </button>

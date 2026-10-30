@@ -410,7 +410,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
                           fallbackType="receipt"
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-overlay/70 text-on-accent text-[10px] flex items-center gap-1">
+                        <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-ink/90 text-on-accent text-[10px] flex items-center gap-1">
                           <Eye className="w-3 h-3" /> Xem ảnh
                         </div>
                       </div>

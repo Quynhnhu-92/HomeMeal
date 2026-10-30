@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header data-scrolled={isScrolled} className="site-header sticky top-0 z-40 bg-surface-alt backdrop-blur-md border-b border-border-soft">
+    <header data-scrolled={isScrolled} className="site-header sticky top-0 z-40 bg-surface backdrop-blur-md border-b border-border-soft">
       {/* Main Top Bar - strict 3-zone contract */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Zone 1: Brand Wordmark */}
@@ -79,15 +79,15 @@ export const Navbar: React.FC = () => {
             <button
               key={link.path}
               onClick={() => navigateTo(link.path)}
-              className={`relative whitespace-nowrap shrink-0 py-1 transition-colors hover:text-accent ${
+              className={`relative whitespace-nowrap shrink-0 py-1 transition-colors hover:bg-brand/20 ${
                 isActive(link.path)
-                  ? 'text-accent font-semibold border-b-2 border-accent'
+                  ? 'text-accent font-semibold border-b-2 border-brand'
                   : 'text-ink'
               }`}
             >
               {link.label}
               {link.badge && (
-                <span className="ml-1.5 px-1.5 py-0.2 text-[10px] font-bold bg-brand text-ink rounded-full">
+                <span className="ml-1.5 px-1.5 py-0.2 text-[10px] font-bold bg-warm text-ink rounded-full">
                   {link.badge}
                 </span>
               )}
@@ -95,7 +95,7 @@ export const Navbar: React.FC = () => {
           ))}
           <button
             onClick={() => navigateTo('/support')}
-            className={`whitespace-nowrap shrink-0 py-1 transition-colors hover:text-accent ${
+            className={`whitespace-nowrap shrink-0 py-1 transition-colors hover:bg-brand/20 ${
               isActive('/support') ? 'text-accent font-semibold' : 'text-ink'
             }`}
           >
@@ -111,9 +111,9 @@ export const Navbar: React.FC = () => {
               onClick={() => setRoleMenuOpen(!roleMenuOpen)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border-soft bg-surface text-xs font-medium text-ink hover:border-brand transition-all"
             >
-              {(!authUser || currentUser.role === 'customer') && <User className="w-3.5 h-3.5 text-detail" />}
-              {currentUser.role === 'cook' && <ChefHat className="w-3.5 h-3.5 text-detail" />}
-              {currentUser.role === 'admin' && <Shield className="w-3.5 h-3.5 text-detail" />}
+              {(!authUser || currentUser.role === 'customer') && <User className="w-3.5 h-3.5 text-ink" />}
+              {currentUser.role === 'cook' && <ChefHat className="w-3.5 h-3.5 text-ink" />}
+              {currentUser.role === 'admin' && <Shield className="w-3.5 h-3.5 text-ink" />}
               <span className="hidden sm:inline">
                 {!authUser ? 'Đăng nhập' : currentUser.role === 'customer'
                   ? 'Khách hàng'
@@ -161,7 +161,7 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => navigateTo('/account')}
             title="Tài khoản cá nhân"
-            className="p-2 rounded-lg border border-border-soft bg-surface text-ink hover:text-accent hover:border-brand"
+            className="p-2 rounded-lg border border-border-soft bg-surface text-ink hover:bg-brand/20 hover:border-brand"
           >
             <User className="w-4 h-4" />
           </button>
