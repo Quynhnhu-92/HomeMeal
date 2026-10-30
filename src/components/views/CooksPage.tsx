@@ -36,7 +36,7 @@ export const CooksPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <div className="bg-surface p-6 sm:p-8 rounded-2xl border border-border-soft">
+      <div className="brand-glass-frame bg-surface p-6 sm:p-8 rounded-2xl border border-border-soft">
         <span className="text-xs font-bold text-accent uppercase tracking-wider">Đội ngũ tay nghề</span>
         <h1 className="text-2xl sm:text-3xl font-bold text-accent">Đầu bếp gia đình & Chuyên gia nấu tiệc</h1>
         <p className="text-xs sm:text-sm text-muted mt-1">
