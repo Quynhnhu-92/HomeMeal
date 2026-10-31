@@ -733,3 +733,44 @@ button.cta-primary:disabled { background-color: var(--color-disabled); color: va
 
 .principle-card h3 { font-size: 1.0625rem; line-height: 1.45; font-weight: 600; margin-bottom: 0.75rem; }
 .principle-card p { font-size: 0.875rem; line-height: 1.7; }
+
+/* Large brand frames share a quiet, reversible gradient sweep. */
+.home-hero__panel::before,
+.brand-glass-frame {
+  background-image: linear-gradient(115deg,
+    var(--color-brand-light) 0%,
+    var(--color-brand-light) 25%,
+    var(--color-brand) 50%,
+    var(--color-brand-light) 75%,
+    var(--color-brand-light) 100%);
+  background-size: 220% 180%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  transition: background-position 1400ms ease-in-out, border-color 250ms ease, box-shadow 250ms ease;
+}
+
+/* A transition, rather than a perpetual loop, returns naturally after pointer exit. */
+@media (hover: hover) and (pointer: fine) {
+  .home-hero__panel:hover::before,
+  .brand-glass-frame:hover {
+    background-position: 100% 50%;
+    transition-duration: 4000ms, 250ms, 250ms;
+  }
+  .brand-glass-frame:hover {
+    border-color: var(--color-brand);
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+}
+.home-hero__panel:focus-within::before,
+.brand-glass-frame:focus-within {
+  background-position: 100% 50%;
+  transition-duration: 4000ms, 250ms, 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__panel::before,
+  .brand-glass-frame {
+    transition: none;
+    background-position: 0% 50% !important;
+  }
+}
