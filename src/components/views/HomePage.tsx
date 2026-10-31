@@ -75,7 +75,7 @@ export const HomePage: React.FC = () => {
 
       {/* 2. Interactive Quick Meal Planner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="brand-glass-frame bg-surface rounded-2xl shadow-lg border border-border-soft p-6 sm:p-8">
+        <div className="meal-planner-frame brand-glass-frame bg-surface rounded-2xl shadow-lg border border-border-soft p-6 sm:p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-border-soft">
             <div>
               <h2 className="section-heading text-xl sm:text-2xl font-bold text-accent">Lên kế hoạch bữa ăn tức thì</h2>
@@ -358,7 +358,7 @@ export const HomePage: React.FC = () => {
 
       {/* 6. Trust & Transparency Pillars */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="brand-glass-frame bg-surface-alt rounded-3xl p-8 sm:p-12 border border-brand">
+        <div className="principles-frame brand-glass-frame bg-surface-alt rounded-3xl p-8 sm:p-12 border border-brand">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-accent">Uy tín & Minh bạch</span>
             <h2 className="section-heading text-2xl sm:text-3xl font-extrabold text-accent mt-1">
@@ -369,10 +369,10 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 text-center sm:text-left">
+          <div className="principles-grid">
             <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
-                1
+              <div aria-hidden="true" className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
+                01
               </div>
               <h3 className="font-bold text-accent text-sm mb-1.5">Khách tự đặt ngân sách</h3>
               <p className="text-xs text-muted leading-relaxed">
@@ -381,8 +381,8 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
-                2
+              <div aria-hidden="true" className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
+                02
               </div>
               <h3 className="font-bold text-accent text-sm mb-1.5">Ảnh hóa đơn mua sắm thật</h3>
               <p className="text-xs text-muted leading-relaxed">
@@ -391,8 +391,8 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
-                3
+              <div aria-hidden="true" className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
+                03
               </div>
               <h3 className="font-bold text-accent text-sm mb-1.5">Tách bạch công nấu</h3>
               <p className="text-xs text-muted leading-relaxed">
@@ -401,8 +401,8 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
-                4
+              <div aria-hidden="true" className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
+                04
               </div>
               <h3 className="font-bold text-accent text-sm mb-1.5">Giá tăng phải xin phép</h3>
               <p className="text-xs text-muted leading-relaxed">
@@ -411,8 +411,8 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
-                5
+              <div aria-hidden="true" className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
+                05
               </div>
               <h3 className="font-bold text-accent text-sm mb-1.5">Thanh toán sau bữa ăn</h3>
               <p className="text-xs text-muted leading-relaxed">

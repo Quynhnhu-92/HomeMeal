@@ -120,6 +120,7 @@
   /* 30%: green identity and its light partner. */
   --color-brand: #59D9AC;
   --color-brand-light: #BAF2E4;
+  --color-brand-deep: #2BA17A;
   --color-brand-shade: var(--color-ink);
   --color-brand-hover: var(--color-brand-light);
   --color-on-brand: var(--color-ink);
@@ -774,3 +775,58 @@ button.cta-primary:disabled { background-color: var(--color-disabled); color: va
     background-position: 0% 50% !important;
   }
 }
+
+/* Mint-led frames and contrasting conversion actions. */
+.home-hero__panel { background-color: var(--color-brand-light); }
+.home-hero__panel::before, .brand-glass-frame {
+  background-color: var(--color-brand-light);
+  background-image: linear-gradient(135deg, var(--color-brand), var(--color-brand-light));
+  background-size: 220% 180%;
+  background-position: 100% 50%;
+  transition: background-position 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+}
+button.cta-primary, .home-hero__primary {
+  background-color: var(--color-brand);
+  color: var(--color-ink);
+  border-color: var(--color-brand-deep);
+}
+@media (hover: hover) and (pointer: fine) {
+  button.cta-primary:hover:not(:disabled), .home-hero__primary:hover:not(:disabled) {
+    background-color: var(--color-brand-deep); color: var(--color-ink); border-color: var(--color-brand-deep);
+  }
+  .home-hero__panel:hover::before, .brand-glass-frame:hover { background-position: 0% 50%; transition-duration: 300ms; }
+}
+.home-hero__panel:focus-within::before, .brand-glass-frame:focus-within { background-position: 0% 50%; transition-duration: 300ms; }
+button.cta-primary:active:not(:disabled), .home-hero__primary:active:not(:disabled) { background-color: var(--color-brand-deep); color: var(--color-ink); }
+.home-final-cta button.home-final-cta__button { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); }
+.home-final-cta button.home-final-cta__button:is(:hover,:active):not(:disabled) { background-color: var(--color-ink); color: var(--color-surface); }
+.home-hero h1 { font-size: clamp(2.125rem, 4.2vw, 3.75rem); }
+.section-heading { font-size: clamp(1.75rem, 2.65vw, 2.625rem); text-wrap: balance; }
+.interaction-card h3, .principle-card h3 { text-wrap: balance; }
+.spacious-card { background-color: var(--color-brand-light); }
+.principles-frame { padding: clamp(1.25rem, 4vw, 3rem); }
+.principles-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: 1.5rem; text-align: left; }
+.principle-card { min-width: 0; padding: clamp(1.5rem, 2.2vw, 2rem); box-shadow: var(--shadow-card); }
+.principle-card > div:first-child { width: auto; height: auto; justify-content: flex-start; background: none; font-size: 2.5rem; line-height: 1.2; color: var(--color-brand); margin-bottom: 1.25rem; }
+.principle-card h3 { font-size: clamp(1.125rem, 1.5vw, 1.25rem); line-height: 1.45; }
+.principle-card p { font-size: 0.9375rem; line-height: 1.75; text-wrap: pretty; }
+.meal-planner-frame form { grid-template-columns: minmax(0,1fr); align-items: end; }
+.meal-planner-frame form > div { min-width: 0; }
+.meal-planner-frame form button[type="submit"] { min-height: 2.75rem; height: auto; padding: 0.75rem 1rem; }
+@media (min-width: 640px) {
+  .principles-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .principle-card:last-child { grid-column: 1 / -1; }
+  .meal-planner-frame form { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (min-width: 1024px) {
+  .principles-grid { grid-template-columns: repeat(6,minmax(0,1fr)); align-items: start; gap: 1.75rem; }
+  .principle-card { grid-column: span 2; }
+  .principle-card:nth-child(2) { margin-top: 1.5rem; }
+  .principle-card:nth-child(4) { grid-column: 2 / span 2; }
+  .principle-card:nth-child(5) { grid-column: 4 / span 2; }
+  .meal-planner-frame form { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__panel::before, .brand-glass-frame { transition: none; background-position: 100% 50% !important; }
+}
+.principles-frame .section-heading + p { max-width: 42rem; margin-inline: auto; text-wrap: balance; }
