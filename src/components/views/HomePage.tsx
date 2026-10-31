@@ -1,4 +1,3 @@
-import { HomeProcessTimeline } from './HomeProcessTimeline';
 import { HomeHero } from './HomeHero';
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
@@ -357,7 +356,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 6. Trust & Transparency Pillars */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="principles-frame brand-glass-frame bg-surface-alt rounded-3xl p-8 sm:p-12 border border-brand">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-accent">Uy tín & Minh bạch</span>
@@ -423,19 +422,9 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 7. How it works */}
-      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-accent">Quy trình chuẩn</span>
-          <h2 className="section-heading text-2xl sm:text-3xl font-extrabold text-accent mt-1">
-            Cách HomeMeal đồng hành cùng bữa cơm nhà
-          </h2>
-        </div>
-
-        <HomeProcessTimeline />
-
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Bottom CTA Banner */}
-        <div className="home-final-cta mt-12 text-center rounded-2xl text-ink">
+        <div className="home-final-cta text-center rounded-2xl text-ink">
           <h3 className="text-xl sm:text-2xl font-bold mb-2">Sẵn sàng trải nghiệm bữa cơm ấm cúng?</h3>
           <p className="text-xs sm:text-sm text-ink max-w-xl mx-auto mb-6">
             Không còn nỗi lo tan sở tất bật đi chợ hay ăn cơm hộp ngấy mỡ. Đầu bếp tâm huyết đã sẵn sàng phục vụ gia đình bạn.
