@@ -1,3 +1,4 @@
+import { HomeProcessTimeline } from './HomeProcessTimeline';
 import { HomeHero } from './HomeHero';
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
@@ -77,7 +78,7 @@ export const HomePage: React.FC = () => {
         <div className="brand-glass-frame bg-surface rounded-2xl shadow-lg border border-border-soft p-6 sm:p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-border-soft">
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-accent">Lên kế hoạch bữa ăn tức thì</h2>
+              <h2 className="section-heading text-xl sm:text-2xl font-bold text-accent">Lên kế hoạch bữa ăn tức thì</h2>
               <p className="text-xs sm:text-sm text-muted">
                 Tùy chỉnh số lượng người ăn, mức ngân sách nguyên liệu và thời gian đầu bếp đến phục vụ tại nhà.
               </p>
@@ -191,7 +192,7 @@ export const HomePage: React.FC = () => {
             <div className="flex items-end">
               <button
                 type="submit"
-                className={`w-full py-2.5 px-4 font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 h-[42px] ${
+                className={`cta-primary w-full py-2.5 px-4 font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 min-h-11 ${
                   !quickValidation.isValid
                     ? 'bg-surface-alt hover:bg-brand text-accent'
                     : 'bg-brand hover:bg-brand-hover text-on-brand'
@@ -209,17 +210,17 @@ export const HomePage: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-accent">Thực đơn gợi ý hoàn chỉnh</h2>
+            <h2 className="section-heading text-xl sm:text-2xl font-bold text-accent">Thực đơn gợi ý hoàn chỉnh</h2>
             <p className="text-xs sm:text-sm text-muted">Dành cho người bận rộn chưa biết chọn món gì. Giá nguyên liệu và tiền công được ghi rõ ràng dưới dạng minh họa.</p>
           </div>
-          <span className="text-xs text-muted italic">* Toàn bộ giá hiển thị là ước tính mẫu</span>
+          <span className="text-sm text-muted italic">* Toàn bộ giá hiển thị là ước tính mẫu</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {SUGGESTED_MENUS.map((menu) => (
             <div
               key={menu.id}
-              className="interaction-card bg-surface rounded-2xl border border-border-soft p-5 flex flex-col justify-between hover:shadow-lg transition-all hover:border-brand"
+              className="interaction-card spacious-card bg-surface rounded-2xl border border-border-soft p-5 flex flex-col justify-between hover:shadow-lg transition-all hover:border-brand"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs">
@@ -229,13 +230,13 @@ export const HomePage: React.FC = () => {
                   <span className="text-muted">{menu.dishCount} món</span>
                 </div>
 
-                <h3 className="font-bold text-base text-accent line-clamp-2">{menu.title}</h3>
+                <h3 className="font-bold text-base text-accent">{menu.title}</h3>
 
-                <p className="text-xs text-muted line-clamp-2">{menu.description}</p>
+                <p className="text-sm text-muted">{menu.description}</p>
 
                 <div className="pt-2 border-t border-border-soft space-y-1.5">
                   <p className="text-xs font-semibold text-ink">Món ăn trong mâm:</p>
-                  <ul className="text-xs text-muted space-y-1">
+                  <ul className="text-sm text-muted space-y-1">
                     {menu.dishes.map((d, i) => (
                       <li key={i} className="flex items-center gap-1.5">
                         <Check className="w-3 h-3 text-detail shrink-0" />
@@ -247,12 +248,12 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="mt-5 pt-3 border-t border-border-soft space-y-2">
-                <div className="text-[11px] space-y-1 text-muted">
-                  <div className="flex justify-between">
+                <div className="text-sm space-y-3 text-muted">
+                  <div className="flex flex-col gap-0.5">
                     <span>Tiền chợ ước tính:</span>
                     <span className="font-medium text-ink">{menu.estimatedGrocery}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-0.5">
                     <span>Công nấu ước tính:</span>
                     <span className="font-medium text-accent">{menu.estimatedLabor}</span>
                   </div>
@@ -260,7 +261,7 @@ export const HomePage: React.FC = () => {
 
                 <button
                   onClick={() => handleSelectSuggestedMenu(menu)}
-                  className="w-full mt-2 py-2 bg-surface-alt hover:bg-brand text-on-brand hover:text-on-brand text-xs font-semibold rounded-xl transition-all text-center flex items-center justify-center gap-1"
+                  className="cta-primary w-full mt-2 py-2 bg-surface-alt hover:bg-brand text-on-brand hover:text-on-brand text-xs font-semibold rounded-xl transition-all text-center flex items-center justify-center gap-1"
                 >
                   <span>Chọn mâm cơm này</span>
                   <ArrowRight className="w-3 h-3" />
@@ -273,9 +274,9 @@ export const HomePage: React.FC = () => {
 
       {/* 5. Featured Cooks */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-accent">Đầu bếp tiêu biểu</h2>
+            <h2 className="section-heading text-xl sm:text-2xl font-bold text-accent">Đầu bếp tiêu biểu</h2>
             <p className="text-xs sm:text-sm text-muted">Được thẩm định tay nghề, vệ sinh an toàn thực phẩm và cam kết minh bạch chứng từ mua sắm</p>
           </div>
           <button
@@ -286,14 +287,14 @@ export const HomePage: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {cooks.map((cook) => (
             <div
               key={cook.id}
-              className="interaction-card bg-surface rounded-2xl border border-border-soft p-5 hover:shadow-lg transition-all flex flex-col justify-between"
+              className="interaction-card spacious-card bg-surface rounded-2xl border border-border-soft p-5 hover:shadow-lg transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-3.5 mb-3.5">
+                <div className="flex items-start gap-3.5 mb-3.5">
                   <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-brand shrink-0">
                     <ImageWithFallback
                       src={cook.avatar}
@@ -302,8 +303,8 @@ export const HomePage: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-1">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-1">
                       <h3 className="font-bold text-accent text-sm sm:text-base">{cook.name}</h3>
                       {cook.verified && (
                         <span title="Đã xác thực danh tính & chứng nhận VSATTP">
@@ -311,7 +312,7 @@ export const HomePage: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-muted line-clamp-1">{cook.title}</p>
+                    <p className="text-sm text-muted">{cook.title}</p>
                     <div className="flex items-center gap-1 text-xs text-accent font-semibold mt-0.5">
                       <Star className="w-3 h-3 fill-warm text-warm-shade" />
                       <span>{cook.rating}</span>
@@ -320,9 +321,9 @@ export const HomePage: React.FC = () => {
                   </div>
                 </div>
 
-                <p className="text-xs text-muted line-clamp-2 mb-3">{cook.bio}</p>
+                <p className="text-sm text-muted mb-3">{cook.bio}</p>
 
-                <div className="space-y-1.5 text-xs text-muted py-2 border-t border-border-soft">
+                <div className="space-y-1.5 text-sm text-muted py-2 border-t border-border-soft">
                   <div className="flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-detail shrink-0" />
                     <span className="line-clamp-1">Khu vực: {cook.serviceAreas.join(', ')}</span>
@@ -338,10 +339,10 @@ export const HomePage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-border-soft flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-border-soft flex flex-wrap gap-3 items-center justify-between">
                 <div>
-                  <p className="text-[10px] text-muted">Công nấu khởi điểm:</p>
-                  <p className="text-xs font-bold text-accent">{formatVND(cook.baseLaborFee)}</p>
+                  <p className="text-xs text-muted">Công nấu khởi điểm:</p>
+                  <p className="text-base font-semibold text-accent">{formatVND(cook.baseLaborFee)}</p>
                 </div>
                 <button
                   onClick={() => navigateTo(`/cooks/${cook.id}`)}
@@ -360,7 +361,7 @@ export const HomePage: React.FC = () => {
         <div className="brand-glass-frame bg-surface-alt rounded-3xl p-8 sm:p-12 border border-brand">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-accent">Uy tín & Minh bạch</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-accent mt-1">
+            <h2 className="section-heading text-2xl sm:text-3xl font-extrabold text-accent mt-1">
               5 Nguyên tắc cốt lõi bảo vệ khách hàng
             </h2>
             <p className="text-xs sm:text-sm text-muted mt-2">
@@ -368,8 +369,8 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center sm:text-left">
-            <div className="bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 text-center sm:text-left">
+            <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
               <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
                 1
               </div>
@@ -379,7 +380,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
+            <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
               <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
                 2
               </div>
@@ -389,7 +390,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
+            <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
               <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
                 3
               </div>
@@ -399,7 +400,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
+            <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
               <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
                 4
               </div>
@@ -409,7 +410,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
+            <div className="principle-card bg-surface rounded-2xl p-5 border border-brand/60 shadow-xs">
               <div className="w-10 h-10 rounded-xl bg-brand text-ink flex items-center justify-center font-bold text-sm mb-3">
                 5
               </div>
@@ -426,56 +427,22 @@ export const HomePage: React.FC = () => {
       <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-accent">Quy trình chuẩn</span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-accent mt-1">
+          <h2 className="section-heading text-2xl sm:text-3xl font-extrabold text-accent mt-1">
             Cách HomeMeal đồng hành cùng bữa cơm nhà
           </h2>
         </div>
 
-        <div className="relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-surface rounded-2xl p-6 border border-border-soft relative">
-              <span className="text-xs font-bold text-accent block mb-2">BƯỚC 1</span>
-              <h3 className="font-bold text-base text-accent mb-2">Chọn món & Đặt ngân sách</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Chọn món yêu thích từ thực đơn hoặc mâm gợi ý, ghi chú kiêng dị ứng và đặt định mức tiền chợ.
-              </p>
-            </div>
-
-            <div className="bg-surface rounded-2xl p-6 border border-border-soft relative">
-              <span className="text-xs font-bold text-accent block mb-2">BƯỚC 2</span>
-              <h3 className="font-bold text-base text-accent mb-2">Đầu bếp đi chợ & Gửi ảnh</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Đầu bếp chọn nguyên liệu tươi sạch sớm tại chợ hoặc siêu thị, chụp ảnh hóa đơn gửi lên app.
-              </p>
-            </div>
-
-            <div className="bg-surface rounded-2xl p-6 border border-border-soft relative">
-              <span className="text-xs font-bold text-accent block mb-2">BƯỚC 3</span>
-              <h3 className="font-bold text-base text-accent mb-2">Đến nhà nấu & Dọn dẹp sạch</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Đầu bếp mang nguyên liệu tươi đến tận nhà bạn, nấu nướng nóng hổi tại gian bếp, dọn mâm lên bàn và lau dọn sạch sẽ sau bữa ăn.
-              </p>
-            </div>
-
-            <div className="bg-surface rounded-2xl p-6 border border-border-soft relative">
-              <span className="text-xs font-bold text-accent block mb-2">BƯỚC 4</span>
-              <h3 className="font-bold text-base text-accent mb-2">Kiểm tra & Thanh toán</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Xem lại bảng chi tiết từng món nguyên liệu thực chi + tiền công. Hài lòng mới xác nhận trả tiền.
-              </p>
-            </div>
-          </div>
-        </div>
+        <HomeProcessTimeline />
 
         {/* Bottom CTA Banner */}
-        <div className="brand-glass-frame mt-12 text-center bg-gradient-to-r from-surface-alt to-surface-alt rounded-2xl p-8 text-ink">
+        <div className="home-final-cta mt-12 text-center rounded-2xl text-ink">
           <h3 className="text-xl sm:text-2xl font-bold mb-2">Sẵn sàng trải nghiệm bữa cơm ấm cúng?</h3>
           <p className="text-xs sm:text-sm text-ink max-w-xl mx-auto mb-6">
             Không còn nỗi lo tan sở tất bật đi chợ hay ăn cơm hộp ngấy mỡ. Đầu bếp tâm huyết đã sẵn sàng phục vụ gia đình bạn.
           </p>
           <button
             onClick={() => navigateTo('/meal-planner')}
-            className="px-6 py-3 bg-brand text-on-brand font-bold text-sm sm:text-base rounded-xl hover:bg-brand-hover transition-all shadow-md"
+            className="cta-primary home-final-cta__button px-6 py-3 rounded-xl"
           >
             Lên kế hoạch bữa ăn ngay hôm nay
           </button>

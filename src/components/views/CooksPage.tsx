@@ -105,7 +105,7 @@ export const CooksPage: React.FC = () => {
         {filteredCooks.map((cook) => (
           <div
             key={cook.id}
-            className="interaction-card bg-surface rounded-2xl border border-border-soft p-6 hover:shadow-lg transition-all flex flex-col justify-between"
+            className="interaction-card spacious-card bg-surface rounded-2xl border border-border-soft p-6 hover:shadow-lg transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-start gap-4 mb-4">
@@ -117,7 +117,7 @@ export const CooksPage: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <h3 className="font-bold text-lg text-accent">{cook.name}</h3>
                     {cook.verified && (
@@ -126,9 +126,9 @@ export const CooksPage: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-muted font-medium mt-0.5">{cook.title}</p>
+                  <p className="text-sm text-muted font-medium mt-0.5">{cook.title}</p>
                   
-                  <div className="flex items-center gap-3 text-xs text-muted mt-1.5">
+                  <div className="flex items-center gap-3 text-sm text-muted mt-1.5">
                     <div className="flex items-center gap-1 text-accent font-bold">
                       <Star className="w-3.5 h-3.5 fill-warm text-warm-shade" />
                       <span>{cook.rating}</span>
@@ -140,7 +140,7 @@ export const CooksPage: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-xs text-muted leading-relaxed line-clamp-3 mb-4">
+              <p className="text-sm text-muted leading-relaxed line-clamp-3 mb-4">
                 "{cook.bio}"
               </p>
 

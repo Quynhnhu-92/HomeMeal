@@ -136,21 +136,21 @@ export const Navbar: React.FC = () => {
           {currentUser.role === 'cook' ? (
             <button
               onClick={() => navigateTo('/cook/dashboard')}
-              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              className="cta-primary hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
             >
               Góc Đầu Bếp
             </button>
           ) : currentUser.role === 'admin' ? (
             <button
               onClick={() => navigateTo('/admin')}
-              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              className="cta-primary hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm"
             >
               Trang Quản Trị
             </button>
           ) : (
             <button
               onClick={() => navigateTo('/meal-planner')}
-              className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm items-center gap-1.5"
+              className="cta-primary hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-medium text-on-brand bg-brand rounded-lg hover:bg-brand-hover transition-colors whitespace-nowrap shrink-0 shadow-sm items-center gap-1.5"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Đặt bữa ăn ngay</span>

@@ -111,12 +111,12 @@ export const CookShoppingPage: React.FC = () => {
         </button>
 
         {/* Order Selector */}
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-col sm:flex-row sm:items-center gap-2">
           <span className="text-xs text-muted">Đang quản lý đơn:</span>
           <select
             value={selectedOrderId}
             onChange={(e) => setSelectedOrderId(e.target.value)}
-            className="px-3 py-1.5 bg-surface border border-border-soft rounded-xl text-xs font-bold text-accent"
+            className="w-full sm:w-auto min-w-0 max-w-full px-3 py-1.5 bg-surface border border-border-soft rounded-xl text-xs font-bold text-accent"
           >
             {orders.map((o) => (
               <option key={o.id} value={o.id}>

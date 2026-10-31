@@ -60,7 +60,7 @@ export const OrdersPage: React.FC = () => {
 
         <button
           onClick={() => navigateTo('/meal-planner')}
-          className="px-5 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 hover:bg-brand-hover shadow-sm self-start sm:self-auto"
+          className="cta-primary px-5 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 hover:bg-brand-hover shadow-sm self-start sm:self-auto"
         >
           <ShoppingBag className="w-4 h-4 text-on-brand" />
           <span>Đặt bữa ăn mới</span>

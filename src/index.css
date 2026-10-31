@@ -144,7 +144,7 @@
   --color-control-border: color-mix(in srgb, var(--color-ink) 68%, var(--color-surface));
   --color-disabled: color-mix(in srgb, var(--color-brand) 22%, var(--color-surface));
   --color-overlay: var(--color-ink);
-  --shadow-button: 0 4px 12px color-mix(in srgb, var(--color-ink) 8%, transparent);
+  --shadow-button: 0 4px 12px color-mix(in srgb, var(--color-ink) 10%, transparent);
   --shadow-card: 0 4px 18px color-mix(in srgb, var(--color-ink) 5%, transparent);
   --shadow-frame: 0 8px 24px color-mix(in srgb, var(--color-ink) 7%, transparent);
   /* Existing utility shadows use the approved dark text hue. */
@@ -275,6 +275,8 @@ button:is(.bg-brand, .bg-accent):disabled {
 /* Effects reuse the palette; they never change layout or capture clicks. */
 :root {
   --interaction-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --frame-gradient: linear-gradient(120deg, var(--color-brand), color-mix(in srgb, var(--color-brand) 57%, var(--color-brand-light)) 48%, var(--color-brand-light));
+  --frame-gradient-hover: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 94%, var(--color-ink)), color-mix(in srgb, var(--color-brand) 70%, var(--color-brand-light)) 48%, color-mix(in srgb, var(--color-brand) 20%, var(--color-brand-light)));
 }
 
 .site-header {
@@ -317,10 +319,7 @@ button:is(.bg-brand, .bg-accent):disabled {
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-surface) 98%, transparent),
-    color-mix(in srgb, var(--color-surface-alt) 96%, transparent) 55%,
-    color-mix(in srgb, var(--color-brand) 16%, transparent));
+  background: var(--color-surface-alt);
   opacity: 0;
   transition: opacity 250ms var(--interaction-ease);
 }
@@ -339,9 +338,7 @@ button:is(.bg-brand, .bg-accent):disabled {
 }
 
 .interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked))::before {
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-surface-alt) 85%, transparent),
-    color-mix(in srgb, var(--color-brand) 24%, transparent));
+  background: var(--frame-gradient);
 }
 
 .interaction-card:focus-within {
@@ -382,7 +379,7 @@ button.bg-accent:not(.interaction-card) {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .interaction-card:not(:disabled):hover {
+  .interaction-card:is(button, [role="button"], [data-selected]):not(:disabled):hover {
     translate: 0 -2px;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
       var(--tw-ring-shadow, 0 0 transparent),
@@ -390,7 +387,7 @@ button.bg-accent:not(.interaction-card) {
       0 6px 20px color-mix(in srgb, var(--color-ink) 8%, transparent);
   }
 
-  .interaction-card:not(:disabled):hover::before {
+  .interaction-card:is(button, [role="button"], [data-selected]):not(:disabled):hover::before {
     opacity: 1;
   }
 
@@ -530,8 +527,8 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 }
 
 .home-hero h1 {
-  font-size: clamp(2.25rem, 5vw, 2.625rem);
-  font-weight: 600;
+  font-size: clamp(2.125rem, 5vw, 2.625rem);
+  font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.035em;
   color: var(--color-accent);
@@ -568,10 +565,10 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   justify-content: center;
   gap: 0.75rem;
   font-weight: 600;
-  background-color: var(--color-brand);
+  background-color: var(--color-warm);
   color: var(--color-ink);
-  border: 1px solid var(--color-brand);
-  box-shadow: 0 3px 8px color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border: 1px solid var(--color-warm);
+  box-shadow: var(--shadow-button);
 }
 
 .home-hero__secondary {
@@ -582,7 +579,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-hero__primary:hover:not(:disabled) { background-color: var(--color-highlight-shade); color: var(--color-surface); border-color: var(--color-highlight-shade); }
+  .home-hero__primary:hover:not(:disabled) { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); }
   .home-hero__secondary:hover:not(:disabled) { background-color: var(--color-brand-hover); color: var(--color-ink); border-color: var(--color-brand-shade); }
 }
 
@@ -616,7 +613,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   .home-hero__visual { aspect-ratio: auto; }
   .home-hero__panel { padding: 3.5rem 2rem; }
   .home-hero__eyebrow { font-size: 0.875rem; margin-bottom: 1.75rem; }
-  .home-hero h1 { font-size: clamp(2.875rem, 4vw, 4rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem; }
+  .home-hero h1 { font-size: clamp(3.25rem, 4.4vw, 4.5rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem; }
   .home-hero__description { font-size: 1.125rem; }
   .home-hero__actions { margin-top: 2rem; }
   .home-hero__actions button { min-height: 3.75rem; }
@@ -632,9 +629,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 
 /* Selected existing frames, not every card, carry the green glass treatment. */
 .brand-glass-frame {
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-brand) 94%, transparent),
-    color-mix(in srgb, var(--color-brand-light) 88%, transparent));
+  background: var(--frame-gradient);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
@@ -642,41 +637,99 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   color: var(--color-ink);
 }
 
-/* A gold CTA separates cleanly from a green frame, without changing its geometry. */
-.brand-glass-frame button.bg-brand,
-.home-hero__panel .home-hero__primary {
-  background-color: var(--color-warm-shade);
-  color: var(--color-surface);
-  border-color: var(--color-warm-shade);
-  box-shadow: var(--shadow-button);
-}
-.brand-glass-frame button.bg-brand .text-on-brand { color: inherit; }
-
-@media (hover: hover) and (pointer: fine) {
-  .brand-glass-frame button.bg-brand:hover:not(:disabled),
-  .home-hero__panel .home-hero__primary:hover:not(:disabled) {
-    background-color: var(--color-warm);
-    color: var(--color-ink);
-    border-color: var(--color-warm);
-    box-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 11%, transparent);
-  }
-}
-.brand-glass-frame button.bg-brand:active:not(:disabled),
-.home-hero__panel .home-hero__primary:active:not(:disabled) {
-  background-color: var(--color-warm);
-  color: var(--color-ink);
-  border-color: var(--color-warm);
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 6%, transparent);
-}
-.brand-glass-frame button.bg-brand:disabled {
-  background-color: var(--color-disabled);
-  color: var(--color-ink);
-  border-color: var(--color-border-soft);
-  box-shadow: none;
-}
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .brand-glass-frame { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-light)); }
+  .brand-glass-frame { background: var(--frame-gradient); }
 }
 @media (max-width: 639px) {
   .site-footer::before { width: 22rem; right: -6rem; bottom: -7rem; opacity: 0.12; }
 }
+
+/* Shared editorial hierarchy; compact subheadings in forms retain their own scale. */
+main h1:not(#home-hero-title), .section-heading {
+  font-size: clamp(1.625rem, 2.65vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+main h1 + p, .section-heading + p {
+  font-size: clamp(0.9375rem, 1.25vw, 1.1875rem);
+  line-height: 1.65;
+  margin-top: 0.75rem;
+}
+.interaction-card { min-width: 0; }
+.interaction-card h3 { font-size: clamp(1.0625rem, 1.35vw, 1.25rem); line-height: 1.5; font-weight: 600; letter-spacing: -0.01em; }
+.spacious-card, .card-body { padding: clamp(1rem, 1.65vw, 1.5rem); }
+.card-body.pt-0 { padding-top: 0; }
+.spacious-card p, .spacious-card li { line-height: 1.7; }
+.spacious-card h3, .spacious-card p, .spacious-card li { overflow-wrap: anywhere; }
+.spacious-card > div, .spacious-card div.flex > div { min-width: 0; }
+
+/* Conversion actions opt in; filters, selection controls and quiet actions stay mint. */
+button.cta-primary {
+  --button-rest-shadow: var(--shadow-button);
+  --button-hover-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 13%, transparent);
+  --button-pressed-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 8%, transparent);
+  min-height: 2.75rem;
+  background-color: var(--color-warm);
+  color: var(--color-ink);
+  border-color: var(--color-warm);
+  font-weight: 600;
+  box-shadow: var(--shadow-button);
+  transition: background-color 220ms ease, color 220ms ease, box-shadow 220ms ease, translate 220ms ease;
+}
+.cta-primary .text-on-brand { color: inherit; }
+.cta-primary svg { flex-shrink: 0; }
+@media (hover: hover) and (pointer: fine) {
+  button.cta-primary:hover:not(:disabled) { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); box-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 13%, transparent); translate: 0 -1px; }
+  .interaction-card:is(button, [role="button"], [data-selected]):not(:disabled):hover::before { background: var(--frame-gradient-hover); }
+}
+button.cta-primary:active:not(:disabled) { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); translate: 0 1px; }
+button.cta-primary:disabled { background-color: var(--color-disabled); color: var(--color-ink); border-color: var(--color-border-soft); box-shadow: none; translate: none; }
+
+.home-final-cta {
+  background-color: var(--color-warm);
+  padding: clamp(1.5rem, 4.5vw, 4rem);
+  box-shadow: var(--shadow-frame);
+}
+.home-final-cta h3 { max-width: 52rem; margin: 0 auto 1.25rem; font-size: clamp(1.75rem, 3.5vw, 3.25rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
+.home-final-cta p { max-width: 46rem; margin: 0 auto 2rem; font-size: clamp(1rem, 1.5vw, 1.375rem); line-height: 1.7; }
+.home-final-cta button.home-final-cta__button { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); min-height: 3.5rem; max-width: 100%; white-space: normal; }
+.home-final-cta button.home-final-cta__button:is(:hover, :active):not(:disabled) { background-color: var(--color-ink); color: var(--color-surface); border-color: var(--color-ink); }
+
+/* One ordered process: a horizontal row on desktop and a vertical path on mobile. */
+.process-timeline { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 0; margin: 0; list-style: none; }
+.process-step { position: relative; display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; min-width: 0; }
+.process-step:not(:last-child)::after { content: ""; position: absolute; left: 1.4rem; top: 3.8rem; bottom: -1.5rem; width: 1px; background: var(--color-brand); }
+.process-step__marker { display: flex; align-items: center; gap: 1rem; }
+.process-step__number { align-self: flex-start; font-size: 2.625rem; line-height: 1.15; font-weight: 600; color: var(--color-brand); letter-spacing: -0.04em; }
+.process-step__connector { display: none; }
+.process-step h3 { margin: 0 0 0.75rem; color: var(--color-ink); font-size: clamp(1.125rem, 1.6vw, 1.375rem); line-height: 1.45; font-weight: 600; }
+.process-step p { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); line-height: 1.75; color: var(--color-ink); overflow-wrap: anywhere; }
+@media (min-width: 640px) {
+  .process-timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 2rem; }
+  .process-step { display: block; }
+  .process-step::after { display: none; }
+  .process-step__marker { margin-bottom: 1.5rem; }
+  .process-step__number { font-size: 3.25rem; }
+  .process-step:nth-child(odd) .process-step__connector { display: block; position: relative; flex: 1; height: 1px; background: var(--color-brand); transform-origin: left; }
+  .process-step__connector svg { position: absolute; right: -2px; top: -7.5px; color: var(--color-brand); }
+}
+@media (min-width: 1024px) {
+  .process-timeline { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .process-step__number { font-size: 3.5rem; }
+  .process-step:not(:last-child) .process-step__connector { display: block; position: relative; flex: 1; height: 1px; background: var(--color-brand); transform-origin: left; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .process-step { transition: opacity 500ms ease, transform 500ms ease; transition-delay: calc(var(--step-index) * 80ms); }
+  .process-timeline[data-entered="false"] .process-step { opacity: 0; transform: translateY(8px); }
+  .process-timeline .process-step__connector { transition: transform 600ms ease; transition-delay: calc(var(--step-index) * 80ms + 150ms); }
+  .process-timeline[data-entered="false"] .process-step__connector { transform: scaleX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  button.cta-primary { transition: none !important; translate: none !important; }
+  .process-step, .process-step__connector { transition: none; transform: none; opacity: 1; }
+}
+
+.principle-card h3 { font-size: 1.0625rem; line-height: 1.45; font-weight: 600; margin-bottom: 0.75rem; }
+.principle-card p { font-size: 0.875rem; line-height: 1.7; }

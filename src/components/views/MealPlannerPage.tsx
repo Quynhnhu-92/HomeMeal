@@ -672,7 +672,7 @@ export const MealPlannerPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleAddCustomDish()}
-                  className="w-full py-2.5 px-4 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 h-[42px]"
+                  className="cta-primary w-full py-2.5 px-4 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 min-h-11"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Thêm món vào mâm cơm</span>
@@ -1226,7 +1226,7 @@ export const MealPlannerPage: React.FC = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-8 py-3 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm sm:text-base rounded-xl flex items-center gap-2 shadow-md hover:shadow-lg"
+            className="cta-primary px-8 py-3 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm sm:text-base rounded-xl flex items-center gap-2 shadow-md hover:shadow-lg"
           >
             <Check className="w-5 h-5 text-on-brand" />
             <span>Gửi yêu cầu đặt bữa (Chưa trừ tiền)</span>

@@ -152,7 +152,7 @@ export const CookDetailPage: React.FC<CookDetailPageProps> = ({ cookId }) => {
         <div className="flex gap-3 w-full sm:w-auto">
           <button
             onClick={handleBook}
-            className="flex-1 sm:flex-none px-6 py-3 bg-brand text-on-brand font-bold text-xs sm:text-sm rounded-xl hover:bg-brand-hover shadow-md transition-all text-center"
+            className="cta-primary flex-1 sm:flex-none px-6 py-3 bg-brand text-on-brand font-bold text-xs sm:text-sm rounded-xl hover:bg-brand-hover shadow-md transition-all text-center"
           >
             Đặt đầu bếp nấu tại nhà
           </button>

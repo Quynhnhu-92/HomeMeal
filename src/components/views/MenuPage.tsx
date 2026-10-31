@@ -50,7 +50,7 @@ export const MenuPage: React.FC = () => {
         {selectedItems.length > 0 && (
           <button
             onClick={() => navigateTo('/meal-planner')}
-            className="px-5 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-2 hover:bg-brand-hover shadow-sm self-start md:self-auto"
+            className="cta-primary px-5 py-2.5 bg-brand text-on-brand font-semibold text-xs sm:text-sm rounded-xl flex items-center gap-2 hover:bg-brand-hover shadow-sm self-start md:self-auto"
           >
             <ShoppingBag className="w-4 h-4 text-on-brand" />
             <span>Đã chọn {selectedItems.length} món · Đặt bữa ngay</span>
@@ -143,7 +143,7 @@ export const MenuPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-4 space-y-2">
+                <div className="card-body space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="font-bold text-accent text-sm sm:text-base leading-snug">{dish.name}</h3>
                   </div>
@@ -160,7 +160,7 @@ export const MenuPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 pt-0">
+              <div className="card-body pt-0">
                 <div className="py-2.5 border-t border-border-soft flex items-center justify-between text-xs">
                   <div>
                     <span className="text-muted text-[10px] block">Tiền chợ tham khảo:</span>

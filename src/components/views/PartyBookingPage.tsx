@@ -330,7 +330,7 @@ export const PartyBookingPage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full sm:w-auto px-8 py-3.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm sm:text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+            className="cta-primary w-full sm:w-auto px-8 py-3.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm sm:text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
           >
             <span>Gửi yêu cầu & Nhận báo giá chi tiết</span>
           </button>

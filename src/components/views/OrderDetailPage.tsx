@@ -55,7 +55,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
         <p className="text-xs text-muted">Mã đơn hàng không hợp lệ hoặc đã bị xóa.</p>
         <button
           onClick={() => navigateTo('/orders')}
-          className="px-5 py-2.5 bg-brand text-on-brand text-xs font-semibold rounded-xl"
+          className="cta-primary px-5 py-2.5 bg-brand text-on-brand text-xs font-semibold rounded-xl"
         >
           Quay lại danh sách đơn hàng
         </button>
@@ -109,7 +109,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
           {order.status === 'service_completed' && (
             <button
               onClick={() => navigateTo(`/orders/${order.id}/bill`)}
-              className="px-6 py-3 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm rounded-xl shadow-md transition-all flex items-center gap-2"
+              className="cta-primary px-6 py-3 bg-brand hover:bg-brand-hover text-on-brand font-bold text-sm rounded-xl shadow-md transition-all flex items-center gap-2"
             >
               <Receipt className="w-4 h-4 text-on-brand" />
               <span>Xem hóa đơn & Thanh toán</span>
@@ -169,7 +169,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => acceptQuotation(order.id)}
-                className="px-5 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
+                className="cta-primary px-5 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
               >
                 <Check className="w-4 h-4" />
                 <span>Đồng ý báo giá & Chốt lịch nấu</span>
@@ -225,7 +225,7 @@ export const OrderDetailPage: React.FC<OrderDetailPageProps> = ({ orderId }) => 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <button
                 onClick={() => approveBudgetChange(order.id, pendingBudgetRequest.id)}
-                className="px-5 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
+                className="cta-primary px-5 py-2.5 bg-brand hover:bg-brand-hover text-on-brand font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-sm"
               >
                 <Check className="w-4 h-4" />
                 <span>Đồng ý duyệt tăng +{formatVND(pendingBudgetRequest.difference)}</span>
