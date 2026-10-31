@@ -830,3 +830,54 @@ button.cta-primary:active:not(:disabled), .home-hero__primary:active:not(:disabl
   .home-hero__panel::before, .brand-glass-frame { transition: none; background-position: 100% 50% !important; }
 }
 .principles-frame .section-heading + p { max-width: 42rem; margin-inline: auto; text-wrap: balance; }
+
+/* Mint glass is an interaction layer, never the resting surface of a frame. */
+.brand-glass-frame, .interaction-card, .principle-card, .home-final-cta, .home-hero__panel {
+  --mint-glass-opacity: 0;
+  position: relative;
+  isolation: isolate;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border-color: var(--color-border-soft);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: var(--shadow-card);
+  transition: border-color 300ms ease, box-shadow 300ms ease, translate 300ms ease;
+}
+.brand-glass-frame::before, .interaction-card::before, .principle-card::before,
+.home-final-cta::before, .home-hero__panel::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  height: auto;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-brand-light) 94%, transparent),
+    color-mix(in srgb, var(--color-brand) 38%, var(--color-brand-light))) !important;
+  background-size: 100% 100%;
+  background-position: center;
+  /* Unify older selected-card and animated-frame pseudo-element states. */
+  opacity: var(--mint-glass-opacity) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: opacity 300ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .brand-glass-frame:hover, .interaction-card:hover, .principle-card:hover,
+  .home-final-cta:hover, .home-hero__panel:hover {
+    --mint-glass-opacity: 1;
+    border-color: var(--color-brand);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--color-ink) 8%, transparent);
+  }
+}
+/* Selection remains visible independently of hover and without a filled green surface. */
+.interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked)) {
+  border-color: var(--color-brand-deep);
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-glass-frame, .interaction-card, .principle-card, .home-final-cta, .home-hero__panel,
+  .brand-glass-frame::before, .interaction-card::before, .principle-card::before,
+  .home-final-cta::before, .home-hero__panel::before { transition: none; translate: none !important; }
+}
