@@ -120,7 +120,6 @@
   /* 30%: green identity and its light partner. */
   --color-brand: #59D9AC;
   --color-brand-light: #BAF2E4;
-  --color-brand-deep: #2BA17A;
   --color-brand-shade: var(--color-ink);
   --color-brand-hover: var(--color-brand-light);
   --color-on-brand: var(--color-ink);
@@ -145,7 +144,7 @@
   --color-control-border: color-mix(in srgb, var(--color-ink) 68%, var(--color-surface));
   --color-disabled: color-mix(in srgb, var(--color-brand) 22%, var(--color-surface));
   --color-overlay: var(--color-ink);
-  --shadow-button: 0 4px 12px color-mix(in srgb, var(--color-ink) 10%, transparent);
+  --shadow-button: 0 4px 12px color-mix(in srgb, var(--color-ink) 8%, transparent);
   --shadow-card: 0 4px 18px color-mix(in srgb, var(--color-ink) 5%, transparent);
   --shadow-frame: 0 8px 24px color-mix(in srgb, var(--color-ink) 7%, transparent);
   /* Existing utility shadows use the approved dark text hue. */
@@ -276,8 +275,6 @@ button:is(.bg-brand, .bg-accent):disabled {
 /* Effects reuse the palette; they never change layout or capture clicks. */
 :root {
   --interaction-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
-  --frame-gradient: linear-gradient(120deg, var(--color-brand), color-mix(in srgb, var(--color-brand) 57%, var(--color-brand-light)) 48%, var(--color-brand-light));
-  --frame-gradient-hover: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 94%, var(--color-ink)), color-mix(in srgb, var(--color-brand) 70%, var(--color-brand-light)) 48%, color-mix(in srgb, var(--color-brand) 20%, var(--color-brand-light)));
 }
 
 .site-header {
@@ -320,7 +317,10 @@ button:is(.bg-brand, .bg-accent):disabled {
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  background: var(--color-surface-alt);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-surface) 98%, transparent),
+    color-mix(in srgb, var(--color-surface-alt) 96%, transparent) 55%,
+    color-mix(in srgb, var(--color-brand) 16%, transparent));
   opacity: 0;
   transition: opacity 250ms var(--interaction-ease);
 }
@@ -339,7 +339,9 @@ button:is(.bg-brand, .bg-accent):disabled {
 }
 
 .interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked))::before {
-  background: var(--frame-gradient);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-surface-alt) 85%, transparent),
+    color-mix(in srgb, var(--color-brand) 24%, transparent));
 }
 
 .interaction-card:focus-within {
@@ -380,7 +382,7 @@ button.bg-accent:not(.interaction-card) {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .interaction-card:is(button, [role="button"], [data-selected]):not(:disabled):hover {
+  .interaction-card:not(:disabled):hover {
     translate: 0 -2px;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
       var(--tw-ring-shadow, 0 0 transparent),
@@ -388,7 +390,7 @@ button.bg-accent:not(.interaction-card) {
       0 6px 20px color-mix(in srgb, var(--color-ink) 8%, transparent);
   }
 
-  .interaction-card:is(button, [role="button"], [data-selected]):not(:disabled):hover::before {
+  .interaction-card:not(:disabled):hover::before {
     opacity: 1;
   }
 
@@ -528,8 +530,8 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 }
 
 .home-hero h1 {
-  font-size: clamp(2.125rem, 5vw, 2.625rem);
-  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 2.625rem);
+  font-weight: 600;
   line-height: 1.12;
   letter-spacing: -0.035em;
   color: var(--color-accent);
@@ -566,10 +568,10 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   justify-content: center;
   gap: 0.75rem;
   font-weight: 600;
-  background-color: var(--color-warm);
+  background-color: var(--color-brand);
   color: var(--color-ink);
-  border: 1px solid var(--color-warm);
-  box-shadow: var(--shadow-button);
+  border: 1px solid var(--color-brand);
+  box-shadow: 0 3px 8px color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
 
 .home-hero__secondary {
@@ -580,7 +582,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-hero__primary:hover:not(:disabled) { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); }
+  .home-hero__primary:hover:not(:disabled) { background-color: var(--color-highlight-shade); color: var(--color-surface); border-color: var(--color-highlight-shade); }
   .home-hero__secondary:hover:not(:disabled) { background-color: var(--color-brand-hover); color: var(--color-ink); border-color: var(--color-brand-shade); }
 }
 
@@ -614,7 +616,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   .home-hero__visual { aspect-ratio: auto; }
   .home-hero__panel { padding: 3.5rem 2rem; }
   .home-hero__eyebrow { font-size: 0.875rem; margin-bottom: 1.75rem; }
-  .home-hero h1 { font-size: clamp(3.25rem, 4.4vw, 4.5rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem; }
+  .home-hero h1 { font-size: clamp(2.875rem, 4vw, 4rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem; }
   .home-hero__description { font-size: 1.125rem; }
   .home-hero__actions { margin-top: 2rem; }
   .home-hero__actions button { min-height: 3.75rem; }
@@ -630,7 +632,9 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 
 /* Selected existing frames, not every card, carry the green glass treatment. */
 .brand-glass-frame {
-  background: var(--frame-gradient);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-brand) 94%, transparent),
+    color-mix(in srgb, var(--color-brand-light) 88%, transparent));
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
@@ -638,246 +642,41 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   color: var(--color-ink);
 }
 
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .brand-glass-frame { background: var(--frame-gradient); }
+/* A gold CTA separates cleanly from a green frame, without changing its geometry. */
+.brand-glass-frame button.bg-brand,
+.home-hero__panel .home-hero__primary {
+  background-color: var(--color-warm-shade);
+  color: var(--color-surface);
+  border-color: var(--color-warm-shade);
+  box-shadow: var(--shadow-button);
 }
-@media (max-width: 639px) {
-  .site-footer::before { width: 22rem; right: -6rem; bottom: -7rem; opacity: 0.12; }
-}
+.brand-glass-frame button.bg-brand .text-on-brand { color: inherit; }
 
-/* Shared editorial hierarchy; compact subheadings in forms retain their own scale. */
-main h1:not(#home-hero-title), .section-heading {
-  font-size: clamp(1.625rem, 2.65vw, 2.75rem);
-  font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: -0.025em;
-  text-wrap: pretty;
+@media (hover: hover) and (pointer: fine) {
+  .brand-glass-frame button.bg-brand:hover:not(:disabled),
+  .home-hero__panel .home-hero__primary:hover:not(:disabled) {
+    background-color: var(--color-warm);
+    color: var(--color-ink);
+    border-color: var(--color-warm);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 11%, transparent);
+  }
 }
-main h1 + p, .section-heading + p {
-  font-size: clamp(0.9375rem, 1.25vw, 1.1875rem);
-  line-height: 1.65;
-  margin-top: 0.75rem;
-}
-.interaction-card { min-width: 0; }
-.interaction-card h3 { font-size: clamp(1.0625rem, 1.35vw, 1.25rem); line-height: 1.5; font-weight: 600; letter-spacing: -0.01em; }
-.spacious-card, .card-body { padding: clamp(1rem, 1.65vw, 1.5rem); }
-.card-body.pt-0 { padding-top: 0; }
-.spacious-card p, .spacious-card li { line-height: 1.7; }
-.spacious-card h3, .spacious-card p, .spacious-card li { overflow-wrap: anywhere; }
-.spacious-card > div, .spacious-card div.flex > div { min-width: 0; }
-
-/* Conversion actions opt in; filters, selection controls and quiet actions stay mint. */
-button.cta-primary {
-  --button-rest-shadow: var(--shadow-button);
-  --button-hover-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 13%, transparent);
-  --button-pressed-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 8%, transparent);
-  min-height: 2.75rem;
+.brand-glass-frame button.bg-brand:active:not(:disabled),
+.home-hero__panel .home-hero__primary:active:not(:disabled) {
   background-color: var(--color-warm);
   color: var(--color-ink);
   border-color: var(--color-warm);
-  font-weight: 600;
-  box-shadow: var(--shadow-button);
-  transition: background-color 220ms ease, color 220ms ease, box-shadow 220ms ease, translate 220ms ease;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 6%, transparent);
 }
-.cta-primary .text-on-brand { color: inherit; }
-.cta-primary svg { flex-shrink: 0; }
-@media (hover: hover) and (pointer: fine) {
-  button.cta-primary:hover:not(:disabled) { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); box-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 13%, transparent); translate: 0 -1px; }
-  .interaction-card:is(button, [role="button"], [data-selected]):not(:disabled):hover::before { background: var(--frame-gradient-hover); }
-}
-button.cta-primary:active:not(:disabled) { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); translate: 0 1px; }
-button.cta-primary:disabled { background-color: var(--color-disabled); color: var(--color-ink); border-color: var(--color-border-soft); box-shadow: none; translate: none; }
-
-.home-final-cta {
-  background-color: var(--color-warm);
-  padding: clamp(1.5rem, 4.5vw, 4rem);
-  box-shadow: var(--shadow-frame);
-}
-.home-final-cta h3 { max-width: 52rem; margin: 0 auto 1.25rem; font-size: clamp(1.75rem, 3.5vw, 3.25rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
-.home-final-cta p { max-width: 46rem; margin: 0 auto 2rem; font-size: clamp(1rem, 1.5vw, 1.375rem); line-height: 1.7; }
-.home-final-cta button.home-final-cta__button { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); min-height: 3.5rem; max-width: 100%; white-space: normal; }
-.home-final-cta button.home-final-cta__button:is(:hover, :active):not(:disabled) { background-color: var(--color-ink); color: var(--color-surface); border-color: var(--color-ink); }
-
-/* One ordered process: a horizontal row on desktop and a vertical path on mobile. */
-.process-timeline { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 0; margin: 0; list-style: none; }
-.process-step { position: relative; display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; min-width: 0; }
-.process-step:not(:last-child)::after { content: ""; position: absolute; left: 1.4rem; top: 3.8rem; bottom: -1.5rem; width: 1px; background: var(--color-brand); }
-.process-step__marker { display: flex; align-items: center; gap: 1rem; }
-.process-step__number { align-self: flex-start; font-size: 2.625rem; line-height: 1.15; font-weight: 600; color: var(--color-brand); letter-spacing: -0.04em; }
-.process-step__connector { display: none; }
-.process-step h3 { margin: 0 0 0.75rem; color: var(--color-ink); font-size: clamp(1.125rem, 1.6vw, 1.375rem); line-height: 1.45; font-weight: 600; }
-.process-step p { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); line-height: 1.75; color: var(--color-ink); overflow-wrap: anywhere; }
-@media (min-width: 640px) {
-  .process-timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 2rem; }
-  .process-step { display: block; }
-  .process-step::after { display: none; }
-  .process-step__marker { margin-bottom: 1.5rem; }
-  .process-step__number { font-size: 3.25rem; }
-  .process-step:nth-child(odd) .process-step__connector { display: block; position: relative; flex: 1; height: 1px; background: var(--color-brand); transform-origin: left; }
-  .process-step__connector svg { position: absolute; right: -2px; top: -7.5px; color: var(--color-brand); }
-}
-@media (min-width: 1024px) {
-  .process-timeline { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .process-step__number { font-size: 3.5rem; }
-  .process-step:not(:last-child) .process-step__connector { display: block; position: relative; flex: 1; height: 1px; background: var(--color-brand); transform-origin: left; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .process-step { transition: opacity 500ms ease, transform 500ms ease; transition-delay: calc(var(--step-index) * 80ms); }
-  .process-timeline[data-entered="false"] .process-step { opacity: 0; transform: translateY(8px); }
-  .process-timeline .process-step__connector { transition: transform 600ms ease; transition-delay: calc(var(--step-index) * 80ms + 150ms); }
-  .process-timeline[data-entered="false"] .process-step__connector { transform: scaleX(0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  button.cta-primary { transition: none !important; translate: none !important; }
-  .process-step, .process-step__connector { transition: none; transform: none; opacity: 1; }
-}
-
-.principle-card h3 { font-size: 1.0625rem; line-height: 1.45; font-weight: 600; margin-bottom: 0.75rem; }
-.principle-card p { font-size: 0.875rem; line-height: 1.7; }
-
-/* Large brand frames share a quiet, reversible gradient sweep. */
-.home-hero__panel::before,
-.brand-glass-frame {
-  background-image: linear-gradient(115deg,
-    var(--color-brand-light) 0%,
-    var(--color-brand-light) 25%,
-    var(--color-brand) 50%,
-    var(--color-brand-light) 75%,
-    var(--color-brand-light) 100%);
-  background-size: 220% 180%;
-  background-position: 0% 50%;
-  background-repeat: no-repeat;
-  transition: background-position 1400ms ease-in-out, border-color 250ms ease, box-shadow 250ms ease;
-}
-
-/* A transition, rather than a perpetual loop, returns naturally after pointer exit. */
-@media (hover: hover) and (pointer: fine) {
-  .home-hero__panel:hover::before,
-  .brand-glass-frame:hover {
-    background-position: 100% 50%;
-    transition-duration: 4000ms, 250ms, 250ms;
-  }
-  .brand-glass-frame:hover {
-    border-color: var(--color-brand);
-    box-shadow: 0 10px 28px color-mix(in srgb, var(--color-ink) 9%, transparent);
-  }
-}
-.home-hero__panel:focus-within::before,
-.brand-glass-frame:focus-within {
-  background-position: 100% 50%;
-  transition-duration: 4000ms, 250ms, 250ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-hero__panel::before,
-  .brand-glass-frame {
-    transition: none;
-    background-position: 0% 50% !important;
-  }
-}
-
-/* Mint-led frames and contrasting conversion actions. */
-.home-hero__panel { background-color: var(--color-brand-light); }
-.home-hero__panel::before, .brand-glass-frame {
-  background-color: var(--color-brand-light);
-  background-image: linear-gradient(135deg, var(--color-brand), var(--color-brand-light));
-  background-size: 220% 180%;
-  background-position: 100% 50%;
-  transition: background-position 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
-}
-button.cta-primary, .home-hero__primary {
-  background-color: var(--color-brand);
-  color: var(--color-ink);
-  border-color: var(--color-brand-deep);
-}
-@media (hover: hover) and (pointer: fine) {
-  button.cta-primary:hover:not(:disabled), .home-hero__primary:hover:not(:disabled) {
-    background-color: var(--color-brand-deep); color: var(--color-ink); border-color: var(--color-brand-deep);
-  }
-  .home-hero__panel:hover::before, .brand-glass-frame:hover { background-position: 0% 50%; transition-duration: 300ms; }
-}
-.home-hero__panel:focus-within::before, .brand-glass-frame:focus-within { background-position: 0% 50%; transition-duration: 300ms; }
-button.cta-primary:active:not(:disabled), .home-hero__primary:active:not(:disabled) { background-color: var(--color-brand-deep); color: var(--color-ink); }
-.home-final-cta button.home-final-cta__button { background-color: var(--color-warm-shade); color: var(--color-surface); border-color: var(--color-warm-shade); }
-.home-final-cta button.home-final-cta__button:is(:hover,:active):not(:disabled) { background-color: var(--color-ink); color: var(--color-surface); }
-.home-hero h1 { font-size: clamp(2.125rem, 4.2vw, 3.75rem); }
-.section-heading { font-size: clamp(1.75rem, 2.65vw, 2.625rem); text-wrap: balance; }
-.interaction-card h3, .principle-card h3 { text-wrap: balance; }
-.spacious-card { background-color: var(--color-brand-light); }
-.principles-frame { padding: clamp(1.25rem, 4vw, 3rem); }
-.principles-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: 1.5rem; text-align: left; }
-.principle-card { min-width: 0; padding: clamp(1.5rem, 2.2vw, 2rem); box-shadow: var(--shadow-card); }
-.principle-card > div:first-child { width: auto; height: auto; justify-content: flex-start; background: none; font-size: 2.5rem; line-height: 1.2; color: var(--color-brand); margin-bottom: 1.25rem; }
-.principle-card h3 { font-size: clamp(1.125rem, 1.5vw, 1.25rem); line-height: 1.45; }
-.principle-card p { font-size: 0.9375rem; line-height: 1.75; text-wrap: pretty; }
-.meal-planner-frame form { grid-template-columns: minmax(0,1fr); align-items: end; }
-.meal-planner-frame form > div { min-width: 0; }
-.meal-planner-frame form button[type="submit"] { min-height: 2.75rem; height: auto; padding: 0.75rem 1rem; }
-@media (min-width: 640px) {
-  .principles-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .principle-card:last-child { grid-column: 1 / -1; }
-  .meal-planner-frame form { grid-template-columns: repeat(2,minmax(0,1fr)); }
-}
-@media (min-width: 1024px) {
-  .principles-grid { grid-template-columns: repeat(6,minmax(0,1fr)); align-items: start; gap: 1.75rem; }
-  .principle-card { grid-column: span 2; }
-  .principle-card:nth-child(2) { margin-top: 1.5rem; }
-  .principle-card:nth-child(4) { grid-column: 2 / span 2; }
-  .principle-card:nth-child(5) { grid-column: 4 / span 2; }
-  .meal-planner-frame form { grid-template-columns: repeat(3,minmax(0,1fr)); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-hero__panel::before, .brand-glass-frame { transition: none; background-position: 100% 50% !important; }
-}
-.principles-frame .section-heading + p { max-width: 42rem; margin-inline: auto; text-wrap: balance; }
-
-/* Mint glass is an interaction layer, never the resting surface of a frame. */
-.brand-glass-frame, .interaction-card, .principle-card, .home-final-cta, .home-hero__panel {
-  --mint-glass-opacity: 0;
-  position: relative;
-  isolation: isolate;
-  background: var(--color-surface);
+.brand-glass-frame button.bg-brand:disabled {
+  background-color: var(--color-disabled);
   color: var(--color-ink);
   border-color: var(--color-border-soft);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: var(--shadow-card);
-  transition: border-color 300ms ease, box-shadow 300ms ease, translate 300ms ease;
+  box-shadow: none;
 }
-.brand-glass-frame::before, .interaction-card::before, .principle-card::before,
-.home-final-cta::before, .home-hero__panel::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  height: auto;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-brand-light) 94%, transparent),
-    color-mix(in srgb, var(--color-brand) 38%, var(--color-brand-light))) !important;
-  background-size: 100% 100%;
-  background-position: center;
-  /* Unify older selected-card and animated-frame pseudo-element states. */
-  opacity: var(--mint-glass-opacity) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: opacity 300ms ease;
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .brand-glass-frame { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-light)); }
 }
-@media (hover: hover) and (pointer: fine) {
-  .brand-glass-frame:hover, .interaction-card:hover, .principle-card:hover,
-  .home-final-cta:hover, .home-hero__panel:hover {
-    --mint-glass-opacity: 1;
-    border-color: var(--color-brand);
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--color-ink) 8%, transparent);
-  }
-}
-/* Selection remains visible independently of hover and without a filled green surface. */
-.interaction-card:is([aria-pressed="true"], [data-selected="true"], :has(input:checked)) {
-  border-color: var(--color-brand-deep);
-}
-@media (prefers-reduced-motion: reduce) {
-  .brand-glass-frame, .interaction-card, .principle-card, .home-final-cta, .home-hero__panel,
-  .brand-glass-frame::before, .interaction-card::before, .principle-card::before,
-  .home-final-cta::before, .home-hero__panel::before { transition: none; translate: none !important; }
+@media (max-width: 639px) {
+  .site-footer::before { width: 22rem; right: -6rem; bottom: -7rem; opacity: 0.12; }
 }
