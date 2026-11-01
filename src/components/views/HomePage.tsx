@@ -74,7 +74,7 @@ export const HomePage: React.FC = () => {
 
       {/* 2. Interactive Quick Meal Planner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-surface rounded-2xl shadow-lg border border-border-soft p-6 sm:p-8">
+        <div className="brand-glass-frame bg-surface rounded-2xl shadow-lg border border-border-soft p-6 sm:p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-border-soft">
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-accent">Lên kế hoạch bữa ăn tức thì</h2>
@@ -357,7 +357,7 @@ export const HomePage: React.FC = () => {
 
       {/* 6. Trust & Transparency Pillars */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-surface-alt rounded-3xl p-8 sm:p-12 border border-brand">
+        <div className="brand-glass-frame bg-surface-alt rounded-3xl p-8 sm:p-12 border border-brand">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-accent">Uy tín & Minh bạch</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-accent mt-1">
@@ -468,7 +468,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         {/* Bottom CTA Banner */}
-        <div className="mt-12 text-center bg-gradient-to-r from-surface-alt to-surface-alt rounded-2xl p-8 text-ink">
+        <div className="brand-glass-frame mt-12 text-center bg-gradient-to-r from-surface-alt to-surface-alt rounded-2xl p-8 text-ink">
           <h3 className="text-xl sm:text-2xl font-bold mb-2">Sẵn sàng trải nghiệm bữa cơm ấm cúng?</h3>
           <p className="text-xs sm:text-sm text-ink max-w-xl mx-auto mb-6">
             Không còn nỗi lo tan sở tất bật đi chợ hay ăn cơm hộp ngấy mỡ. Đầu bếp tâm huyết đã sẵn sàng phục vụ gia đình bạn.

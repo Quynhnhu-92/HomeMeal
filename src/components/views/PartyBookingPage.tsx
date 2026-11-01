@@ -74,7 +74,7 @@ export const PartyBookingPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-surface-alt to-surface-alt rounded-3xl p-6 sm:p-10 text-ink shadow-lg space-y-4">
+      <div className="brand-glass-frame bg-gradient-to-r from-surface-alt to-surface-alt rounded-3xl p-6 sm:p-10 text-ink shadow-lg space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface/10 text-xs font-semibold backdrop-blur-xs text-accent">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Phục vụ mâm tiệc từ 10 khách trở lên</span>

@@ -113,37 +113,41 @@
 }
 
 @theme {
-  /* 60%: white foundations and mostly-white supporting surfaces. */
-  --color-surface: #FFFFFF;
-  --color-surface-alt: color-mix(in srgb, var(--color-brand) 16%, var(--color-surface));
+  /* 60%: warm off-white foundations and calm supporting surfaces. */
+  --color-surface: #FCFAF4;
+  --color-surface-alt: color-mix(in srgb, var(--color-brand-light) 24%, var(--color-surface));
 
-  /* 30%: mint identity, with its darker shade reserved for details. */
-  --color-brand: #A9EFDD;
-  --color-brand-shade: #55786F;
-  --color-brand-hover: color-mix(in srgb, var(--color-brand) 82%, var(--color-brand-shade));
+  /* 30%: green identity and its light partner. */
+  --color-brand: #59D9AC;
+  --color-brand-light: #BAF2E4;
+  --color-brand-shade: var(--color-ink);
+  --color-brand-hover: var(--color-brand-light);
   --color-on-brand: var(--color-ink);
 
-  /* 10%: restrained sand details, plus selective priority-action accents. */
-  --color-warm: #D8BD8A;
-  --color-warm-shade: #6C5F45;
-  --color-highlight: #F93943;
-  --color-highlight-shade: #7D1D22;
+  /* 10%: restrained gold details and contextual actions. */
+  --color-warm: #C5A25E;
+  --color-warm-shade: #695326;
+  --color-highlight: var(--color-warm);
+  --color-highlight-shade: var(--color-warm-shade);
 
   /* Preserve existing emphasis utilities without turning headings pale sand. */
   --color-accent: var(--color-ink);
   --color-accent-hover: var(--color-highlight-shade);
-  --color-detail: var(--color-brand-shade);
-  --color-footer-watermark: var(--color-brand-shade);
+  --color-detail: var(--color-ink);
+  --color-footer-watermark: var(--color-brand-light);
   --color-on-accent: var(--color-surface);
 
   /* Only dark brown and white are used as typography colors. */
   --color-ink: #2E2015;
   --color-muted: var(--color-ink);
   --color-border-soft: color-mix(in srgb, var(--color-brand-shade) 24%, var(--color-surface));
-  --color-control-border: var(--color-brand-shade);
+  --color-control-border: color-mix(in srgb, var(--color-ink) 68%, var(--color-surface));
   --color-disabled: color-mix(in srgb, var(--color-brand) 22%, var(--color-surface));
   --color-overlay: var(--color-ink);
-  /* Keep existing utility shadow geometry, using the approved dark text hue. */
+  --shadow-button: 0 4px 12px color-mix(in srgb, var(--color-ink) 8%, transparent);
+  --shadow-card: 0 4px 18px color-mix(in srgb, var(--color-ink) 5%, transparent);
+  --shadow-frame: 0 8px 24px color-mix(in srgb, var(--color-ink) 7%, transparent);
+  /* Existing utility shadows use the approved dark text hue. */
   --shadow-2xs: 0 1px color-mix(in srgb, var(--color-ink) 5%, transparent);
   --shadow-xs: 0 1px 2px 0 color-mix(in srgb, var(--color-ink) 5%, transparent);
   --shadow-sm: 0 1px 3px 0 color-mix(in srgb, var(--color-ink) 10%, transparent), 0 1px 2px -1px color-mix(in srgb, var(--color-ink) 10%, transparent);
@@ -274,23 +278,23 @@ button:is(.bg-brand, .bg-accent):disabled {
 }
 
 .site-header {
+  background-color: color-mix(in srgb, var(--color-surface) 93%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: color-mix(in srgb, var(--color-ink) 6%, transparent);
   transition: background-color 300ms var(--interaction-ease),
     box-shadow 300ms var(--interaction-ease), border-color 300ms var(--interaction-ease);
 }
 
 .site-header[data-scrolled="true"] {
-  background-color: color-mix(in srgb, var(--color-surface) 90%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom-color: color-mix(in srgb, var(--color-detail) 12%, transparent);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-accent) 5%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--color-ink) 8%, transparent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-ink) 4%, transparent);
 }
 
-/* Keep the header readable on browsers without backdrop blur. */
+/* Keep glass surfaces readable when the browser cannot blur their backdrop. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .site-header[data-scrolled="true"] {
-    background-color: var(--color-surface);
-  }
+  .site-header, .site-header[data-scrolled="true"] { background-color: var(--color-surface); }
 }
 
 .interaction-card {
@@ -300,7 +304,7 @@ button:is(.bg-brand, .bg-accent):disabled {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
     var(--tw-ring-shadow, 0 0 transparent),
     var(--card-selected-shadow),
-    0 3px 8px color-mix(in srgb, var(--color-accent) 4.5%, transparent);
+    var(--shadow-card);
   transition: translate 250ms var(--interaction-ease),
     box-shadow 250ms var(--interaction-ease), border-color 250ms var(--interaction-ease),
     background-color 250ms var(--interaction-ease);
@@ -362,13 +366,9 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):not(.interaction-card
 }
 
 button.bg-brand:not(.interaction-card) {
-  --button-rest-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 40%, transparent),
-    0 3px 8px color-mix(in srgb, var(--color-brand) 16%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-accent) 3.5%, transparent);
-  --button-hover-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 55%, transparent),
-    0 5px 12px color-mix(in srgb, var(--color-brand) 22%, transparent),
-    0 3px 5px color-mix(in srgb, var(--color-accent) 4.5%, transparent);
-  --button-pressed-shadow: 0 1px 3px color-mix(in srgb, var(--color-brand) 10%, transparent);
+  --button-rest-shadow: var(--shadow-button);
+  --button-hover-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 11%, transparent);
+  --button-pressed-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 6%, transparent);
 }
 
 button.bg-accent:not(.interaction-card) {
@@ -383,12 +383,11 @@ button.bg-accent:not(.interaction-card) {
 
 @media (hover: hover) and (pointer: fine) {
   .interaction-card:not(:disabled):hover {
-    translate: 0 -4px;
+    translate: 0 -2px;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
       var(--tw-ring-shadow, 0 0 transparent),
       var(--card-selected-shadow),
-      0 5px 12px color-mix(in srgb, var(--color-accent) 6%, transparent),
-      0 4px 10px color-mix(in srgb, var(--color-brand) 12%, transparent);
+      0 6px 20px color-mix(in srgb, var(--color-ink) 8%, transparent);
   }
 
   .interaction-card:not(:disabled):hover::before {
@@ -446,7 +445,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
     right: -5rem;
     bottom: -8rem;
     background-color: var(--color-footer-watermark);
-    opacity: 0.32;
+    opacity: 0.16;
     -webkit-mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
     mask: url('/brand/homemeal-footer.svg') center / contain no-repeat;
   }
@@ -454,8 +453,8 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 
 /* Editorial split hero: pale mint with three softly fading upper panels. */
 .home-hero {
-  --hero-deep-green: var(--color-footer-watermark);
-  --hero-pale-mint: color-mix(in srgb, var(--color-brand) 40%, var(--color-surface));
+  --hero-deep-green: var(--color-warm-shade);
+  --hero-pale-mint: color-mix(in srgb, var(--color-brand-light) 70%, var(--color-surface));
   --hero-bottom-mint: color-mix(in srgb, var(--hero-pale-mint) 94%, var(--color-brand));
   margin-block-end: clamp(2rem, 4vw, 3rem);
   display: grid;
@@ -571,7 +570,7 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
   font-weight: 600;
   background-color: var(--color-brand);
   color: var(--color-ink);
-  border: 1px solid var(--color-highlight);
+  border: 1px solid var(--color-brand);
   box-shadow: 0 3px 8px color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
 
@@ -629,4 +628,55 @@ button:is(.bg-brand, .bg-accent, .bg-surface-alt, .border):disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .home-hero__actions button { transition: none; }
+}
+
+/* Selected existing frames, not every card, carry the green glass treatment. */
+.brand-glass-frame {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-brand) 94%, transparent),
+    color-mix(in srgb, var(--color-brand-light) 88%, transparent));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  box-shadow: var(--shadow-frame);
+  color: var(--color-ink);
+}
+
+/* A gold CTA separates cleanly from a green frame, without changing its geometry. */
+.brand-glass-frame button.bg-brand,
+.home-hero__panel .home-hero__primary {
+  background-color: var(--color-warm-shade);
+  color: var(--color-surface);
+  border-color: var(--color-warm-shade);
+  box-shadow: var(--shadow-button);
+}
+.brand-glass-frame button.bg-brand .text-on-brand { color: inherit; }
+
+@media (hover: hover) and (pointer: fine) {
+  .brand-glass-frame button.bg-brand:hover:not(:disabled),
+  .home-hero__panel .home-hero__primary:hover:not(:disabled) {
+    background-color: var(--color-warm);
+    color: var(--color-ink);
+    border-color: var(--color-warm);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--color-ink) 11%, transparent);
+  }
+}
+.brand-glass-frame button.bg-brand:active:not(:disabled),
+.home-hero__panel .home-hero__primary:active:not(:disabled) {
+  background-color: var(--color-warm);
+  color: var(--color-ink);
+  border-color: var(--color-warm);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 6%, transparent);
+}
+.brand-glass-frame button.bg-brand:disabled {
+  background-color: var(--color-disabled);
+  color: var(--color-ink);
+  border-color: var(--color-border-soft);
+  box-shadow: none;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .brand-glass-frame { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-light)); }
+}
+@media (max-width: 639px) {
+  .site-footer::before { width: 22rem; right: -6rem; bottom: -7rem; opacity: 0.12; }
 }

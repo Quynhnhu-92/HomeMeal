@@ -38,7 +38,7 @@ export const MenuPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-border-soft">
+      <div className="brand-glass-frame flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-border-soft">
         <div>
           <span className="text-xs font-bold text-accent uppercase tracking-wider">Thực đơn phong phú</span>
           <h1 className="text-2xl sm:text-3xl font-bold text-accent">Chọn món theo sở thích gia đình</h1>
